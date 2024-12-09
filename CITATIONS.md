@@ -1,4 +1,4 @@
-# phac-nml/gasclustering: Citations
+# phac-nml/fastmatchirida: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 
@@ -22,7 +22,7 @@
 
   > Robertson, James, Wells, Matthew, Schonfeld, Justin, Reimer, Aleisha. Genomic Address Service: Convenient package for de novo clustering and sample assignment to existing clusters. 2023. https://github.com/phac-nml/genomic_address_service
 
-- [ArborView (included in repository)](https://github.com/phac-nml/gasclustering/blob/dev/assets/ArborView.html) (in-development, citation subject to change)
+- [ArborView (included in repository)](https://github.com/phac-nml/fastmatchirida/blob/dev/assets/ArborView.html) (in-development, citation subject to change)
 
 ## Software packaging/containerisation tools
 
