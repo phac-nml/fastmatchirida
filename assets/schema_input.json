@@ -90,6 +90,6 @@
                 "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample","fastmatch_category", "mlst_alleles"]
+        "required": ["sample", "fastmatch_category", "mlst_alleles"]
     }
 }
