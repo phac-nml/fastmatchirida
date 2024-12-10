@@ -45,13 +45,6 @@
             "description": "The column header names of the metadata columns.",
             "default": "",
             "properties": {
-                "fastmatch_category": {
-                    "type": "string",
-                    "errorMessage": "Has to be either query or reference",
-                    "description": "Identify whether a sample is query or reference",
-                    "fa_icon": "far fa-sticky-note",
-                    "enum": ["query", "reference"]
-                },
                 "metadata_1_header": {
                     "type": "string",
                     "default": "metadata_1",
@@ -109,8 +102,7 @@
                     "pattern": "^[^\\n\\t\"]+$"
                 }
             },
-            "fa_icon": "far fa-clipboard",
-            "required": ["fastmatch_category"]
+            "fa_icon": "far fa-clipboard"
         },
         "fastmatch": {
             "title": "FastMatch",
@@ -120,7 +112,7 @@
             "properties": {
                 "threshold": {
                     "type": "integer",
-                    "description": "The output format for distances",
+                    "description": "Comparison score threshold value",
                     "default": 1
                 }
             }
