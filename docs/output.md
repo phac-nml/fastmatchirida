@@ -1,4 +1,4 @@
-# phac-nml/gasclustering: Output
+# phac-nml/fastmatchirida: Output
 
 ## Introduction
 

@@ -123,13 +123,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_tree = path("$launchDir/results/clusters/gas.mcluster.tree.nwk")
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_tree = path("$baseDir/tests/data/clusters/expected_tree_hamming.nwk")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_0.txt")
-            assert actual_tree.text == expected_tree.text
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 
@@ -159,13 +152,7 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_tree = path("$launchDir/results/clusters/gas.mcluster.tree.nwk")
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_tree = path("$baseDir/tests/data/clusters/expected_tree_hamming.nwk")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_1.txt")
-            assert actual_tree.text == expected_tree.text
-            assert actual_clusters.text == expected_clusters.text
+
         }
     }
 
@@ -195,10 +182,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_2.txt")
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 
@@ -228,10 +211,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_3.txt")
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 
@@ -261,10 +240,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_0.0.txt")
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 
@@ -294,10 +269,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_1.0.txt")
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 
@@ -327,10 +298,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_3.2.txt")
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 
@@ -360,10 +327,6 @@ nextflow_pipeline {
             def expected_distances = path("$baseDir/tests/data/distances/expected_dists-hamming.tsv")
             assert actual_distances.text == expected_distances.text
 
-            // Check computed clusters are correct and exist
-            def actual_clusters = path("$launchDir/results/clusters/gas.mcluster.clusters.text")
-            def expected_clusters = path("$baseDir/tests/data/clusters/expected_clusters_hamming_thresh_3.3.txt")
-            assert actual_clusters.text == expected_clusters.text
         }
     }
 }

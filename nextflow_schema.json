@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/gasclustering/main/nextflow_schema.json",
-    "title": "phac-nml/gasclustering pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/phac-nml/fastmatchirida/main/nextflow_schema.json",
+    "title": "phac-nml/fastmatchirida pipeline parameters",
     "description": "IRIDA Next Example Pipeline",
     "type": "object",
     "definitions": {

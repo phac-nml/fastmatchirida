@@ -13,7 +13,7 @@ def summary_params = paramsSummaryMap(workflow)
 // Print parameter summary log to screen
 log.info logo + paramsSummaryLog(workflow) + citation
 
-WorkflowGasclustering.initialise(params, log)
+Workflowfastmatchirida.initialise(params, log)
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,9 +28,6 @@ WorkflowGasclustering.initialise(params, log)
 */
 include { LOCIDEX_MERGE    } from '../modules/local/locidex/merge/main'
 include { PROFILE_DISTS    } from '../modules/local/profile_dists/main'
-include { GAS_MCLUSTER     } from '../modules/local/gas/mcluster/main'
-include { APPEND_METADATA  } from '../modules/local/appendmetadata/main'
-include { ARBOR_VIEW       } from '../modules/local/arborview.nf'
 include { INPUT_ASSURE     } from "../modules/local/input_assure/main"
 
 /*
@@ -66,7 +63,7 @@ def prepareFilePath(String filep){
     return return_path // empty value if file argument is null
 }
 
-workflow GASCLUSTERING {
+workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
 
@@ -154,15 +151,6 @@ workflow GASCLUSTERING {
 
     distances = PROFILE_DISTS(merged.combined_profiles, mapping_format, mapping_file, columns_file)
     ch_versions = ch_versions.mix(distances.versions)
-
-    clustered_data = GAS_MCLUSTER(distances.results)
-    ch_versions = ch_versions.mix(clustered_data.versions)
-
-    data_and_metadata = APPEND_METADATA(clustered_data.clusters, metadata_rows, metadata_headers)
-    tree_data = clustered_data.tree.merge(data_and_metadata) // mergeing as no key to join on
-
-    tree_html = file("$projectDir/assets/ArborView.html")
-    ARBOR_VIEW(tree_data, tree_html)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')

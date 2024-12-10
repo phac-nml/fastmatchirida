@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for the phac-nml/gasclustering pipeline
+description: Suggest an idea for the phac-nml/fastmatchirida pipeline
 labels: enhancement
 body:
   - type: textarea
