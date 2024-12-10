@@ -45,6 +45,13 @@
             "description": "The column header names of the metadata columns.",
             "default": "",
             "properties": {
+                "fastmatch_category": {
+                    "type": "string",
+                    "errorMessage": "Has to be either query or reference",
+                    "description": "Identify whether a sample is query or reference",
+                    "fa_icon": "far fa-sticky-note",
+                    "enum": ["query", "reference"]
+                },
                 "metadata_1_header": {
                     "type": "string",
                     "default": "metadata_1",
@@ -102,7 +109,21 @@
                     "pattern": "^[^\\n\\t\"]+$"
                 }
             },
-            "fa_icon": "far fa-clipboard"
+            "fa_icon": "far fa-clipboard",
+            "required": ["fastmatch_category"]
+        },
+        "fastmatch": {
+            "title": "FastMatch",
+            "type": "object",
+            "description": "Parameters for FastMatch",
+            "default": "",
+            "properties": {
+                "threshold": {
+                    "type": "integer",
+                    "description": "The output format for distances",
+                    "default": 1
+                }
+            }
         },
         "profile_dists": {
             "title": "Profile Dists",
@@ -128,14 +149,14 @@
                     "description": "The maximum proportion of missing data per locus for a locus to be kept in the analysis",
                     "minimum": 0,
                     "maximum": 1,
-                    "default": 1
+                    "default": 1.0
                 },
                 "pd_sample_quality_threshold": {
                     "type": "number",
                     "description": "The maximum proportion of missing data per sample for a sample to be kept in the analysis",
                     "minimum": 0,
                     "maximum": 1,
-                    "default": 1
+                    "default": 1.0
                 },
                 "pd_file_type": {
                     "type": "string",
@@ -165,32 +186,6 @@
                 "pd_count_missing": {
                     "type": "boolean",
                     "description": "Count missing alleles as different"
-                }
-            }
-        },
-        "gas_cluster": {
-            "title": "GAS Cluster",
-            "type": "object",
-            "description": "",
-            "default": "Parameters for GAS mcluster",
-            "properties": {
-                "gm_thresholds": {
-                    "type": "string",
-                    "default": "10,5,0",
-                    "description": "Thresholds delimited by ','. Values should match units from '--pd_distm' (either 'hamming' or 'scaled').",
-                    "pattern": "^(\\d+(\\.\\d+)?,)*\\d+(\\.\\d+)?$"
-                },
-                "gm_method": {
-                    "type": "string",
-                    "default": "average",
-                    "description": "Clustering linkage method.",
-                    "enum": ["single", "average", "complete"]
-                },
-                "gm_delimiter": {
-                    "type": "string",
-                    "default": ".",
-                    "description": "Delimiter desired for nomenclature code. Must be alphanumeric or one of [._-].",
-                    "pattern": "^[A-Fa-f0-9\\._-]+$"
                 }
             }
         },
@@ -353,13 +348,13 @@
             "$ref": "#/definitions/input_output_options"
         },
         {
+            "$ref": "#/definitions/fastmatch"
+        },
+        {
             "$ref": "#/definitions/metadata"
         },
         {
             "$ref": "#/definitions/profile_dists"
-        },
-        {
-            "$ref": "#/definitions/gas_cluster"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
