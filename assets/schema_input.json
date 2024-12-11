@@ -27,7 +27,6 @@
             },
             "fastmatch_category": {
                 "type": "string",
-                "meta": ["ref_query"],
                 "errorMessage": "Has to be either query or reference",
                 "description": "Identify whether a sample is query or reference",
                 "fa_icon": "far fa-sticky-note",
