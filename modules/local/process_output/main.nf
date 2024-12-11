@@ -3,7 +3,7 @@ process PROCESS_OUTPUT {
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pandas:2.2.1' :
-        'biocontainers/pandas' }"
+        'biocontainers/pandas:2.2.1' }"
 
     input:
     path distances
