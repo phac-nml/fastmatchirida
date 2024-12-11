@@ -110,13 +110,6 @@
             "description": "Parameters for profile_dists distance calculations",
             "default": "",
             "properties": {
-                "pd_outfmt": {
-                    "type": "string",
-                    "description": "The output format for distances",
-                    "enum": ["matrix"],
-                    "default": "matrix",
-                    "hidden": true
-                },
                 "pd_distm": {
                     "type": "string",
                     "description": "The distance method/unit",
