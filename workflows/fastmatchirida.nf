@@ -66,7 +66,6 @@ def prepareFilePath(String filep){
 workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
-
     // Track processed IDs
     def processedIDs = [] as Set
 

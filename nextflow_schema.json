@@ -111,9 +111,9 @@
             "default": "",
             "properties": {
                 "threshold": {
-                    "type": "integer",
+                    "type": "number",
                     "description": "Comparison score threshold value",
-                    "default": 1
+                    "default": 1.0
                 }
             }
         },
@@ -141,14 +141,14 @@
                     "description": "The maximum proportion of missing data per locus for a locus to be kept in the analysis",
                     "minimum": 0,
                     "maximum": 1,
-                    "default": 1.0
+                    "default": 1
                 },
                 "pd_sample_quality_threshold": {
                     "type": "number",
                     "description": "The maximum proportion of missing data per sample for a sample to be kept in the analysis",
                     "minimum": 0,
                     "maximum": 1,
-                    "default": 1.0
+                    "default": 1
                 },
                 "pd_file_type": {
                     "type": "string",
