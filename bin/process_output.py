@@ -6,6 +6,7 @@ from functools import partial
 import gzip
 import sys
 import argparse
+import pandas as pd
 
 
 def get_open(f):
@@ -15,10 +16,12 @@ def get_open(f):
         return open
 
 def main(argv=None):
+
     parser = argparse.ArgumentParser(
         description="Parses a profile_dists distances to create query-reference-format output for the FastMatch pipeline.",
         epilog="Example: python process_output.py --input matrix.csv",
     )
+
     parser.add_argument(
         "--input",
         action="store",
@@ -28,6 +31,17 @@ def main(argv=None):
         default=None,
         required=True,
     )
+
+    parser.add_argument(
+        "--threshold",
+        action="store",
+        dest="threshold",
+        type=int,
+        help="distance threshold to be included in output",
+        default=None,
+        required=True,
+    )
+
     parser.add_argument(
         "--output",
         action="store",
@@ -42,12 +56,11 @@ def main(argv=None):
 
     input = Path(args.input)
     output = Path(args.output)
+    threshold = args.threshold
 
-    with open(output, "w") as output_file, \
-        open(input, "r") as input_file:
-
-        for line in input_file:
-            output_file.write(line)
+    data = pd.read_csv(input, sep="\t")
+    data = data[data['Distance'] <= threshold]
+    data.to_csv(output, sep="\t", index=False)
 
     print(f"Output written to [{output}]")
 

@@ -35,7 +35,7 @@ process APPEND_METADATA {
     }
 
     // Create the header row:
-    merged.add(["Query ID", "Query Sample Name", "Reference ID", "Reference Sample Name", "Disance"]
+    merged.add(["Query ID", "Query Sample Name", "Reference ID", "Reference Sample Name", "Distance"]
                 + metadata_headers[1..-1])
 
     // Merge the remaining rows in original order:

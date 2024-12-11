@@ -2,8 +2,8 @@ process PROCESS_OUTPUT {
     label 'process_single'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/python:3.10' :
-        'biocontainers/python:3.10' }"
+        'https://depot.galaxyproject.org/singularity/pandas:2.2.1' :
+        'biocontainers/pandas' }"
 
     input:
     path(distances)
@@ -21,7 +21,8 @@ process PROCESS_OUTPUT {
     process_output.py \\
         $args \\
         --input $distances \\
-        --output results.tsv
+        --output results.tsv \\
+        --threshold 0
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
