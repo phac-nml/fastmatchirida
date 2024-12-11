@@ -19,7 +19,7 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser(
         description="Parses a profile_dists distances to create query-reference-format output for the FastMatch pipeline.",
-        epilog="Example: python process_output.py --input matrix.csv",
+        epilog="Example: python process_output.py --input distances.tsv --output results.tsv --threshold 10",
     )
 
     parser.add_argument(
