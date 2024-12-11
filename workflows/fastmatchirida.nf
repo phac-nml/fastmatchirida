@@ -71,7 +71,7 @@ workflow FASTMATCH {
 
     // Create a new channel of metadata from a sample sheet
     // NB: `input` corresponds to `params.input` and associated sample sheet schema
-    input = Channel.fromSamplesheet("input")
+    input = Channel.fromSamplesheet("input").view()
     // and remove non-alphanumeric characters in sample_names (meta.id), whilst also correcting for duplicate sample_names (meta.id)
     .map { meta, mlst_file ->
             if (!meta.id) {
@@ -86,8 +86,11 @@ workflow FASTMATCH {
             }
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
-
-            tuple(meta, mlst_file)}
+            // If the fastmatch_category is blank make the default "reference"
+            if (!meta.ref_query) {
+                meta.ref_query = "reference"
+            }
+            tuple(meta, mlst_file)}.view()
     // Make sure the ID in samplesheet / meta.id is the same ID
     // as the corresponding MLST JSON file:
     input_assure = INPUT_ASSURE(input)

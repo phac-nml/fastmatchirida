@@ -31,8 +31,7 @@
                 "errorMessage": "Has to be either query or reference",
                 "description": "Identify whether a sample is query or reference",
                 "fa_icon": "far fa-sticky-note",
-                "enum": ["query", "reference"],
-                "default": true
+                "enum": ["query", "reference"]
             },
             "metadata_1": {
                 "type": "string",
@@ -91,6 +90,6 @@
                 "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample", "fastmatch_category", "mlst_alleles"]
+        "required": ["sample", "mlst_alleles"]
     }
 }
