@@ -158,7 +158,7 @@ workflow FASTMATCH {
     distances_metadata = APPEND_METADATA(distances.results, metadata_rows, metadata_headers)
 
     // Process the output:
-    processed_output = PROCESS_OUTPUT(distances_metadata.distances)
+    processed_output = PROCESS_OUTPUT(distances_metadata.distances, 0)
     ch_versions = ch_versions.mix(processed_output.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (

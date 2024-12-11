@@ -6,10 +6,11 @@ process PROCESS_OUTPUT {
         'biocontainers/pandas' }"
 
     input:
-    path(distances)
+    path distances
+    val threshold
 
     output:
-    path("results.tsv"), emit: results
+    path "results.tsv", emit: results
     path "versions.yml", emit: versions
 
     when:
@@ -22,7 +23,7 @@ process PROCESS_OUTPUT {
         $args \\
         --input $distances \\
         --output results.tsv \\
-        --threshold 0
+        --threshold $threshold
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
