@@ -43,14 +43,11 @@ def main(argv=None):
     input = Path(args.input)
     output = Path(args.output)
 
-    headers = ["query", "reference", "distance"]
-    results = [["A", "B", "1"], ["C", "D", "2"], ["E", "F", "3"]]
+    with open(output, "w") as output_file, \
+        open(input, "r") as input_file:
 
-    with open(output, "w") as output_file:
-        output_file.write((",").join(headers) + "\n")
-
-        for line in results:
-            output_file.write((",").join(line) + "\n")
+        for line in input_file:
+            output_file.write(line)
 
     print(f"Output written to [{output}]")
 

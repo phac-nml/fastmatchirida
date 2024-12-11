@@ -1,9 +1,9 @@
 process APPEND_METADATA {
-    tag "append_metadata"
+    tag "Appends metadata to distances"
     label 'process_single'
 
     input:
-    val distances_path       // cluster data as a TSV path
+    val distances_path      // distance data as a TSV path
                             // this needs to be "val", because "path"
                             // won't stage the file correctly for exec
     val metadata_rows       // metadata rows (no headers) to be appened, list of lists

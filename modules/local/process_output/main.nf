@@ -9,7 +9,7 @@ process PROCESS_OUTPUT {
     path(distances)
 
     output:
-    path("results.csv"), emit: results
+    path("results.tsv"), emit: results
     path "versions.yml", emit: versions
 
     when:
@@ -21,7 +21,7 @@ process PROCESS_OUTPUT {
     process_output.py \\
         $args \\
         --input $distances \\
-        --output results.csv
+        --output results.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
