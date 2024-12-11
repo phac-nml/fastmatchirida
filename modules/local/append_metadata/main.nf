@@ -15,6 +15,7 @@ process APPEND_METADATA {
     exec:
     def distances_rows  // has a header row
     def metadata_rows_map = [:]
+    def sample_names_map = [:] // maps sample names to Irida IDs
     def merged = []
 
     distances_path.withReader { reader ->
@@ -26,18 +27,31 @@ process APPEND_METADATA {
     for(int i = 0; i < metadata_rows.size(); i++)
     {
         // "sample" -> ["sample", meta1, meta2, meta3, ...]
-        metadata_rows_map[metadata_rows[i][0]] = metadata_rows[i]
+        sample_name = metadata_rows[i][0]
+        metadata_rows_map[sample_name] = metadata_rows[i]
+
+        // "sample" -> "Irida ID"
+        sample_names_map[sample_name] = metadata_rows[i][1]
     }
 
-    // Merge the headers
-    merged.add(distances_rows[0] + metadata_headers)
+    // Create the header row:
+    merged.add(["Query ID", "Query Sample Name", "Reference ID", "Reference Sample Name", "Disance"]
+                + metadata_headers[1..-1])
 
     // Merge the remaining rows in original order:
     // Start on i = 1 because we don't want the headers.
     for(int i = 1; i < distances_rows.size(); i++)
     {
-        def sample_key = distances_rows[i][1] // We want ref ID (second column)
-        merged.add(distances_rows[i] + metadata_rows_map[sample_key][1..-1])
+        query_sample_name = distances_rows[i][0]
+        query_irida_id = sample_names_map[query_sample_name]
+        reference_sample_name = distances_rows[i][1]
+        reference_irida_id = sample_names_map[reference_sample_name]
+        distance = distances_rows[i][2]
+
+        merged_row = [query_irida_id, query_sample_name, reference_irida_id, reference_sample_name, distance] \
+                        + metadata_rows_map[reference_sample_name][2..-1]
+
+        merged.add(merged_row)
     }
 
     task.workDir.resolve("distances_and_metadata.tsv").withWriter { writer ->
