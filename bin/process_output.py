@@ -36,7 +36,7 @@ def main(argv=None):
         "--threshold",
         action="store",
         dest="threshold",
-        type=int,
+        type=float,
         help="distance threshold to be included in output",
         default=None,
         required=True,
@@ -47,7 +47,7 @@ def main(argv=None):
         action="store",
         dest="output",
         type=str,
-        help="output in query-reference format",
+        help="output prefix (without extension)",
         default=None,
         required=True,
     )
@@ -55,14 +55,18 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     input = Path(args.input)
-    output = Path(args.output)
+    tsv_path = Path(args.output + ".tsv")
+    excel_path = Path(args.output + ".xlsx")
     threshold = args.threshold
 
     data = pd.read_csv(input, sep="\t")
     data = data[data['Distance'] <= threshold]
-    data.to_csv(output, sep="\t", index=False)
+    data.to_csv(tsv_path, sep="\t", index=False)
+    data.to_excel(excel_path)
 
-    print(f"Output written to [{output}]")
+    print("Output written to:")
+    print(tsv_path)
+    print(excel_path)
 
     return 0
 
