@@ -29,6 +29,8 @@ Workflowfastmatchirida.initialise(params, log)
 include { LOCIDEX_MERGE    } from '../modules/local/locidex/merge/main'
 include { PROFILE_DISTS    } from '../modules/local/profile_dists/main'
 include { INPUT_ASSURE     } from "../modules/local/input_assure/main"
+include { PROCESS_OUTPUT   } from "../modules/local/process_output/main"
+include { APPEND_METADATA  } from "../modules/local/append_metadata/main"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,10 +149,17 @@ workflow FASTMATCH {
     }
 
     // Options related to profile dists
-    mapping_format = Channel.value(params.pd_outfmt)
+    mapping_format = Channel.value("pairwise")
 
     distances = PROFILE_DISTS(merged.combined_profiles, mapping_format, mapping_file, columns_file)
     ch_versions = ch_versions.mix(distances.versions)
+
+    // Append metadata to references:
+    distances_metadata = APPEND_METADATA(distances.results, metadata_rows, metadata_headers)
+
+    // Process the output:
+    processed_output = PROCESS_OUTPUT(distances_metadata.distances, 0)
+    ch_versions = ch_versions.mix(processed_output.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
