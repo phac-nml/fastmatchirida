@@ -113,7 +113,8 @@
                 "threshold": {
                     "type": "number",
                     "description": "Comparison score threshold value",
-                    "default": 1.0
+                    "default": 1.0,
+                    "minimum": 0
                 }
             }
         },
