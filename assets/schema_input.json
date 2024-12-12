@@ -25,6 +25,13 @@
                 "pattern": "^\\S+\\.mlst(\\.subtyping)?\\.json(\\.gz)?$",
                 "errorMessage": "MLST JSON file from locidex report, cannot contain spaces and must have the extension: '.mlst.json', '.mlst.json.gz', '.mlst.subtyping.json', or 'mlst.subtyping.json.gz'"
             },
+            "fastmatch_category": {
+                "type": "string",
+                "errorMessage": "Has to be either query or reference",
+                "description": "Identify whether a sample is query or reference",
+                "fa_icon": "far fa-sticky-note",
+                "enum": ["query", "reference"]
+            },
             "metadata_1": {
                 "type": "string",
                 "meta": ["metadata_1"],

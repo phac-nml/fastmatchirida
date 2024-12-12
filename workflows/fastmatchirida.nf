@@ -68,7 +68,6 @@ def prepareFilePath(String filep){
 workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
-
     // Track processed IDs
     def processedIDs = [] as Set
 
@@ -76,7 +75,7 @@ workflow FASTMATCH {
     // NB: `input` corresponds to `params.input` and associated sample sheet schema
     input = Channel.fromSamplesheet("input")
     // and remove non-alphanumeric characters in sample_names (meta.id), whilst also correcting for duplicate sample_names (meta.id)
-    .map { meta, mlst_file ->
+    .map { meta, mlst_file, ref_query ->
             if (!meta.id) {
                 meta.id = meta.irida_id
             } else {
@@ -89,7 +88,12 @@ workflow FASTMATCH {
             }
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
-
+            // If the fastmatch_category is blank make the default "reference"
+            if (!ref_query) {
+                meta.ref_query = "reference"
+            } else {
+                meta.ref_query = ref_query
+            }
             tuple(meta, mlst_file)}
     // Make sure the ID in samplesheet / meta.id is the same ID
     // as the corresponding MLST JSON file:
@@ -129,25 +133,18 @@ workflow FASTMATCH {
         exit 1, "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
-    if(params.gm_thresholds == null || params.gm_thresholds == ""){
-        exit 1, "--gm_thresholds ${params.gm_thresholds}: Cannot pass null or empty string"
-    }
-
-    gm_thresholds_list = params.gm_thresholds.toString().split(',')
-    if (params.pd_distm == 'hamming') {
-        if (gm_thresholds_list.any { it != null && it.contains('.') }) {
-            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--gm_thresholds ${params.gm_thresholds}' contains fractions."
-                    + " Please either set '--pd_distm scaled' or remove fractions from distance thresholds.")
-        }
-    } else if (params.pd_distm == 'scaled') {
-        if (gm_thresholds_list.any { it != null && (it as Float < 0.0 || it as Float > 100.0) }) {
-            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--gm_thresholds ${params.gm_thresholds}' contains thresholds outside of range [0, 100]."
-                    + " Please either set '--pd_distm hamming' or adjust the threshold values.")
-        }
-    } else {
+    // Check that only 'hamming' or 'scaled' are provided to pd_distm
+    if ((params.pd_distm != 'hamming') & (params.pd_distm != 'scaled')) {
         exit 1, "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
     }
 
+    // Check that when using scaled the threshold exists between 0-100
+    if (params.pd_distm == 'scaled') {
+        if ((params.threshold < 0.0) || (params.threshold > 100.0)) {
+            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
+                    + " Please either set '--threshold' or adjust the threshold values.")
+        }
+    }
     // Options related to profile dists
     mapping_format = Channel.value("pairwise")
 
