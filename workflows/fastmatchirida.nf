@@ -104,6 +104,20 @@ workflow FASTMATCH {
         meta, mlst_files -> mlst_files
     }.collect()
 
+    input_assure.result
+    .branch { meta, mlst_file ->
+        reference: meta.ref_query == "reference"
+        query: meta.ref_query == "query"
+        }.set {merged_alleles}
+
+    merged_alleles_query = merged_alleles.query.map{
+        meta, mlst_files -> mlst_files
+    }.collect()
+
+    merged_alleles_reference = merged_alleles.reference.map{
+        meta, mlst_files -> mlst_files
+    }.collect()
+
     metadata_headers = Channel.of(
         tuple(
             SAMPLE_HEADER,
@@ -119,7 +133,7 @@ workflow FASTMATCH {
         meta.metadata_5, meta.metadata_6, meta.metadata_7, meta.metadata_8)
     }.toList()
 
-    merged = LOCIDEX_MERGE(merged_alleles)
+    merged = LOCIDEX_MERGE(merged_alleles_query, merged_alleles_reference)
     ch_versions = ch_versions.mix(merged.versions)
 
     // optional files passed in
@@ -148,7 +162,7 @@ workflow FASTMATCH {
     // Options related to profile dists
     mapping_format = Channel.value("pairwise")
 
-    distances = PROFILE_DISTS(merged.combined_profiles, mapping_format, mapping_file, columns_file)
+    distances = PROFILE_DISTS(merged.combined_profiles_query, merged.combined_profiles_reference, mapping_format, mapping_file, columns_file)
     ch_versions = ch_versions.mix(distances.versions)
 
     // Append metadata to references:
