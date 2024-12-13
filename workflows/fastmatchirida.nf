@@ -13,7 +13,7 @@ def summary_params = paramsSummaryMap(workflow)
 // Print parameter summary log to screen
 log.info logo + paramsSummaryLog(workflow) + citation
 
-WorkflowGasclustering.initialise(params, log)
+Workflowfastmatchirida.initialise(params, log)
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,12 +26,12 @@ WorkflowGasclustering.initialise(params, log)
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { LOCIDEX_MERGE    } from '../modules/local/locidex/merge/main'
-include { PROFILE_DISTS    } from '../modules/local/profile_dists/main'
-include { GAS_MCLUSTER     } from '../modules/local/gas/mcluster/main'
-include { APPEND_METADATA  } from '../modules/local/appendmetadata/main'
-include { ARBOR_VIEW       } from '../modules/local/arborview.nf'
-include { INPUT_ASSURE     } from "../modules/local/input_assure/main"
+include { LOCIDEX_MERGE as LOCIDEX_MERGE_REF   } from '../modules/local/locidex/merge/main'
+include { LOCIDEX_MERGE as LOCIDEX_MERGE_QUE   } from '../modules/local/locidex/merge/main'
+include { PROFILE_DISTS        } from '../modules/local/profile_dists/main'
+include { INPUT_ASSURE         } from "../modules/local/input_assure/main"
+include { PROCESS_OUTPUT       } from "../modules/local/process_output/main"
+include { APPEND_METADATA      } from "../modules/local/append_metadata/main"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,10 +66,9 @@ def prepareFilePath(String filep){
     return return_path // empty value if file argument is null
 }
 
-workflow GASCLUSTERING {
+workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
-
     // Track processed IDs
     def processedIDs = [] as Set
 
@@ -77,7 +76,7 @@ workflow GASCLUSTERING {
     // NB: `input` corresponds to `params.input` and associated sample sheet schema
     input = Channel.fromSamplesheet("input")
     // and remove non-alphanumeric characters in sample_names (meta.id), whilst also correcting for duplicate sample_names (meta.id)
-    .map { meta, mlst_file ->
+    .map { meta, mlst_file, ref_query ->
             if (!meta.id) {
                 meta.id = meta.irida_id
             } else {
@@ -90,7 +89,12 @@ workflow GASCLUSTERING {
             }
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
-
+            // If the fastmatch_category is blank make the default "reference"
+            if (!ref_query) {
+                meta.ref_query = "reference"
+            } else {
+                meta.ref_query = ref_query
+            }
             tuple(meta, mlst_file)}
     // Make sure the ID in samplesheet / meta.id is the same ID
     // as the corresponding MLST JSON file:
@@ -98,6 +102,21 @@ workflow GASCLUSTERING {
     ch_versions = ch_versions.mix(input_assure.versions)
 
     merged_alleles = input_assure.result.map{
+        meta, mlst_files -> mlst_files
+    }.collect()
+
+    input_assure.result
+    .branch { meta, mlst_file ->
+        reference: meta.ref_query == "reference"
+        query: meta.ref_query == "query"
+        }.set {merged_alleles}
+
+    merged_alleles_query = merged_alleles.query.map{
+        meta, mlst_files -> mlst_files
+    }.collect()
+
+    merged_alleles_reference = merged_alleles.reference.
+    concat(merged_alleles.query).map{   // Reference will contain both query and reference
         meta, mlst_files -> mlst_files
     }.collect()
 
@@ -116,8 +135,12 @@ workflow GASCLUSTERING {
         meta.metadata_5, meta.metadata_6, meta.metadata_7, meta.metadata_8)
     }.toList()
 
-    merged = LOCIDEX_MERGE(merged_alleles)
-    ch_versions = ch_versions.mix(merged.versions)
+    // To avoid collisions of MLST files for reference set (which includes query MLST files) we will run LOCIDEX twice
+    merged_query = LOCIDEX_MERGE_QUE(merged_alleles_query, "merged_query", "query")
+    ch_versions = ch_versions.mix(merged_query.versions)
+
+    merged_reference = LOCIDEX_MERGE_REF(merged_alleles_reference, "merged_reference", "reference")
+    ch_versions = ch_versions.mix(merged_reference.versions)
 
     // optional files passed in
     mapping_file = prepareFilePath(params.pd_mapping_file)
@@ -130,39 +153,30 @@ workflow GASCLUSTERING {
         exit 1, "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
-    if(params.gm_thresholds == null || params.gm_thresholds == ""){
-        exit 1, "--gm_thresholds ${params.gm_thresholds}: Cannot pass null or empty string"
-    }
-
-    gm_thresholds_list = params.gm_thresholds.toString().split(',')
-    if (params.pd_distm == 'hamming') {
-        if (gm_thresholds_list.any { it != null && it.contains('.') }) {
-            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--gm_thresholds ${params.gm_thresholds}' contains fractions."
-                    + " Please either set '--pd_distm scaled' or remove fractions from distance thresholds.")
-        }
-    } else if (params.pd_distm == 'scaled') {
-        if (gm_thresholds_list.any { it != null && (it as Float < 0.0 || it as Float > 100.0) }) {
-            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--gm_thresholds ${params.gm_thresholds}' contains thresholds outside of range [0, 100]."
-                    + " Please either set '--pd_distm hamming' or adjust the threshold values.")
-        }
-    } else {
+    // Check that only 'hamming' or 'scaled' are provided to pd_distm
+    if ((params.pd_distm != 'hamming') & (params.pd_distm != 'scaled')) {
         exit 1, "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
     }
 
+    // Check that when using scaled the threshold exists between 0-100
+    if (params.pd_distm == 'scaled') {
+        if ((params.threshold < 0.0) || (params.threshold > 100.0)) {
+            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
+                    + " Please either set '--threshold' or adjust the threshold values.")
+        }
+    }
     // Options related to profile dists
-    mapping_format = Channel.value(params.pd_outfmt)
+    mapping_format = Channel.value("pairwise")
 
-    distances = PROFILE_DISTS(merged.combined_profiles, mapping_format, mapping_file, columns_file)
+    distances = PROFILE_DISTS(merged_query.combined_profiles, merged_reference.combined_profiles, mapping_format, mapping_file, columns_file)
     ch_versions = ch_versions.mix(distances.versions)
 
-    clustered_data = GAS_MCLUSTER(distances.results)
-    ch_versions = ch_versions.mix(clustered_data.versions)
+    // Append metadata to references:
+    distances_metadata = APPEND_METADATA(distances.results, metadata_rows, metadata_headers)
 
-    data_and_metadata = APPEND_METADATA(clustered_data.clusters, metadata_rows, metadata_headers)
-    tree_data = clustered_data.tree.merge(data_and_metadata) // mergeing as no key to join on
-
-    tree_html = file("$projectDir/assets/ArborView.html")
-    ARBOR_VIEW(tree_data, tree_html)
+    // Process the output:
+    processed_output = PROCESS_OUTPUT(distances_metadata.distances, params.threshold)
+    ch_versions = ch_versions.mix(processed_output.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')

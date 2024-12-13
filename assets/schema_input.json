@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/gasclustering/main/assets/schema_input.json",
-    "title": "phac-nml/gasclustering pipeline - params.input schema",
+    "$id": "https://raw.githubusercontent.com/phac-nml/fastmatchirida/main/assets/schema_input.json",
+    "title": "phac-nml/fastmatchirida pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",
     "items": {
@@ -24,6 +24,13 @@
                 "format": "file-path",
                 "pattern": "^\\S+\\.mlst(\\.subtyping)?\\.json(\\.gz)?$",
                 "errorMessage": "MLST JSON file from locidex report, cannot contain spaces and must have the extension: '.mlst.json', '.mlst.json.gz', '.mlst.subtyping.json', or 'mlst.subtyping.json.gz'"
+            },
+            "fastmatch_category": {
+                "type": "string",
+                "errorMessage": "Has to be either query or reference",
+                "description": "Identify whether a sample is query or reference",
+                "fa_icon": "far fa-sticky-note",
+                "enum": ["query", "reference"]
             },
             "metadata_1": {
                 "type": "string",

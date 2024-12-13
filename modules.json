@@ -1,6 +1,6 @@
 {
-    "name": "phac-nml/gasclustering",
-    "homePage": "https://github.com/phac-nml/gasclustering",
+    "name": "phac-nml/fastmatchirida",
+    "homePage": "https://github.com/phac-nml/fastmatchirida",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {

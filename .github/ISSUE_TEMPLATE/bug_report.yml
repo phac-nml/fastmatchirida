@@ -1,6 +1,6 @@
 name: Bug report
 description: Report something that is broken or incorrect
-labels: bug
+labels: [bug]
 body:
   - type: markdown
     attributes:
@@ -44,4 +44,4 @@ body:
         * Executor _(eg. slurm, local, awsbatch)_
         * Container engine: _(e.g. Docker, Singularity, Conda, Podman, Shifter, Charliecloud, or Apptainer)_
         * OS _(eg. CentOS Linux, macOS, Linux Mint)_
-        * Version of phac-nml/gasclustering _(eg. 1.1, 1.5, 1.8.2)_
+        * Version of phac-nml/fastmatchirida _(eg. 1.1, 1.5, 1.8.2)_

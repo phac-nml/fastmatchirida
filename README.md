@@ -1,6 +1,6 @@
 [![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A523.04.3-brightgreen.svg)](https://www.nextflow.io/)
 
-# Genomic Address Service Clustering Workflow
+# FastMatch IRIDA Workflow
 
 This workflow takes provided JSON-formatted MLST profiles and converts them into a phylogenetic tree with associated flat cluster codes for use in [Irida Next](https://github.com/phac-nml/irida-next). The workflow also generates an interactive tree for visualization.
 
@@ -18,7 +18,7 @@ The structure of this file is defined in [assets/schema_input.json](assets/schem
 
 ## IRIDA-Next Optional Input Configuration
 
-`gasclustering` accepts the [IRIDA-Next](https://github.com/phac-nml/irida-next) format for samplesheets which can contain an additional column: `sample_name`
+`fastmatchirida` accepts the [IRIDA-Next](https://github.com/phac-nml/irida-next) format for samplesheets which can contain an additional column: `sample_name`
 
 `sample_name`: An **optional** column, that overrides `sample` for outputs (filenames and sample names) and reference assembly identification.
 
@@ -87,7 +87,7 @@ Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](n
 To run the pipeline, please do:
 
 ```bash
-nextflow run phac-nml/gasclustering -profile singularity -r main -latest --input https://github.com/phac-nml/gasclustering/raw/dev/assets/samplesheet.csv --outdir results
+nextflow run phac-nml/fastmatchirida -profile singularity -r main -latest --input https://github.com/phac-nml/fastmatchirida/raw/dev/assets/samplesheet.csv --outdir results
 ```
 
 Where the `samplesheet.csv` is structured as specified in the [Input](#input) section.
@@ -157,7 +157,7 @@ Details on the individual output files can be found in the [Output documentation
 To run with the test profile, please do:
 
 ```bash
-nextflow run phac-nml/gasclustering -profile docker,test -r main -latest --outdir results
+nextflow run phac-nml/fastmatchirida -profile docker,test -r main -latest --outdir results
 ```
 
 # Legal

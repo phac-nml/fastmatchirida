@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/gasclustering/main/nextflow_schema.json",
-    "title": "phac-nml/gasclustering pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/phac-nml/fastmatchirida/main/nextflow_schema.json",
+    "title": "phac-nml/fastmatchirida pipeline parameters",
     "description": "IRIDA Next Example Pipeline",
     "type": "object",
     "definitions": {
@@ -104,19 +104,26 @@
             },
             "fa_icon": "far fa-clipboard"
         },
+        "fastmatch": {
+            "title": "FastMatch",
+            "type": "object",
+            "description": "Parameters for FastMatch",
+            "default": "",
+            "properties": {
+                "threshold": {
+                    "type": "number",
+                    "description": "Comparison score threshold value",
+                    "default": 1.0,
+                    "minimum": 0
+                }
+            }
+        },
         "profile_dists": {
             "title": "Profile Dists",
             "type": "object",
             "description": "Parameters for profile_dists distance calculations",
             "default": "",
             "properties": {
-                "pd_outfmt": {
-                    "type": "string",
-                    "description": "The output format for distances",
-                    "enum": ["matrix"],
-                    "default": "matrix",
-                    "hidden": true
-                },
                 "pd_distm": {
                     "type": "string",
                     "description": "The distance method/unit",
@@ -165,32 +172,6 @@
                 "pd_count_missing": {
                     "type": "boolean",
                     "description": "Count missing alleles as different"
-                }
-            }
-        },
-        "gas_cluster": {
-            "title": "GAS Cluster",
-            "type": "object",
-            "description": "",
-            "default": "Parameters for GAS mcluster",
-            "properties": {
-                "gm_thresholds": {
-                    "type": "string",
-                    "default": "10,5,0",
-                    "description": "Thresholds delimited by ','. Values should match units from '--pd_distm' (either 'hamming' or 'scaled').",
-                    "pattern": "^(\\d+(\\.\\d+)?,)*\\d+(\\.\\d+)?$"
-                },
-                "gm_method": {
-                    "type": "string",
-                    "default": "average",
-                    "description": "Clustering linkage method.",
-                    "enum": ["single", "average", "complete"]
-                },
-                "gm_delimiter": {
-                    "type": "string",
-                    "default": ".",
-                    "description": "Delimiter desired for nomenclature code. Must be alphanumeric or one of [._-].",
-                    "pattern": "^[A-Fa-f0-9\\._-]+$"
                 }
             }
         },
@@ -353,13 +334,13 @@
             "$ref": "#/definitions/input_output_options"
         },
         {
+            "$ref": "#/definitions/fastmatch"
+        },
+        {
             "$ref": "#/definitions/metadata"
         },
         {
             "$ref": "#/definitions/profile_dists"
-        },
-        {
-            "$ref": "#/definitions/gas_cluster"
         },
         {
             "$ref": "#/definitions/institutional_config_options"

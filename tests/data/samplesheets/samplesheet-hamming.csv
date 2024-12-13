@@ -1,4 +1,0 @@
-sample,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
-sample1,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/case-hamming/sample1.mlst.subtyping.json,,,,,,,,
-sample2,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/case-hamming/sample2.mlst.subtyping.json,,,,,,,,
-sample3,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/case-hamming/sample3.mlst.subtyping.json,,,,,,,,

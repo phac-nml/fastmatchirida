@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    phac-nml/gasclustering
+    phac-nml/fastmatchirida
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/phac-nml/gasclustering
+    Github : https://github.com/phac-nml/fastmatchirida
 ----------------------------------------------------------------------------------------
 */
 
@@ -39,13 +39,13 @@ WorkflowMain.initialise(workflow, params, log, args)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GASCLUSTERING } from './workflows/gasclustering'
+include { FASTMATCH } from './workflows/fastmatchirida'
 
 //
-// WORKFLOW: Run main phac-nml/gasclustering analysis pipeline
+// WORKFLOW: Run main phac-nml/fastmatchirida analysis pipeline
 //
-workflow PHACNML_GASCLUSTERING {
-    GASCLUSTERING ()
+workflow PHACNML_FASTMATCH {
+    FASTMATCH ()
 }
 
 /*
@@ -59,7 +59,7 @@ workflow PHACNML_GASCLUSTERING {
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
 workflow {
-    PHACNML_GASCLUSTERING ()
+    PHACNML_FASTMATCH ()
 }
 
 /*

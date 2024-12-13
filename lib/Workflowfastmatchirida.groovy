@@ -1,11 +1,11 @@
 //
-// This file holds several functions specific to the workflow/gasclustering.nf in the phac-nml/gasclustering pipeline
+// This file holds several functions specific to the workflow/fastmatchirida.nf in the phac-nml/fastmatchirida pipeline
 //
 
 import nextflow.Nextflow
 import groovy.text.SimpleTemplateEngine
 
-class WorkflowGasclustering {
+class Workflowfastmatchirida {
 
     //
     // Check and validate parameters

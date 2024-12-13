@@ -1,4 +1,10 @@
-dists	sample1	sample2	sample3
-sample1	0.0	0.0	33.333333333333336
-sample2	0.0	0.0	33.333333333333336
-sample3	33.333333333333336	33.333333333333336	0.0
+query_id	ref_id	dist
+sample1	sample1	0.0
+sample1	sample2	0.0
+sample1	sample3	33.333333333333336
+sample2	sample1	0.0
+sample2	sample2	0.0
+sample2	sample3	33.333333333333336
+sample3	sample3	0.0
+sample3	sample1	33.333333333333336
+sample3	sample2	33.333333333333336
