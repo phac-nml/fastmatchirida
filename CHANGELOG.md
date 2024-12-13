@@ -8,3 +8,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the basic-functionality of taking a query and reference set of samples and returning the samples distance, above a user-set threshold.
 
 [0.4.0]: https://github.com/phac-nml/gasclustering/releases/tag/0.4.0
+[0.1.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.1.0
