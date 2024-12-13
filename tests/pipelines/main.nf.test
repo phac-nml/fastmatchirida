@@ -87,6 +87,8 @@ nextflow_pipeline {
             assert iridanext_global.findAll { it.path == "distances/profile_dists.query_profile.text" }.size() == 1
             assert iridanext_global.findAll { it.path == "distances/profile_dists.allele_map.json" }.size() == 1
             assert iridanext_global.findAll { it.path == "merged/locidex.merge.profile.tsv" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.tsv" }.size() == 1
 
             assert iridanext_samples.isEmpty()
             assert iridanext_metadata.isEmpty()
@@ -226,6 +228,8 @@ nextflow_pipeline {
             assert iridanext_global.findAll { it.path == "distances/profile_dists.query_profile.text" }.size() == 1
             assert iridanext_global.findAll { it.path == "distances/profile_dists.allele_map.json" }.size() == 1
             assert iridanext_global.findAll { it.path == "merged/locidex.merge.profile.tsv" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.tsv" }.size() == 1
 
             assert iridanext_samples.isEmpty()
             assert iridanext_metadata.isEmpty()
@@ -273,6 +277,8 @@ nextflow_pipeline {
             assert iridanext_global.findAll { it.path == "distances/profile_dists.query_profile.text" }.size() == 1
             assert iridanext_global.findAll { it.path == "distances/profile_dists.allele_map.json" }.size() == 1
             assert iridanext_global.findAll { it.path == "merged/locidex.merge.profile.tsv" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.tsv" }.size() == 1
 
             assert iridanext_samples.isEmpty()
             assert iridanext_metadata.isEmpty()
@@ -334,6 +340,8 @@ nextflow_pipeline {
             assert iridanext_global.findAll { it.path == "distances/profile_dists.query_profile.text" }.size() == 1
             assert iridanext_global.findAll { it.path == "distances/profile_dists.allele_map.json" }.size() == 1
             assert iridanext_global.findAll { it.path == "merged/locidex.merge.profile.tsv" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.tsv" }.size() == 1
 
             assert iridanext_samples.isEmpty()
             assert iridanext_metadata.isEmpty()
@@ -392,6 +400,8 @@ nextflow_pipeline {
             assert iridanext_global.findAll { it.path == "distances/profile_dists.query_profile.text" }.size() == 1
             assert iridanext_global.findAll { it.path == "distances/profile_dists.allele_map.json" }.size() == 1
             assert iridanext_global.findAll { it.path == "merged/locidex.merge.profile.tsv" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.tsv" }.size() == 1
 
             assert iridanext_samples.isEmpty()
             assert iridanext_metadata.isEmpty()
@@ -444,6 +454,8 @@ nextflow_pipeline {
             assert iridanext_global.findAll { it.path == "distances/profile_dists.query_profile.text" }.size() == 1
             assert iridanext_global.findAll { it.path == "distances/profile_dists.allele_map.json" }.size() == 1
             assert iridanext_global.findAll { it.path == "merged/locidex.merge.profile.tsv" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/results.tsv" }.size() == 1
 
             assert iridanext_samples.isEmpty()
             assert iridanext_metadata.isEmpty()
