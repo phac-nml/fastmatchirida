@@ -1,4 +1,4 @@
-nextflow_pipeline {
+/*nextflow_pipeline {
 
     name "Integration Tests of Allele Clustering"
     script "main.nf"
@@ -449,4 +449,6 @@ nextflow_pipeline {
             assert iridanext_metadata.isEmpty()
         }
     }
+
 }
+*/

@@ -10,22 +10,18 @@ process LOCIDEX_MERGE {
     'mwells14/locidex:0.2.3' }"
 
     input:
-    path input_query // [file(sample1), file(sample2), file(sample3), etc...]
-    path input_reference // [file(sample1), file(sample2), file(sample3), etc...]
+    path input_values // [file(sample1), file(sample2), file(sample3), etc...]
+    val combined_dir
+    val query_ref
 
     output:
-    path("${combined_dir1}/*.tsv"), emit: combined_profiles_query
-    path("${combined_dir2}/*.tsv"), emit: combined_profiles_reference
+    path("${combined_dir}/*.tsv"), emit: combined_profiles
     path "versions.yml", emit: versions
 
     script:
-    combined_dir1 = "merged_query"
-    combined_dir2 = "merged_reference"
     """
-    locidex merge -i ${input_query.join(' ')} -o ${combined_dir1}
-    mv ${combined_dir1}/profile.tsv ${combined_dir1}/profile_query.tsv
-    locidex merge -i ${input_reference.join(' ')} -o ${combined_dir2}
-    mv ${combined_dir2}/profile.tsv ${combined_dir2}/profile_reference.tsv
+    locidex merge -i ${input_values.join(' ')} -o ${combined_dir}
+    mv ${combined_dir}/profile.tsv ${combined_dir}/profile_${query_ref}.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         locidex merge: \$(echo \$(locidex search -V 2>&1) | sed 's/^.*locidex //' )
