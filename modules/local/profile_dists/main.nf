@@ -9,6 +9,7 @@ process PROFILE_DISTS{
 
     input:
     path query
+    path reference
     val mapping_format
     path mapping_file
     path columns
@@ -40,7 +41,7 @@ process PROFILE_DISTS{
     }
     prefix = "distances"
     """
-    profile_dists --query $query --ref $query $args --outfmt $mapping_format \\
+    profile_dists --query $query --ref $reference $args --outfmt $mapping_format \\
                 --force \\
                 --distm $params.pd_distm \\
                 --file_type $params.pd_file_type \\

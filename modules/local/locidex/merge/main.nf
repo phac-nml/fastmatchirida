@@ -11,15 +11,17 @@ process LOCIDEX_MERGE {
 
     input:
     path input_values // [file(sample1), file(sample2), file(sample3), etc...]
+    val combined_dir
+    val query_ref
 
     output:
     path("${combined_dir}/*.tsv"), emit: combined_profiles
     path "versions.yml", emit: versions
 
     script:
-    combined_dir = "merged"
     """
     locidex merge -i ${input_values.join(' ')} -o ${combined_dir}
+    mv ${combined_dir}/profile.tsv ${combined_dir}/profile_${query_ref}.tsv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         locidex merge: \$(echo \$(locidex search -V 2>&1) | sed 's/^.*locidex //' )
