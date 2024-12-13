@@ -62,7 +62,7 @@ def main(argv=None):
     data = pd.read_csv(input, sep="\t")
     data = data[data['Distance'] <= threshold]
     data.to_csv(tsv_path, sep="\t", index=False)
-    data.to_excel(excel_path)
+    data.to_excel(excel_path, index=False)
 
     print("Output written to:")
     print(tsv_path)
