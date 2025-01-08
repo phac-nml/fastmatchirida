@@ -1,4 +1,0 @@
-sample,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
-sampleA,query,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/sample1.mlst.json,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8
-sampleB,query,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/sample2.mlst.json,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8
-sample3,reference,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/sample3.mlst.json,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8

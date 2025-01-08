@@ -11,9 +11,11 @@
         "sample_name": "sample3",
         "profile": {
             "sample3": {
-                "l1": "-",
-                "l2": "-",
-                "l3": "26ab0db90d72e28ad0ba1e22ee510510"
+                "l1": "1",
+                "l2": "1",
+                "l3": "3",
+                "l4": "1",
+                "l5": "1"
             }
         },
         "seq_data": {}

@@ -8,12 +8,14 @@
         "max_internal_stops": 0
     },
     "data": {
-        "sample_name": "sample1",
+        "sample_name": "sample4",
         "profile": {
-            "sample1": {
+            "sample4": {
                 "l1": "1",
                 "l2": "1",
-                "l3": "1"
+                "l3": "1",
+                "l4": "4",
+                "l5": "1"
             }
         },
         "seq_data": {}
