@@ -1,0 +1,6 @@
+sample,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
+sample1,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/testing/tests/data/mlst/sample1.mlst.json,"Escherichia coli","EHEC/STEC","Canada","O157:H7",21,"2024/05/30","beef",true
+sample2,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/testing/tests/data/mlst/sample2.mlst.json,"Escherichia coli","EHEC/STEC","The United States","O157:H7",55,"2024/05/21","milk",false
+sample3,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/testing/tests/data/mlst/sample3.mlst.json,"Escherichia coli","EPEC","France","O125",14,"2024/04/30","cheese",true
+sample4,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/testing/tests/data/mlst/sample4.mlst.json,"Escherichia coli","EPEC","France","O125",35,"2024/04/22","cheese",true
+sample5,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/testing/tests/data/mlst/sample5.mlst.json,"Escherichia coli","EAEC","Canada","O126:H27",61,"2012/09/01","milk",false

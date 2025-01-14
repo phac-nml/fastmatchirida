@@ -1,4 +1,0 @@
-sample,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
-sample1,query,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/case-hash-missing/sample1.mlst.subtyping.json,,,,,,,,
-sample2,query,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/case-hash-missing/sample2.mlst.subtyping.json,,,,,,,,
-sample3,reference,https://raw.githubusercontent.com/phac-nml/gasclustering/dev/tests/data/reports/case-hash-missing/sample3.mlst.subtyping.json,,,,,,,,
