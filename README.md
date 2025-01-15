@@ -117,12 +117,12 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
             }
         ],
         "samples": {
-            
+
         }
     },
     "metadata": {
         "samples": {
-            
+
         }
     }
 }
