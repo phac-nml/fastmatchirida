@@ -36,7 +36,7 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 
 ### Irida Next Optional Sample Name Configuration
 
-`fastmatchirida` accepts the [IRIDA-Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns: `sample`, `sample_name`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_8`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
+`fastmatchirida` accepts the [IRIDA Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns: `sample`, `sample_name`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_8`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
 
 A final samplesheet file may look something like the one below.
 
@@ -56,8 +56,6 @@ SAMPLE3, ,reference,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,
 | `fastmatch_category`         | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
 | `mlst_alleles`               | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
 | `metadata_1` to `metadata_8` | Optional metadata values to integrate into the final visualization.                                                                                                                                                                                                                                                              |
-
-An [example samplesheet](../tests/data/samplesheets/samplesheet-addsamplename.csv) has been provided with the pipeline.
 
 ## Running the pipeline
 

@@ -17,17 +17,15 @@ The input to the pipeline is a standard sample sheet (passed as `--input samples
 
 Note that each sample must be defined as a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.
 
-The structure of this file is defined in [assets/schema_input.json](assets/schema_input.json). Validation of the sample sheet is performed by [nf-validation](https://nextflow-io.github.io/nf-validation/). Details on the columns can be found in the [Full samplesheet](docs/usage.md#full-samplesheet) documentation.
+The structure of this file is defined in [assets/schema_input.json](assets/schema_input.json). Validation of the sample sheet is performed by [nf-validation](https://nextflow-io.github.io/nf-validation/). Details on the columns can be found in the [Full Samplesheet](docs/usage.md#full-standard-samplesheet) documentation.
 
 ## Irida Next Optional Sample Name Configuration
 
-`fastmatchirida` accepts the [IRIDA-Next](https://github.com/phac-nml/irida-next) format for samplesheets which can contain an additional column: `sample_name`
+`fastmatchirida` accepts the [IRIDA Next](https://github.com/phac-nml/irida-next) format for samplesheets which can contain an additional column: `sample_name`
 
 `sample_name`: An **optional** column, that overrides `sample` for outputs (filenames and sample names) and reference assembly identification.
 
 `sample_name` allows more flexibility in naming output files or sample identification. Unlike `sample`, `sample_name` is not required to contain unique values. `Nextflow` requires unique sample names, and therefore in the instance of repeat `sample_names`, `sample` will be suffixed to any `sample_name`. Non-alphanumeric characters (excluding `_`,`-`,`.`) will be replaced with `"_"`.
-
-An [example samplesheet](../tests/data/samplesheets/samplesheet-samplename.csv) has been provided with the pipeline.
 
 # Parameters
 
@@ -74,7 +72,7 @@ The following can be used to adjust parameters for the [profile_dists][] tool.
 
 ## Other
 
-Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schmea.json).
+Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schema.json).
 
 # Running
 
@@ -132,9 +130,9 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
 
 Within the `files` section of this JSON file, all of the output paths are relative to the `outdir`. Therefore, `"path": "process/results.xlsx"` refers to a file located within `outdir/process/results.xlsx`.
 
-Details on the individual output files can be found in the [Output documentation](docs/output.md).
+Details on the individual output files can be found in the [Output Documentation](docs/output.md).
 
-## Test profile
+## Test Profile
 
 To run with the test profile, please do:
 

@@ -6,12 +6,12 @@ This document describes the output produced by the pipeline.
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
-- append: The passed metadata to the pipeline appended to sample-sample distance pairings.
-- distances: Distances between genomes from [profile_dists](https://github.com/phac-nml/profile_dists).
-- input: MLST JSON files processed to ensure that the sample ID provided in the sample sheet matches the IDs provided in the MLST JSON file.
-- merged: The merged MLST JSON files into a single MLST profiles file.
-- pipeline_info: Information about the pipeline's execution.
-- process: Processed sample-sample distance pairings.
+- **append**: The passed metadata to the pipeline appended to sample-sample distance pairings.
+- **distances**: Distances between genomes from [profile_dists](https://github.com/phac-nml/profile_dists).
+- **input**: MLST JSON files processed to ensure that the sample ID provided in the sample sheet matches the IDs provided in the MLST JSON file.
+- **merged**: The merged MLST JSON files into a single MLST profiles file.
+- **pipeline_info**: Information about the pipeline's execution.
+- **process**: Processed sample-sample distance pairings.
 
 The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json).
 
