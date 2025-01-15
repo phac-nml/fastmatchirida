@@ -6,12 +6,12 @@ This document describes the output produced by the pipeline.
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
-- append: The passed metadata to the pipeline appended to cluster addresses defined by the clustering component.
-- ArborView: The ArborView visualization of a dendrogram alongside metadata.
-- clusters: The identified clusters from the [genomic_address_service](https://github.com/phac-nml/genomic_address_service).
+- append: The passed metadata to the pipeline appended to sample-sample distance pairings.
 - distances: Distances between genomes from [profile_dists](https://github.com/phac-nml/profile_dists).
+- input: MLST JSON files processed to ensure that the sample ID provided in the sample sheet matches the IDs provided in the MLST JSON file.
 - merged: The merged MLST JSON files into a single MLST profiles file.
-- pipeline_info: Information about the pipeline's execution
+- pipeline_info: Information about the pipeline's execution.
+- process: Processed sample-sample distance pairings.
 
 The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json).
 
@@ -19,25 +19,35 @@ The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.g
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [Locidex merge](#locidex-merge) - Merges MLST profile JSON files into a single profiles file.
-- [Profile dists](#profile-dists) - Computes pairwise distances between genomes using MLST allele differences.
-- [GAS mcluster](#gas-mcluster) - Generates a hierarchical cluster tree alongside cluster addresses.
-- [Append metadata](#append-metadata) - Appends the passed input metadata to the identified cluster addresses.
-- [ArborView](#arborview) - Generates a visualization of the cluster tree alongside metadata.
-- [IRIDA Next Output](#irida-next-output) - Generates a JSON output file that is compliant with IRIDA Next
-- [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+- [Input Assure](#input-assure) - Assures that the sample IDs provided in the sample sheet match the IDs provided in the MLST JSON files associated with each sample.
+- [Locidex Merge Query](#locidex-merge) - Merges query MLST profile JSON files into a single profiles file.
+- [Locidex Merge References](#locidex-merge) - Merges reference MLST profile JSON files into a single profiles file.
+- [Profile Dists](#profile-dists) - Computes pairwise distances between genomes using MLST allele differences.
+- [Append Metadata](#append-metadata) - Appends the passed input metadata to the pairwise distances.
+- [Process Output](#process-output) - Processes sample-sample distance pairings by distance threshold.
 
-### Locidex merge
+### Input Assure
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `input/`
+  - ID-corrected MLST JSON files: `sample1.mlst.json.gz`
+
+</details>
+
+### Locidex Merge
 
 <details markdown="1">
 <summary>Output files</summary>
 
 - `merged/`
-  - Merged MLST profiles: `profile.tsv`
+  - Merged MLST query profiles: `locidex.merge.profile_query.tsv`
+  - Merged MLST query and reference profiles: `locidex.merge.profile_reference.tsv`
 
 </details>
 
-### Profile dists
+### Profile Dists
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -66,36 +76,24 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 </details>
 
-### GAS mcluster
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `clusters/`
-  - The computed cluster addresses: `clusters.text`
-  - Information on the GAS mcluster run: `run.json`
-  - Thesholds used to compute cluster addresses: `thresholds.json`
-  - Hierarchical clusters as a newick file: `tree.nwk`
-
-</details>
-
-### Append metadata
+### Append Metadata
 
 <details markdown="1">
 <summary>Output files</summary>
 
 - `append/`
-  - The passed input metadata columns appended to the cluster addresses file: `clusters_and_metadata.tsv`
+  - The passed input metadata columns appended to the pairwise distances: `distances_and_metadata.tsv`
 
 </details>
 
-### ArborView
+### Process Output
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `ArborView/`
-  - The ArborView visualization of clusters and metadata: `clustered_data_arborview.html`
+- `process/`
+  - Pairwise distance results meeting specifications in TSV-format: `results.tsv`
+  - Pairwise distance results meeting specifications in XLSX-format: `results.xlsx`
 
 </details>
 
@@ -109,7 +107,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 </details>
 
-### Pipeline information
+### Pipeline Information
 
 <details markdown="1">
 <summary>Output files</summary>

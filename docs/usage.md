@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This pipeline takes provided JSON-formatted MLST profiles and converts them into a phylogenetic tree with associated flat cluster codes for use in [Irida Next](https://github.com/phac-nml/irida-next). The workflow also generates an interactive tree for visualization.
+This workflow takes query and reference JSON-formatted MLST profiles and reports query-reference pairs that are sufficiently within a specified distance of each other.
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 10 columns, and a header row as shown in the examples below.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 11 columns, and a header row as shown in the examples below.
 
 ```bash
 --input '[path to samplesheet file]'
@@ -14,44 +14,46 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full Standard Samplesheet
 
-The input samplesheet must contain 10 columns: `sample`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_8`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
+The input samplesheet must contain 11 columns: `sample`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_8`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above and `sample_name` (see below) will be ignored.
 
 A final samplesheet file consisting mlst_alleles and metadata may look like below.
 
 ```csv title="samplesheet.csv"
-sample,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
-SAMPLE1,sample1.mlst.json.gz,Canada,2024,,,,,,
-SAMPLE2,sample2.mlst.json.gz,USA,2024,,,,,,
-SAMPLE3,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,
+sample,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
+SAMPLE1,query,sample1.mlst.json.gz,Canada,2024,,,,,,
+SAMPLE2,reference,sample2.mlst.json.gz,USA,2024,,,,,,
+SAMPLE3,reference,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,
 ```
 
 | Column                       | Description                                                                                                                                                                                                                                                                                                                      |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `sample`                     | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
+| `fastmatch_category`         | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
 | `mlst_alleles`               | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
 | `metadata_1` to `metadata_8` | Optional metadata values to integrate into the final visualization.                                                                                                                                                                                                                                                              |
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
 
-### IRIDA-Next Optional Samplesheet Configuration
+### Irida Next Optional Sample Name Configuration
 
-`fastmatchirida` accepts the [IRIDA-Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns: `sample`, `sample_name`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_8`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
+`fastmatchirida` accepts the [IRIDA-Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns: `sample`, `sample_name`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_8`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below.
+A final samplesheet file may look something like the one below.
 
 ````console
 
 ```csv title="samplesheet.csv"
-sample,sample_name,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
-SAMPLE1,S1,sample1.mlst.json.gz,Canada,2024,,,,,,
-SAMPLE2,S2,sample2.mlst.json.gz,USA,2024,,,,,,
-SAMPLE3, ,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,
+sample,sample_name,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8
+SAMPLE1,S1,query,sample1.mlst.json.gz,Canada,2024,,,,,,
+SAMPLE2,S2,reference,sample2.mlst.json.gz,USA,2024,,,,,,
+SAMPLE3, ,reference,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,
 ````
 
 | Column                       | Description                                                                                                                                                                                                                                                                                                                      |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `sample`                     | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
 | `sample_name`                | Sample name used in outputs (filenames and sample names)                                                                                                                                                                                                                                                                         |
+| `fastmatch_category`         | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
 | `mlst_alleles`               | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
 | `metadata_1` to `metadata_8` | Optional metadata values to integrate into the final visualization.                                                                                                                                                                                                                                                              |
 
