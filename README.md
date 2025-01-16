@@ -37,7 +37,7 @@ In order to customize metadata headers, the parameters `--metadata_1_header` thr
 
 ## Distance Threshold
 
-A distance threshold parameter may be used to constrain the maximum distances between reported sample pairs in the final reports. This can be accomplished by specifying `--threshold DISTANCE`, where `DISTANCE` is a non-negative integer when using Hamming distances or a float between [0.0, 1.0] when using scaled distances. See below for more information on these distance methods.
+A distance threshold parameter may be used to constrain the maximum distances between reported sample pairs in the final reports. This can be accomplished by specifying `--threshold DISTANCE`, where `DISTANCE` is a non-negative integer when using Hamming distances or a float between [0.0, 100.0] when using scaled distances. See below for more information on these distance methods.
 
 ## Distance Methods
 
