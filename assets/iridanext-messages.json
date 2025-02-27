@@ -1,0 +1,30 @@
+{
+    "overrides": {
+        "definitions": {
+            "input_output_options": {
+                "description": {
+                    "en": "Define where the pipeline should find input data and save output data.",
+                    "fr": "Définir où le pipeline doit trouver les données d’entrée et sauvegarder les données de sortie."
+                }
+            },
+            "profile_dists": {
+                "description": {
+                    "en": "Parameters for profile_dists distance calculations",
+                    "fr": "Paramètres pour le calcul de la distance profile_dists"
+                }
+            },
+            "fastmatch": {
+                "description": {
+                    "en": "Parameters for FastMatch",
+                    "fr": "Paramètres pour FastMatch"
+                }
+            },
+            "metadata": {
+                "description": {
+                    "en": "The column header names of the metadata columns.",
+                    "fr": "Les noms d’en-tête de colonne des colonnes de métadonnées."
+                }
+            }
+        }
+    }
+}
