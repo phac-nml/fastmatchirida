@@ -17,9 +17,9 @@ process PROFILE_DISTS{
 
     output:
     path("${prefix}_${mapping_format}/allele_map.json"), emit: allele_map
-    path("${prefix}_${mapping_format}/query_profile.{text,parquet}"), emit: query_profile
-    path("${prefix}_${mapping_format}/ref_profile.{text,parquet}"), emit: ref_profile
-    path("${prefix}_${mapping_format}/results.{text,parquet}"), emit: results
+    path("${prefix}_${mapping_format}/query_profile.{tsv,parquet}"), emit: query_profile
+    path("${prefix}_${mapping_format}/ref_profile.{tsv,parquet}"), emit: ref_profile
+    path("${prefix}_${mapping_format}/results.{tsv,parquet}"), emit: results
     path("${prefix}_${mapping_format}/run.json"), emit: run
     path  "versions.yml", emit: versions
 
@@ -51,6 +51,10 @@ process PROFILE_DISTS{
                 --cpus ${task.cpus} \\
                 -o ${prefix}_${mapping_format}
 
+    # Rename all *.text to *.tsv
+    for file in ${prefix}_${mapping_format}/*.text; do
+        mv -- "\$file" "\${file%.text}.tsv"
+    done
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         profile_dists: \$( profile_dists -V | sed -e "s/profile_dists//g" )
