@@ -1,4 +1,0 @@
-id	address	level_1	level_2
-sample1	1.1	1	1
-sample2	1.1	1	1
-sample3	1.1	1	1

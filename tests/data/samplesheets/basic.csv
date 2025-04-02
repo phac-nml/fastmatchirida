@@ -1,0 +1,6 @@
+sample,fastmatch_category,mlst_alleles
+sample1,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample1.mlst.json
+sample2,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample2.mlst.json
+sample3,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample3.mlst.json
+sample4,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample4.mlst.json
+sample5,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample5.mlst.json

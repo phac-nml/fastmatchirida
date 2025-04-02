@@ -1,4 +1,4 @@
-# phac-nml/gasclustering: Citations
+# phac-nml/fastmatchirida: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 
@@ -9,6 +9,20 @@
 > Di Tommaso P, Chatzou M, Floden EW, Barja PP, Palumbo E, Notredame C. Nextflow enables reproducible computational workflows. Nat Biotechnol. 2017 Apr 11;35(4):316-319. doi: 10.1038/nbt.3820. PubMed PMID: 28398311.
 
 ## Pipeline tools
+
+- [locidex](https://github.com/phac-nml/locidex) (in-development, citation subject to change)
+
+  > Robertson, James, Wells, Matthew, Christy-Lynn, Peterson, Kyrylo Bessonov, Reimer, Aleisha, Schonfeld, Justin. LOCIDEX: Distributed allele calling engine. 2024. https://github.com/phac-nml/locidex
+
+- [profile_dists](https://github.com/phac-nml/profile_dists) (in-development, citation subject to change)
+
+  > Robertson, James, Wells, Matthew, Schonfeld, Justin, Reimer, Aleisha. Profile Dists: Convenient package for comparing genetic similarity of samples based on allelic profiles. 2023. https://github.com/phac-nml/profile_dists
+
+- [genomic_address_service (GAS)](https://github.com/phac-nml/genomic_address_service) (in-development, citation subject to change)
+
+  > Robertson, James, Wells, Matthew, Schonfeld, Justin, Reimer, Aleisha. Genomic Address Service: Convenient package for de novo clustering and sample assignment to existing clusters. 2023. https://github.com/phac-nml/genomic_address_service
+
+- [ArborView (included in repository)](https://github.com/phac-nml/fastmatchirida/blob/dev/assets/ArborView.html) (in-development, citation subject to change)
 
 ## Software packaging/containerisation tools
 

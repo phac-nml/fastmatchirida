@@ -1,0 +1,23 @@
+{
+    "db_info": {},
+    "parameters": {
+        "mode": "normal",
+        "min_match_ident": 100,
+        "min_match_cov": 100,
+        "max_ambiguous": 0,
+        "max_internal_stops": 0
+    },
+    "data": {
+        "sample_name": "sample2",
+        "profile": {
+            "sample2": {
+                "l1": "1",
+                "l2": "2",
+                "l3": "-",
+                "l4": "-",
+                "l5": "-"
+            }
+        },
+        "seq_data": {}
+    }
+}

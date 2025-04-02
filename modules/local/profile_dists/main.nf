@@ -3,11 +3,13 @@ process PROFILE_DISTS{
     tag "Pairwise Distance Generation"
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/profile_dists%3A1.0.0--pyh7cba7a3_0' :
-        'quay.io/biocontainers/profile_dists:1.0.0--pyh7cba7a3_0' }"
+        'docker.io/mwells14/profile_dists:1.0.2' :
+        task.ext.override_configured_container_registry != false ? 'docker.io/mwells14/profile_dists:1.0.2' :
+        'mwells14/profile_dists:1.0.2' }"
 
     input:
     path query
+    path reference
     val mapping_format
     path mapping_file
     path columns
@@ -15,9 +17,9 @@ process PROFILE_DISTS{
 
     output:
     path("${prefix}_${mapping_format}/allele_map.json"), emit: allele_map
-    path("${prefix}_${mapping_format}/query_profile.{text,parquet}"), emit: query_profile
-    path("${prefix}_${mapping_format}/ref_profile.{text,parquet}"), emit: ref_profile
-    path("${prefix}_${mapping_format}/results.{text,parquet}"), emit: results
+    path("${prefix}_${mapping_format}/query_profile.{tsv,parquet}"), emit: query_profile
+    path("${prefix}_${mapping_format}/ref_profile.{tsv,parquet}"), emit: ref_profile
+    path("${prefix}_${mapping_format}/results.{tsv,parquet}"), emit: results
     path("${prefix}_${mapping_format}/run.json"), emit: run
     path  "versions.yml", emit: versions
 
@@ -39,7 +41,7 @@ process PROFILE_DISTS{
     }
     prefix = "distances"
     """
-    profile_dists --query $query --ref $query $args --outfmt $mapping_format \\
+    profile_dists --query $query --ref $reference $args --outfmt $mapping_format \\
                 --force \\
                 --distm $params.pd_distm \\
                 --file_type $params.pd_file_type \\
@@ -49,6 +51,10 @@ process PROFILE_DISTS{
                 --cpus ${task.cpus} \\
                 -o ${prefix}_${mapping_format}
 
+    # Rename all *.text to *.tsv
+    for file in ${prefix}_${mapping_format}/*.text; do
+        mv -- "\$file" "\${file%.text}.tsv"
+    done
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         profile_dists: \$( profile_dists -V | sed -e "s/profile_dists//g" )

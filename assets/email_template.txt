@@ -4,15 +4,15 @@
   |\\ | |__  __ /  ` /  \\ |__) |__         }  {
   | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
                                         `._,._,'
-  phac-nml/gasclustering v${version}
+  phac-nml/fastmatchirida v${version}
 ----------------------------------------------------
 Run Name: $runName
 
 <% if (success){
-    out << "## phac-nml/gasclustering execution completed successfully! ##"
+    out << "## phac-nml/fastmatchirida execution completed successfully! ##"
 } else {
     out << """####################################################
-## phac-nml/gasclustering execution completed unsuccessfully! ##
+## phac-nml/fastmatchirida execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -35,5 +35,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-phac-nml/gasclustering
-https://github.com/phac-nml/gasclustering
+phac-nml/fastmatchirida
+https://github.com/phac-nml/fastmatchirida

@@ -1,17 +1,22 @@
-# phac-nml/gasclustering: Changelog
+# phac-nml/fastmatchirida: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## In-development
+## [0.2.0] - yyyy-mm-dd
 
-- Initial release of phac-nml/gasclustering.
-- Added support for metadata.
+### Changed
 
-### `Added`
+- Changed file extensions (`.text` -> `.tsv`) of output files from `GAS_MCLUSTER` and `PROFILE_DISTS` found in the `iridanext.output.json`. Output files are now compatiable with file preview feature in IRIDA Next. [PR #40](https://github.com/phac-nml/gasclustering/pull/40)
 
-### `Fixed`
+## [0.1.1] - 2024-01-17
 
-### `Dependencies`
+This release improves documentation and testing.
 
-### `Deprecated`
+## [0.1.0] - 2024-12-13
+
+fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the basic-functionality of taking a query and reference set of samples and returning the samples distance, above a user-set threshold.
+
+[0.1.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.1.1
+[0.1.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.1.0
+[0.2.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.2.0
