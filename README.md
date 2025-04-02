@@ -104,13 +104,13 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
                 "path": "distances/profile_dists.run.json"
             },
             {
-                "path": "distances/profile_dists.results.text"
+                "path": "distances/profile_dists.results.tsv"
             },
             {
-                "path": "distances/profile_dists.ref_profile.text"
+                "path": "distances/profile_dists.ref_profile.tsv"
             },
             {
-                "path": "distances/profile_dists.query_profile.text"
+                "path": "distances/profile_dists.query_profile.tsv"
             },
             {
                 "path": "distances/profile_dists.allele_map.json"

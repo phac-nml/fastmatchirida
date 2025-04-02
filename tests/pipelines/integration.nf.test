@@ -70,7 +70,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -158,7 +158,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t3")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -248,7 +248,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -341,7 +341,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1\tEscherichia coli\tEHEC/STEC\tCanada\tO157:H7\t21\t2024/05/30\tbeef\tTrue")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -425,7 +425,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t20.0")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -512,7 +512,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -604,7 +604,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t1")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -696,7 +696,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t1")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -776,7 +776,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t2")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
@@ -858,7 +858,7 @@ nextflow_pipeline {
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0")
 
             // Check Distances
-            def distances = path("$launchDir/results/distances/profile_dists.results.text")
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
             assert distances.exists()
 
             assert distances.text.contains("query_id\tref_id\tdist")
