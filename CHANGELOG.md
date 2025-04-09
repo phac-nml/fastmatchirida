@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Changed`
 
 - Changed file extensions (`.text` -> `.tsv`) of output files from `GAS_MCLUSTER` and `PROFILE_DISTS` found in the `iridanext.output.json`. Output files are now compatiable with file preview feature in IRIDA Next. [PR 10](https://github.com/phac-nml/fastmatchirida/pull/10)
+- Changed the default threshold for minimum matching alleles from 1 to 50 for filtering. The idea being to show more results and let user filter themselves after. [PR 12](https://github.com/phac-nml/fastmatchirida/pull/12)
 
 ### `Updated`
 
