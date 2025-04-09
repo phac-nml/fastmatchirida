@@ -29,7 +29,9 @@ The structure of this file is defined in [assets/schema_input.json](assets/schem
 
 # Parameters
 
-The main parameters are `--input` as defined above and `--output` for specifying the output results directory. You may wish to provide `-profile singularity` to specify the use of singularity containers and `-r [branch]` to specify which GitHub branch you would like to run.
+The main parameters are `--threshold`, `--input` as defined above and `--output` for specifying the output results directory. You may wish to provide `-profile singularity` to specify the use of singularity containers and `-r [branch]` to specify which GitHub branch you would like to run.
+
+- `--threshold` the minimum alleles for filtering matches (default: 50)
 
 ## Metadata
 
@@ -104,13 +106,13 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
                 "path": "distances/profile_dists.run.json"
             },
             {
-                "path": "distances/profile_dists.results.text"
+                "path": "distances/profile_dists.results.tsv"
             },
             {
-                "path": "distances/profile_dists.ref_profile.text"
+                "path": "distances/profile_dists.ref_profile.tsv"
             },
             {
-                "path": "distances/profile_dists.query_profile.text"
+                "path": "distances/profile_dists.query_profile.tsv"
             },
             {
                 "path": "distances/profile_dists.allele_map.json"

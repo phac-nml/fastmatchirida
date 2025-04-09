@@ -1,0 +1,44 @@
+nextflow_process {
+    name "Test Process PROFILE_DISTS"
+    script "modules/local/profile_dists/main.nf"
+    process "PROFILE_DISTS"
+
+    test("Hamming distances and different samples in reference and query files") {
+        tag "profile_dist_hashes"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile_hash_query.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile_hash_ref.tsv"])
+                input[2] = Channel.value("pairwise")
+                input[3] = []
+                input[4] = []
+                """
+            }
+
+            params {
+                pd_distm = "hamming"
+                outdir = "hamming_diff"
+            }
+        }
+
+        then {
+            assert process.success
+
+            // Check profile distances
+            assert path("$launchDir/hamming_diff/distances/profile_dists.results.tsv").exists()
+            def lines = path("$launchDir/hamming_diff/distances/profile_dists.results.tsv").readLines()
+            assert lines.contains("SRR3736530\tSRR3736530\t0")
+            assert lines.contains("SRR3736530\tSRR3736531\t7")
+
+            // Check the allele map generates the correct alleles based on the provided hashes
+            assert path("$launchDir/hamming_diff/distances/profile_dists.allele_map.json").exists()
+            def allele_map = path("$launchDir/hamming_diff/distances/profile_dists.allele_map.json").text
+            assert allele_map.contains('"ec5d7ff0545a93f0ef9e0a85044ccf1a": 1')
+            assert allele_map.contains('"49316320ea9c8e18a34ae4c197463819": 2')
+
+        }
+    }
+}

@@ -69,9 +69,9 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
       }
     }
     ```
-  - The query MLST profiles: `query_profile.text`
-  - The reference MLST profiles: `ref_profile.text`
-  - The computed distances based on MLST allele differences: `results.text`
+  - The query MLST profiles: `query_profile.tsv`
+  - The reference MLST profiles: `ref_profile.tsv`
+  - The computed distances based on MLST allele differences: `results.tsv`
   - Information on the profile_dists run: `run.json`
 
 </details>
