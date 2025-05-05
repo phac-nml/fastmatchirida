@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Update`
 
-- Update `profile_dists` to [1.0.5](https://github.com/phac-nml/profile_dists/releases/tag/1.0.5). [PR 13](https://github.com/phac-nml/fastmatchirida/pull/13)
+- Update `profile_dists` to [1.0.5](https://github.com/phac-nml/profile_dists/releases/tag/1.0.5). [PR 14](https://github.com/phac-nml/fastmatchirida/pull/14)
 
 ### `Add`
 
-- Add `software_versions.yml` to `iridanext.output.json.gz` global files. [PR 13](https://github.com/phac-nml/fastmatchirida/pull/13)
+- Add `software_versions.yml` to `iridanext.output.json.gz` global files. [PR 14](https://github.com/phac-nml/fastmatchirida/pull/14)
 
 ## [0.2.0] - 2025-04-09
 
