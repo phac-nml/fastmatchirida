@@ -3,6 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-05-dd
+
+### `Update`
+
+- Update `profile_dists` to [1.0.5](https://github.com/phac-nml/profile_dists/releases/tag/1.0.5). [PR 14](https://github.com/phac-nml/fastmatchirida/pull/14)
+
+### `Add`
+
+- Add `software_versions.yml` to `iridanext.output.json.gz` global files. [PR 14](https://github.com/phac-nml/fastmatchirida/pull/14)
+
 ## [0.2.0] - 2025-04-09
 
 ### `Changed`
@@ -25,3 +35,4 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.1.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.1.1
 [0.1.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.1.0
 [0.2.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.2.0
+[0.2.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.2.1
