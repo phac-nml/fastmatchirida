@@ -37,7 +37,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t3")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -45,7 +45,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t1\t1\t1")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -121,7 +121,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t3")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -129,7 +129,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t1\t1\t1")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -193,10 +193,10 @@ nextflow_pipeline {
             assert path("$launchDir/results").exists()
 
             // Check ID Fixing
-            def sample1_error_report = path("$launchDir/results/input/sample1_error_report.csv")
+            def sample1_error_report = path("$launchDir/results/locidex/merge/query/MLST_error_report.csv")
             assert sample1_error_report.exists()
 
-            assert sample1_error_report.text.contains("sample1,['sample1mismatch'],Query sample1 ID and JSON key in sample1_id_mismatch.mlst.json DO NOT MATCH. The 'sample1mismatch' key in sample1_id_mismatch.mlst.json has been forcefully changed to 'sample1': User should manually check input files to ensure correctness.")
+            assert sample1_error_report.text.contains("sample1,['sample1mismatch'],sample1 ID and JSON key in sample1_id_mismatch.mlst.json DO NOT MATCH. The 'sample1mismatch' key in sample1_id_mismatch.mlst.json has been forcefully changed to 'sample1': User should manually check input files to ensure correctness.")
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
@@ -215,7 +215,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t3")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -223,7 +223,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t1\t1\t1")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -308,7 +308,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t3\tEscherichia coli\tEAEC\tCanada\tO126:H27\t61\t2012/09/01\tmilk\tfalse")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -316,7 +316,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t1\t1\t1")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -392,7 +392,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t60.0")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -400,7 +400,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t1\t1\t1")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -480,7 +480,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t4")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -488,7 +488,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -567,7 +567,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t1")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -575,7 +575,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -659,7 +659,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t1")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -667,7 +667,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -745,7 +745,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample1\tsample1\tsample5\tsample5\t2")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -753,7 +753,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
@@ -826,7 +826,7 @@ nextflow_pipeline {
             assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t3")
 
             // Check Locidex Merged Query
-            def merged_query = path("$launchDir/results/merged/locidex.merge.profile_query.tsv")
+            def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
             assert merged_query.exists()
 
             assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
@@ -834,7 +834,7 @@ nextflow_pipeline {
             assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
 
             // Check Locidex Merged Reference
-            def merged_reference = path("$launchDir/results/merged/locidex.merge.profile_reference.tsv")
+            def merged_reference = path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv")
             assert merged_reference.exists()
 
             assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
