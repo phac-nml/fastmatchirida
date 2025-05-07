@@ -193,7 +193,7 @@ nextflow_pipeline {
             assert path("$launchDir/results").exists()
 
             // Check ID Fixing
-            def sample1_error_report = path("$launchDir/results/locidex/merge/query/MLST_error_report.csv")
+            def sample1_error_report = path("$launchDir/results/locidex/merge/query/MLST_error_report_1.csv")
             assert sample1_error_report.exists()
 
             assert sample1_error_report.text.contains("sample1,['sample1mismatch'],sample1 ID and JSON key in sample1_id_mismatch.mlst.json DO NOT MATCH. The 'sample1mismatch' key in sample1_id_mismatch.mlst.json has been forcefully changed to 'sample1': User should manually check input files to ensure correctness.")
