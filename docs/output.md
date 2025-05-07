@@ -8,10 +8,10 @@ The directories listed below will be created in the results directory after the 
 
 - **append**: The passed metadata to the pipeline appended to sample-sample distance pairings.
 - **distances**: Distances between genomes from [profile_dists](https://github.com/phac-nml/profile_dists).
-- **input**: MLST JSON files processed to ensure that the sample ID provided in the sample sheet matches the IDs provided in the MLST JSON file.
-- **merged**: The merged MLST JSON files into a single MLST profiles file.
+- **locidex**: The merged MLST JSON files (merge) into a single MLST profiles file (concat).
 - **pipeline_info**: Information about the pipeline's execution.
 - **process**: Processed sample-sample distance pairings.
+- **write**: Headers for generating final files.
 
 The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json).
 
@@ -19,31 +19,33 @@ The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.g
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [Input Assure](#input-assure) - Assures that the sample IDs provided in the sample sheet match the IDs provided in the MLST JSON files associated with each sample.
-- [Locidex Merge Query](#locidex-merge) - Merges query MLST profile JSON files into a single profiles file.
-- [Locidex Merge References](#locidex-merge) - Merges reference MLST profile JSON files into a single profiles file.
+- [Locidex Merge/Concat Query](#locidex-merge-concat) - Merges query MLST profile JSON files into profile files then concatenates them into a single file.
+- [Locidex Merge/Concat References](#locidex-merge-concat) - Merges reference MLST profile JSON files into profiles files then concatenates them into a single file.
 - [Profile Dists](#profile-dists) - Computes pairwise distances between genomes using MLST allele differences.
 - [Append Metadata](#append-metadata) - Appends the passed input metadata to the pairwise distances.
 - [Process Output](#process-output) - Processes sample-sample distance pairings by distance threshold.
 
-### Input Assure
+### Locidex Merge Concat
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `input/`
-  - ID-corrected MLST JSON files: `sample1.mlst.json.gz`
+- `locidex/`
+  - `merge/`
+    - `query/`
+      - Merged MLST query profiles: `profile_{n}.tsv`
+      - Merged MLST query error reports: `MLST_error_report_{n}.csv`
+    - `ref/`
+      - Merged MLST reference profiles: `profile_{n}.tsv`
+      - Merged MLST reference error reports: `MLST_error_report_{n}.csv`
 
-</details>
-
-### Locidex Merge
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `merged/`
-  - Merged MLST query profiles: `locidex.merge.profile_query.tsv`
-  - Merged MLST query and reference profiles: `locidex.merge.profile_reference.tsv`
+  - `concat/`
+    - `query/`
+      - Concatenated MLST query profiles: `profile_concat_query.tsv`
+      - Concatenated MLST error reports: `MLST_error_report_concat_query.csv`
+    - `reference/`
+      - Concatenated MLST reference profiles: `profile_concat_ref.tsv`
+      - Concatenated MLST error reports: `MLST_error_report_concat_ref.csv`
 
 </details>
 
