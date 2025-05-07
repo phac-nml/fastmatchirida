@@ -11,18 +11,21 @@ process LOCIDEX_MERGE {
 
 
     input:
-    path input_values // [file(sample1), file(sample2), file(sample3), etc...]
+    tuple val(batch_index), path(input_values) // [file(sample1), file(sample2), file(sample3), etc...]
     val  input_tag    // makes output unique and denotes the item as the reference or query to prevent name collision
     val  merge_tsv
 
     output:
-    path("${input_tag}/profile.tsv"),           emit: combined_profiles
-    path("${input_tag}/MLST_error_report.csv"), emit: combined_error_report
-    path "versions.yml",           emit: versions
+    path("${input_tag}/profile_${batch_index}.tsv"),           emit: combined_profiles
+    path("${input_tag}/MLST_error_report_${batch_index}.csv"), emit: combined_error_report
+    path "versions.yml",                                       emit: versions
 
     script:
     """
     locidex merge -i ${input_values.join(' ')} -o ${input_tag} -p ${merge_tsv}
+
+    mv ${input_tag}/MLST_error_report.csv ${input_tag}/MLST_error_report_${batch_index}.csv
+    mv ${input_tag}/profile.tsv ${input_tag}/profile_${batch_index}.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -162,10 +162,20 @@ workflow FASTMATCH {
     // Merge MLST files into TSV
 
     // 1A) Divide up inputs into groups for LOCIDEX
+    def refbatchCounter = 1
     grouped_ref_files = merged_alleles_reference.flatten() //
         .buffer( size: params.batch_size, remainder: true )
+                .map { batch ->
+        def index = refbatchCounter++
+        return tuple(index, batch)
+    }
+    def quebatchCounter = 1
     grouped_query_files = merged_alleles_query.flatten() //
         .buffer( size: params.batch_size, remainder: true )
+        .map { batch ->
+        def index = quebatchCounter++
+        return tuple(index, batch)
+    }
 
     // 1B) Run LOCIDEX on grouped query and reference samples
     references = LOCIDEX_MERGE_REF(grouped_ref_files, ref_tag, merge_tsv)
