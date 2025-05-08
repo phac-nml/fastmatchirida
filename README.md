@@ -37,6 +37,10 @@ The main parameters are `--threshold`, `--input` as defined above and `--output`
 
 In order to customize metadata headers, the parameters `--metadata_1_header` through `--metadata_8_header` may be specified. These parameters are used to re-name the headers in the final metadata table from the defaults (e.g., rename `metadata_1` to `country`).
 
+## LOCIDEX
+
+When large samplesheets are provided to LOCIDEX, they are split-up, into batches (default batch size: 100), to allow for `LOCIDEX_MERGE` to be run in parallel. To modify the size of batches use the parameter `--batch_size n`
+
 ## Distance Threshold
 
 A distance threshold parameter may be used to constrain the maximum distances between reported sample pairs in the final reports. This can be accomplished by specifying `--threshold DISTANCE`, where `DISTANCE` is a non-negative integer when using Hamming distances or a float between [0.0, 100.0] when using scaled distances. See below for more information on these distance methods.
@@ -95,7 +99,10 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
 ```
 {
     "files": {
-        "global": [
+      "global": [
+            {
+                "path": "pipeline_info/software_versions.yml"
+            },
             {
                 "path": "process/results.xlsx"
             },
@@ -116,6 +123,12 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
             },
             {
                 "path": "distances/profile_dists.allele_map.json"
+            },
+            {
+                "path": "locidex/concat/query/MLST_error_report_concat_query.csv"
+            },
+            {
+                "path": "locidex/concat/reference/MLST_error_report_concat_ref.csv"
             }
         ],
         "samples": {

@@ -5,6 +5,7 @@
 */
 
 include { paramsSummaryLog; paramsSummaryMap; fromSamplesheet  } from 'plugin/nf-validation'
+include { loadIridaSampleIds                                   } from 'plugin/nf-iridanext'
 
 def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
 def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
@@ -26,12 +27,14 @@ Workflowfastmatchirida.initialise(params, log)
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { LOCIDEX_MERGE as LOCIDEX_MERGE_REF   } from '../modules/local/locidex/merge/main'
-include { LOCIDEX_MERGE as LOCIDEX_MERGE_QUE   } from '../modules/local/locidex/merge/main'
-include { PROFILE_DISTS        } from '../modules/local/profile_dists/main'
-include { INPUT_ASSURE         } from "../modules/local/input_assure/main"
-include { PROCESS_OUTPUT       } from "../modules/local/process_output/main"
-include { APPEND_METADATA      } from "../modules/local/append_metadata/main"
+include { WRITE_METADATA                         } from '../modules/local/write/main'
+include { LOCIDEX_MERGE as LOCIDEX_MERGE_REF     } from '../modules/local/locidex/merge/main'
+include { LOCIDEX_MERGE as LOCIDEX_MERGE_QUERY   } from '../modules/local/locidex/merge/main'
+include { LOCIDEX_CONCAT as LOCIDEX_CONCAT_QUERY } from '../modules/local/locidex/concat/main'
+include { LOCIDEX_CONCAT as LOCIDEX_CONCAT_REF   } from '../modules/local/locidex/concat/main'
+include { PROFILE_DISTS                          } from '../modules/local/profile_dists/main'
+include { PROCESS_OUTPUT                         } from '../modules/local/process_output/main'
+include { APPEND_METADATA                        } from '../modules/local/append_metadata/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,30 +98,9 @@ workflow FASTMATCH {
             } else {
                 meta.ref_query = ref_query
             }
-            tuple(meta, mlst_file)}
-    // Make sure the ID in samplesheet / meta.id is the same ID
-    // as the corresponding MLST JSON file:
-    input_assure = INPUT_ASSURE(input)
-    ch_versions = ch_versions.mix(input_assure.versions)
+            tuple(meta, mlst_file)}.loadIridaSampleIds()
 
-    merged_alleles = input_assure.result.map{
-        meta, mlst_files -> mlst_files
-    }.collect()
-
-    input_assure.result
-    .branch { meta, mlst_file ->
-        reference: meta.ref_query == "reference"
-        query: meta.ref_query == "query"
-        }.set {merged_alleles}
-
-    merged_alleles_query = merged_alleles.query.map{
-        meta, mlst_files -> mlst_files
-    }.collect()
-
-    merged_alleles_reference = merged_alleles.reference.
-    concat(merged_alleles.query).map{   // Reference will contain both query and reference
-        meta, mlst_files -> mlst_files
-    }.collect()
+    // Metadata formatting
 
     metadata_headers = Channel.of(
         tuple(
@@ -129,18 +111,94 @@ workflow FASTMATCH {
             params.metadata_7_header, params.metadata_8_header)
         )
 
-    metadata_rows = input_assure.result.map{
+    metadata_rows = input.map{
         meta, mlst_files -> tuple(meta.id, meta.irida_id,
         meta.metadata_1, meta.metadata_2, meta.metadata_3, meta.metadata_4,
         meta.metadata_5, meta.metadata_6, meta.metadata_7, meta.metadata_8)
     }.toList()
 
-    // To avoid collisions of MLST files for reference set (which includes query MLST files) we will run LOCIDEX twice
-    merged_query = LOCIDEX_MERGE_QUE(merged_alleles_query, "merged_query", "query")
-    ch_versions = ch_versions.mix(merged_query.versions)
 
-    merged_reference = LOCIDEX_MERGE_REF(merged_alleles_reference, "merged_reference", "reference")
-    ch_versions = ch_versions.mix(merged_reference.versions)
+    // Seperate the input into two channels based on the referemce or query samples
+    input
+    .branch { meta, mlst_file ->
+        reference: meta.ref_query == "reference"
+        query: meta.ref_query == "query"
+        }.set {merged_alleles}
+
+    // Prepare reference and query MLST files for LOCIDEX_MERGE
+    merged_alleles_query = merged_alleles.query.map{
+        meta, mlst_files -> mlst_files
+    }.collect()
+
+    merged_alleles_reference = merged_alleles.reference.
+    concat(merged_alleles.query).map{   // Reference will contain both query and reference
+        meta, mlst_files -> mlst_files
+    }.collect()
+
+    // LOCIDEX BLOCK
+    // Two Steps: 1) Merge and 2) Concatenate
+    // LOCIDEX value channels
+    ref_tag   = Channel.value("ref")                                             // Seperate the reference samples
+    query_tag = Channel.value("query")                                           // Seperate the query samples
+
+    // Create channels to be used to create a MLST override file (below)
+    SAMPLE_HEADER = "sample"
+    MLST_HEADER   = "mlst_alleles"
+
+    write_metadata_headers = Channel.of(
+        tuple(
+            SAMPLE_HEADER, MLST_HEADER)
+        )
+
+    write_metadata_rows = input.map{
+        def meta = it[0]
+        def mlst = it[1]
+        tuple(meta.id,mlst)
+    }.toList()
+
+    merge_tsv = WRITE_METADATA (write_metadata_headers, write_metadata_rows).results.first() // MLST override file value channel
+
+        // LOCIDEX Step 1:
+    // Merge MLST files into TSV
+
+    // 1A) Divide up inputs into groups for LOCIDEX
+    def refbatchCounter = 1
+    grouped_ref_files = merged_alleles_reference.flatten() //
+        .buffer( size: params.batch_size, remainder: true )
+                .map { batch ->
+        def index = refbatchCounter++
+        return tuple(index, batch)
+    }
+    def quebatchCounter = 1
+    grouped_query_files = merged_alleles_query.flatten() //
+        .buffer( size: params.batch_size, remainder: true )
+        .map { batch ->
+        def index = quebatchCounter++
+        return tuple(index, batch)
+    }
+
+    // 1B) Run LOCIDEX on grouped query and reference samples
+    references = LOCIDEX_MERGE_REF(grouped_ref_files, ref_tag, merge_tsv)
+    ch_versions = ch_versions.mix(references.versions)
+
+    queries = LOCIDEX_MERGE_QUERY(grouped_query_files, query_tag, merge_tsv)
+    ch_versions = ch_versions.mix(queries.versions)
+
+    // LOCIDEX Step 2:
+    // Combine outputs
+
+    // LOCIDEX Concatenate References
+    combined_references = LOCIDEX_CONCAT_REF(references.combined_profiles.collect(),
+        references.combined_error_report.collect(),
+        ref_tag,
+        references.combined_profiles.collect().flatten().count())
+
+    // LOCIDEX Concatenate References
+    combined_queries = LOCIDEX_CONCAT_QUERY(queries.combined_profiles.collect(),
+        queries.combined_error_report.collect(),
+        query_tag,
+        queries.combined_profiles.collect().flatten().count())
+
 
     // optional files passed in
     mapping_file = prepareFilePath(params.pd_mapping_file)
@@ -168,7 +226,7 @@ workflow FASTMATCH {
     // Options related to profile dists
     mapping_format = Channel.value("pairwise")
 
-    distances = PROFILE_DISTS(merged_query.combined_profiles, merged_reference.combined_profiles, mapping_format, mapping_file, columns_file)
+    distances = PROFILE_DISTS(combined_queries.combined_profiles, combined_references.combined_profiles, mapping_format, mapping_file, columns_file)
     ch_versions = ch_versions.mix(distances.versions)
 
     // Append metadata to references:

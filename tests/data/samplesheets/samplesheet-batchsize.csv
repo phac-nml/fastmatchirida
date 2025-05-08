@@ -1,0 +1,5 @@
+sample,fastmatch_category,mlst_alleles
+sampleQ,query,https://raw.githubusercontent.com/phac-nml/gasnomenclature/dev/tests/data/reports/sampleQ.mlst.json
+sampleP,query,https://raw.githubusercontent.com/phac-nml/gasnomenclature/dev/tests/data/reports/sample1.mlst.json
+sample2,reference,https://raw.githubusercontent.com/phac-nml/gasnomenclature/dev/tests/data/reports/sample2.mlst.json
+sample3,reference,https://raw.githubusercontent.com/phac-nml/gasnomenclature/dev/tests/data/reports/sample3.mlst.json
