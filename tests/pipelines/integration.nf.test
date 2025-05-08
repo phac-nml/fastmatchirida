@@ -874,4 +874,49 @@ nextflow_pipeline {
             assert distances.text.contains("sample2\tsample5\t3")
         }
     }
+
+    test("Testing when batch size is used for LOCIDEX_MERGE"){
+        // Downstream of LOCIDEX_MERGE, the batch size is used to split the input into smaller chunks.
+        // This is useful for large datasets to increase parallelism and reduce memory usage.
+
+        tag "batch-size"
+
+        when{
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet-batchsize.csv"
+                outdir = "results"
+                batch_size = 1
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+
+            // Check that LOCIDEX_MERGE was called with the correct batch size
+            // Profiles for reference samples
+            def lines1 = path("$launchDir/results/locidex/merge/ref/profile_1.tsv").readLines()
+            assert lines1.contains("sample2\t1\t1\t1")
+            def lines2 = path("$launchDir/results/locidex/merge/ref/profile_2.tsv").readLines()
+            assert lines2.contains("sample3\t1\t1\t2")
+            def lines3 = path("$launchDir/results/locidex/merge/ref/profile_3.tsv").readLines()
+            assert lines3.contains("sampleQ\t1\t2\t1")
+            def lines4 = path("$launchDir/results/locidex/merge/ref/profile_4.tsv").readLines()
+            assert lines4.contains("sampleP\t1\t1\t1")
+            // Profiles for query samples (same as the equivalent reference sample)
+            def lines1_query = path("$launchDir/results/locidex/merge/query/profile_1.tsv").readLines()
+            assert lines1_query == lines3
+
+            def lines2_query = path("$launchDir/results/locidex/merge/query/profile_2.tsv").readLines()
+            assert lines2_query == lines4
+
+            // Error reports
+            // Only error report for sampleP should have content to check`
+            def error_report = path("$launchDir/results/locidex/merge/ref/MLST_error_report_4.csv").readLines()
+            assert error_report.contains("sampleP,[\'sample1\'],sampleP ID and JSON key in sample1.mlst.json DO NOT MATCH. The 'sample1' key in sample1.mlst.json has been forcefully changed to 'sampleP': User should manually check input files to ensure correctness.")
+            // Error report for query sampleP should be the same as the reference sample
+            def error_report_query = path("$launchDir/results/locidex/merge/query/MLST_error_report_2.csv").readLines()
+            assert error_report_query == error_report
+        }
+    }
 }

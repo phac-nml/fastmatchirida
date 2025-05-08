@@ -1,0 +1,73 @@
+nextflow_process {
+    name "Test Process LOCIDEX_CONCAT"
+    script "modules/local/locidex/concat/main.nf"
+    process "LOCIDEX_CONCAT"
+
+    test("Test when LOCIDEX_CONCAT runs on multiple files") {
+        tag "LOCIDEX_CONCAT_multiple_files"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/expected_merge_profile_1_of_2.tsv", "$baseDir/tests/data/profiles/expected_merge_profile_2_of_2.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/error_reports/MLST_error_report_1_of_2.tsv", "$baseDir/tests/data/error_reports/MLST_error_report_2_of_2.tsv"])
+                input[2] = Channel.of("ref")
+                input[3] = input[0].flatten().count()
+                """
+            }
+
+            params {
+                outdir = "cluster_results"
+            }
+        }
+
+        then {
+            assert process.success
+
+            // Check the merged profiles files
+            def expected_profile = path("$baseDir/tests/data/profiles/expected-profile1.tsv")
+            def actual_profile = path("$launchDir/cluster_results/locidex/profile_concat_ref.tsv")
+            assert actual_profile.text == expected_profile.text
+
+            // Check the merged profiles files
+            def expected_error_report = path("$baseDir/tests/data/error_reports/MLST_error_report_merged.tsv")
+            def actual_error_report = path("$launchDir/cluster_results/locidex/MLST_error_report_concat_ref.csv")
+            assert actual_error_report.text == expected_error_report.text
+        }
+    }
+
+    test("Test when LOCIDEX_CONCAT runs on single file") {
+        tag "LOCIDEX_CONCAT_single_file"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/expected_merge_profile_1_of_2.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/error_reports/MLST_error_report_1_of_2.tsv"])
+                input[2] = Channel.of("ref")
+                input[3] = input[0].flatten().count()
+                """
+            }
+
+            params {
+                outdir = "cluster_results"
+            }
+        }
+
+        then {
+            assert process.success
+
+            // Check the merged profiles files
+            def expected_profile = path("$baseDir/tests/data/profiles/expected_merge_profile_1_of_2.tsv")
+            def actual_profile = path("$launchDir/cluster_results/locidex/profile_concat_ref.tsv")
+            assert actual_profile.text == expected_profile.text
+
+            // Check the merged profiles files
+            def expected_error_report = path("$baseDir/tests/data/error_reports/MLST_error_report_1_of_2.tsv")
+            def actual_error_report = path("$launchDir/cluster_results/locidex/MLST_error_report_concat_ref.csv")
+            assert actual_error_report.text == expected_error_report.text
+        }
+    }
+}
