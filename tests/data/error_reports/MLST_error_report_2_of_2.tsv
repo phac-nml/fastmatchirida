@@ -1,0 +1,2 @@
+sample,JSON_key,error_message
+sample2,['sampleB'],sample2 ID and JSON key in sampleB.mlst.json DO NOT MATCH. The 'sampleB' key in sampleB.mlst.json has been forcefully changed to 'sample2': User should manually check input files to ensure correctness.

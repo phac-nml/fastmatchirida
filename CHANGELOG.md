@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Update`
 
 - Update `profile_dists` to [1.0.5](https://github.com/phac-nml/profile_dists/releases/tag/1.0.5). [PR 14](https://github.com/phac-nml/fastmatchirida/pull/14)
+- Update the `locidex` version to [0.3.0](https://pypi.org/project/locidex/0.3.0/). `locidex merge` has integrated the functionality of module `input_assure`. [PR 15](https://github.com/phac-nml/fastmatchirida/pull/15)
 
 ### `Add`
 
@@ -16,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Changed`
 
 - Change the default `profile_dists` default setting `pd_skip = true`. [PR 16](https://github.com/phac-nml/fastmatchirida/pull/16)
+
+### `Enhancement`
+
+- `locidex merge` in `0.3.0` now performs the functionality of `input_assure` (checking sample name against MLST profiles). This allows `fastmatchirida` to remove `input_assure` so that the MLST JSON file is read only once, and no longer needs to re-write with correction. [PR 15](https://github.com/phac-nml/fastmatchirida/pull/15)
+- Added a pre-processing step to the input of `LOCIDEX_MERGE` that splits-up samples, into batches (default batch size: `100`), to allow for `LOCIDEX_MERGE` to be run in parallel. To modify the size of batches use the parameter `--batch_size n`. [PR 15](https://github.com/phac-nml/fastmatchirida/pull/15)
+
 
 ## [0.2.0] - 2025-04-09
 

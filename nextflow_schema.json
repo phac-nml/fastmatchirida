@@ -176,6 +176,19 @@
                 }
             }
         },
+        "locidex": {
+            "title": "Locidex",
+            "type": "object",
+            "description": "An option to run multiple LOCIDEX processes in parallel",
+            "default": "",
+            "properties": {
+                "batch_size": {
+                    "type": "integer",
+                    "description": "Size of batch (number of MLST files) supplied to each LOCIDEX process",
+                    "default": 100
+                }
+            }
+        },
         "institutional_config_options": {
             "title": "Institutional config options",
             "type": "object",
@@ -342,6 +355,9 @@
         },
         {
             "$ref": "#/definitions/profile_dists"
+        },
+        {
+            "$ref": "#/definitions/locidex"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
