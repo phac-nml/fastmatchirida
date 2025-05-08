@@ -529,6 +529,103 @@ nextflow_pipeline {
         }
     }
 
+    test("Don't count missing data as different with QA") {
+        tag "pipeline_missing_as_not_different-QA"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/missing.csv"
+                outdir = "results"
+
+                pd_distm = "hamming"
+                threshold = 2
+                pd_skip = false
+                pd_count_missing = false
+                pd_missing_threshold = 0.0
+                pd_sample_quality_threshold = 0.0
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+
+            // Check profile_dists QA steps ran
+            assert path("$launchDir/results/distances/profile_dists.run.json").exists()
+            def profile_dist_settings = path("$launchDir/results/distances/profile_dists.run.json").json
+            assert profile_dist_settings.parameters.skip == false
+
+            // Check Appended Results
+            def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
+            assert appended.exists()
+
+            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert appended.text.contains("sample1\tsample1\tsample1\tsample1\t0")
+            assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t0")
+            assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t0")
+            assert appended.text.contains("sample1\tsample1\tsample2\tsample2\t1")
+            assert appended.text.contains("sample1\tsample1\tsample5\tsample5\t0")
+            assert appended.text.contains("sample2\tsample2\tsample2\tsample2\t0")
+            assert appended.text.contains("sample2\tsample2\tsample1\tsample1\t1")
+            assert appended.text.contains("sample2\tsample2\tsample3\tsample3\t1")
+            assert appended.text.contains("sample2\tsample2\tsample4\tsample4\t1")
+            assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t1")
+
+            // Check Locidex Merged Query
+            def merged_query = path("$launchDir/results/locidex/merge/query/profile_1.tsv")
+            assert merged_query.exists()
+
+            assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
+            assert merged_query.text.contains("sample1\t1\t1\t1\t1\t1")
+            assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
+
+            // Check Locidex Merged Reference
+            def merged_reference = path("$launchDir/results/locidex/merge/ref/profile_1.tsv")
+            assert merged_reference.exists()
+
+            assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
+            assert merged_reference.text.contains("sample3\t1\t1\t3\t1\t-\n")
+            assert merged_reference.text.contains("sample4\t1\t1\t-\t4\t1\n")
+            assert merged_reference.text.contains("sample5\t1\t1\t1\t5\t5\n")
+            assert merged_reference.text.contains("sample1\t1\t1\t1\t1\t1\n")
+            assert merged_reference.text.contains("sample2\t1\t2\t-\t-\t-\n")
+
+            // Check Processed Output
+            def processed_output_tsv = path("$launchDir/results/process/results.tsv")
+            assert processed_output_tsv.exists()
+            def processed_output_xlsx = path("$launchDir/results/process/results.xlsx")
+            assert processed_output_xlsx.exists()
+
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t0")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t0")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample2\tsample2\t1")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample5\tsample5\t0")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample3\tsample3\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample4\tsample4\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t1")
+
+            // Check Distances
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
+            assert distances.exists()
+
+            assert distances.text.contains("query_id\tref_id\tdist")
+            assert distances.text.contains("sample1\tsample1\t0")
+            assert distances.text.contains("sample1\tsample3\t0")
+            assert distances.text.contains("sample1\tsample4\t0")
+            assert distances.text.contains("sample1\tsample2\t1")
+            assert distances.text.contains("sample1\tsample5\t0")
+            assert distances.text.contains("sample2\tsample2\t0")
+            assert distances.text.contains("sample2\tsample1\t1")
+            assert distances.text.contains("sample2\tsample3\t1")
+            assert distances.text.contains("sample2\tsample4\t1")
+            assert distances.text.contains("sample2\tsample5\t1")
+        }
+    }
+
     test("Don't count missing data as different") {
         tag "pipeline_missing_as_not_different"
 
@@ -549,6 +646,107 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            // Check profile_dists QA steps ran
+            assert path("$launchDir/results/distances/profile_dists.run.json").exists()
+            def profile_dist_settings = path("$launchDir/results/distances/profile_dists.run.json").json
+            assert profile_dist_settings.parameters.skip == true
+
+            // Check Appended Results
+            def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
+            assert appended.exists()
+
+            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert appended.text.contains("sample1\tsample1\tsample1\tsample1\t0")
+            assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t1")
+            assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t1")
+            assert appended.text.contains("sample1\tsample1\tsample2\tsample2\t1")
+            assert appended.text.contains("sample1\tsample1\tsample5\tsample5\t2")
+            assert appended.text.contains("sample2\tsample2\tsample2\tsample2\t0")
+            assert appended.text.contains("sample2\tsample2\tsample1\tsample1\t1")
+            assert appended.text.contains("sample2\tsample2\tsample3\tsample3\t1")
+            assert appended.text.contains("sample2\tsample2\tsample4\tsample4\t1")
+            assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t1")
+
+            // Check Locidex Merged Query
+            def merged_query = path("$launchDir/results/locidex/merge/ref/profile_1.tsv")
+            assert merged_query.exists()
+
+            assert merged_query.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5")
+            assert merged_query.text.contains("sample1\t1\t1\t1\t1\t1")
+            assert merged_query.text.contains("sample2\t1\t2\t-\t-\t-")
+
+            // Check Locidex Merged Reference
+            def merged_reference = path("$launchDir/results/locidex/merge/ref/profile_1.tsv")
+            assert merged_reference.exists()
+
+            assert merged_reference.text.contains("sample_id\tl1\tl2\tl3\tl4\tl5\n")
+            assert merged_reference.text.contains("sample3\t1\t1\t3\t1\t-\n")
+            assert merged_reference.text.contains("sample4\t1\t1\t-\t4\t1\n")
+            assert merged_reference.text.contains("sample5\t1\t1\t1\t5\t5\n")
+            assert merged_reference.text.contains("sample1\t1\t1\t1\t1\t1\n")
+            assert merged_reference.text.contains("sample2\t1\t2\t-\t-\t-\n")
+
+            // Check Processed Output
+            def processed_output_tsv = path("$launchDir/results/process/results.tsv")
+            assert processed_output_tsv.exists()
+            def processed_output_xlsx = path("$launchDir/results/process/results.xlsx")
+            assert processed_output_xlsx.exists()
+
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t1")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t1")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample5\tsample5\t2")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample3\tsample3\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample4\tsample4\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1")
+
+            // Check Distances
+            def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
+            assert distances.exists()
+
+            assert distances.text.contains("query_id\tref_id\tdist")
+            assert distances.text.contains("sample1\tsample1\t0")
+            assert distances.text.contains("sample1\tsample3\t1")
+            assert distances.text.contains("sample1\tsample4\t1")
+            assert distances.text.contains("sample1\tsample2\t1")
+            assert distances.text.contains("sample1\tsample5\t2")
+            assert distances.text.contains("sample2\tsample2\t0")
+            assert distances.text.contains("sample2\tsample1\t1")
+            assert distances.text.contains("sample2\tsample3\t1")
+            assert distances.text.contains("sample2\tsample4\t1")
+            assert distances.text.contains("sample2\tsample5\t1")
+        }
+    }
+
+    test("Testing pd_missing_threshold with QA") {
+        tag "pipeline_pd_missing_threshold-QA"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/missing.csv"
+                outdir = "results"
+
+                pd_distm = "hamming"
+                threshold = 2
+                pd_skip = false
+                pd_count_missing = true
+                pd_missing_threshold = 0.25
+                pd_sample_quality_threshold = 1.0
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+
+            // Check profile_dists QA steps ran
+            assert path("$launchDir/results/distances/profile_dists.run.json").exists()
+            def profile_dist_settings = path("$launchDir/results/distances/profile_dists.run.json").json
+            assert profile_dist_settings.parameters.skip == false
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
@@ -642,21 +840,26 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            // Check profile_dists QA steps ran
+            assert path("$launchDir/results/distances/profile_dists.run.json").exists()
+            def profile_dist_settings = path("$launchDir/results/distances/profile_dists.run.json").json
+            assert profile_dist_settings.parameters.skip == true
+
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
 
             assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
             assert appended.text.contains("sample1\tsample1\tsample1\tsample1\t0")
-            assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t0")
-            assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t0")
-            assert appended.text.contains("sample1\tsample1\tsample2\tsample2\t1")
-            assert appended.text.contains("sample1\tsample1\tsample5\tsample5\t0")
+            assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t2")
+            assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t2")
+            assert appended.text.contains("sample1\tsample1\tsample2\tsample2\t4")
+            assert appended.text.contains("sample1\tsample1\tsample5\tsample5\t2")
             assert appended.text.contains("sample2\tsample2\tsample2\tsample2\t0")
-            assert appended.text.contains("sample2\tsample2\tsample1\tsample1\t1")
-            assert appended.text.contains("sample2\tsample2\tsample3\tsample3\t1")
-            assert appended.text.contains("sample2\tsample2\tsample4\tsample4\t1")
-            assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t1")
+            assert appended.text.contains("sample2\tsample2\tsample1\tsample1\t4")
+            assert appended.text.contains("sample2\tsample2\tsample3\tsample3\t3")
+            assert appended.text.contains("sample2\tsample2\tsample4\tsample4\t3")
+            assert appended.text.contains("sample2\tsample2\tsample5\tsample5\t4")
 
             // Check Locidex Merged Query
             def merged_query = path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv")
@@ -685,15 +888,10 @@ nextflow_pipeline {
 
             assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0")
-            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t0")
-            assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t0")
-            assert processed_output_tsv.text.contains("sample1\tsample1\tsample2\tsample2\t1")
-            assert processed_output_tsv.text.contains("sample1\tsample1\tsample5\tsample5\t0")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t2")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t2")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample5\tsample5\t2")
             assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0")
-            assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1")
-            assert processed_output_tsv.text.contains("sample2\tsample2\tsample3\tsample3\t1")
-            assert processed_output_tsv.text.contains("sample2\tsample2\tsample4\tsample4\t1")
-            assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t1")
 
             // Check Distances
             def distances = path("$launchDir/results/distances/profile_dists.results.tsv")
@@ -701,15 +899,15 @@ nextflow_pipeline {
 
             assert distances.text.contains("query_id\tref_id\tdist")
             assert distances.text.contains("sample1\tsample1\t0")
-            assert distances.text.contains("sample1\tsample3\t0")
-            assert distances.text.contains("sample1\tsample4\t0")
-            assert distances.text.contains("sample1\tsample2\t1")
-            assert distances.text.contains("sample1\tsample5\t0")
+            assert distances.text.contains("sample1\tsample3\t2")
+            assert distances.text.contains("sample1\tsample4\t2")
+            assert distances.text.contains("sample1\tsample2\t4")
+            assert distances.text.contains("sample1\tsample5\t2")
             assert distances.text.contains("sample2\tsample2\t0")
-            assert distances.text.contains("sample2\tsample1\t1")
-            assert distances.text.contains("sample2\tsample3\t1")
-            assert distances.text.contains("sample2\tsample4\t1")
-            assert distances.text.contains("sample2\tsample5\t1")
+            assert distances.text.contains("sample2\tsample1\t4")
+            assert distances.text.contains("sample2\tsample3\t3")
+            assert distances.text.contains("sample2\tsample4\t3")
+            assert distances.text.contains("sample2\tsample5\t4")
         }
     }
 

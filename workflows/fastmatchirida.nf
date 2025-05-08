@@ -192,13 +192,13 @@ workflow FASTMATCH {
         references.combined_error_report.collect(),
         ref_tag,
         references.combined_profiles.collect().flatten().count())
-
+    ch_versions = ch_versions.mix(combined_references.versions)
     // LOCIDEX Concatenate References
     combined_queries = LOCIDEX_CONCAT_QUERY(queries.combined_profiles.collect(),
         queries.combined_error_report.collect(),
         query_tag,
         queries.combined_profiles.collect().flatten().count())
-
+    ch_versions = ch_versions.mix(combined_queries.versions)
 
     // optional files passed in
     mapping_file = prepareFilePath(params.pd_mapping_file)

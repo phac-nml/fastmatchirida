@@ -29,7 +29,7 @@ process LOCIDEX_MERGE {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        locidex merge: \$(echo \$(locidex search -V 2>&1) | sed 's/^.*locidex //' )
+        locidex: \$(echo \$(locidex search -V 2>&1) | sed 's/^.*locidex search//' )
     END_VERSIONS
     """
 }

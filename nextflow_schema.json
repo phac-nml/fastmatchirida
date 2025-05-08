@@ -160,7 +160,8 @@
                 },
                 "pd_skip": {
                     "description": "Skip QA/QC steps",
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": true
                 },
                 "pd_columns": {
                     "type": "string",
