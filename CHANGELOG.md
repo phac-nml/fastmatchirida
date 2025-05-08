@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `software_versions.yml` to `iridanext.output.json.gz` global files. [PR 14](https://github.com/phac-nml/fastmatchirida/pull/14)
 
+### `Changed`
+
+- Change the default `profile_dists` default setting `pd_skip = true`. [PR 16](https://github.com/phac-nml/fastmatchirida/pull/16)
+
 ## [0.2.0] - 2025-04-09
 
 ### `Changed`
