@@ -123,8 +123,8 @@ workflow FASTMATCH {
     // For the MLST files that are not unique, rename them
     pre_input
         .branch { meta, mlst_file, uniqueMLST ->
-        keep: uniqueMLST == true
-        replace: uniqueMLST == false
+            keep: uniqueMLST == true // Keep the unique MLST files as is
+            replace: uniqueMLST == false // Rename the non-unique MLST files to avoid collisions
         }.set {mlst_file_rename}
     renamed_input = copyFile(mlst_file_rename.replace)
     unchanged_input = mlst_file_rename.keep
