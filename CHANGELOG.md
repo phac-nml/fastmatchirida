@@ -5,7 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.1] - 2025-05-dd
 
+### `Fixes`
+
 - Fix Issue [#19](https://github.com/phac-nml/fastmatchirida/issues/19) by providing a new process `copyFile` to rename duplicate MLST files. [PR 18](https://github.com/phac-nml/fastmatchirida/pull/18)
+- Fix Issue [#18](https://github.com/phac-nml/fastmatchirida/issues/18) changing input type for `merge_tsv`. [PR 18](https://github.com/phac-nml/fastmatchirida/pull/18)
 
 ## [0.3.0] - 2025-05-08
 
