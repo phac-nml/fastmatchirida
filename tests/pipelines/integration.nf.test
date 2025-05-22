@@ -1143,8 +1143,8 @@ nextflow_pipeline {
 
             // The merge_tsv file used in renaming the MLST profiles in locidex merge has the right file paths
             def merge_tsv_content = path("$launchDir/results/write/results.csv")
-            assert merge_tsv_content.text.contains("/sampleX_sample2_sample1.mlst.json") // The file path (minus the work directory)
-            assert merge_tsv_content.text.contains("/sampleP_sample4.mlst.json") // The file path (minus the work directory)
+            assert merge_tsv_content.text.split('\n').any { line -> line ==~ /^sampleX_sample2.*\/sampleX_sample2_sample1\.mlst\.json$/} // The file path (minus the work directory)
+            assert merge_tsv_content.text.split('\n').any { line -> line ==~ /^sampleP.*\/sampleP_sample4\.mlst\.json$/}
         }
     }
 }
