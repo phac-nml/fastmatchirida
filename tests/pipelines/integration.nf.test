@@ -1134,12 +1134,12 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
-            // Check that the CopyFile process was called for the correct samples
-            assert path("$launchDir/results/copyfile/sampleX_sample2_sample1.mlst.json").exists()
-            assert !path("$launchDir/results/copyfile/sampleX_sample1.mlst.json").exists()
-            assert !path("$launchDir/results/copyfile/sampleY_sample3.mlst.json").exists()
-            assert !path("$launchDir/results/copyfile/sampleZ_sample4.mlst.json").exists()
-            assert path("$launchDir/results/copyfile/sampleP_sample4.mlst.json").exists()
+            // Check that the COPY_FILE process was called for the correct samples
+            assert path("$launchDir/results/copy/sampleX_sample2_sample1.mlst.json").exists()
+            assert !path("$launchDir/results/copy/sampleX_sample1.mlst.json").exists()
+            assert !path("$launchDir/results/copy/sampleY_sample3.mlst.json").exists()
+            assert !path("$launchDir/results/copy/sampleZ_sample4.mlst.json").exists()
+            assert path("$launchDir/results/copy/sampleP_sample4.mlst.json").exists()
 
             // The merge_tsv file used in renaming the MLST profiles in locidex merge has the right file paths
             def merge_tsv_content = path("$launchDir/results/write/results.csv")

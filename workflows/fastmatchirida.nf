@@ -28,6 +28,7 @@ Workflowfastmatchirida.initialise(params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 include { WRITE_METADATA                         } from '../modules/local/write/main'
+include { COPY_FILE                              } from '../modules/local/copyFile/main'
 include { LOCIDEX_MERGE as LOCIDEX_MERGE_REF     } from '../modules/local/locidex/merge/main'
 include { LOCIDEX_MERGE as LOCIDEX_MERGE_QUERY   } from '../modules/local/locidex/merge/main'
 include { LOCIDEX_CONCAT as LOCIDEX_CONCAT_QUERY } from '../modules/local/locidex/concat/main'
@@ -67,19 +68,6 @@ def prepareFilePath(String filep){
     }
 
     return return_path // empty value if file argument is null
-}
-
-    process copyFile {
-    input:
-    tuple val(meta), path(original_file), val(uniqueMLST)
-
-    output:
-    tuple val(meta), path("${meta.id}_$original_file")
-
-    script:
-    """
-    cp $original_file ${meta.id}_$original_file
-    """
 }
 
 workflow FASTMATCH {
@@ -126,7 +114,7 @@ workflow FASTMATCH {
             keep: uniqueMLST == true // Keep the unique MLST files as is
             replace: uniqueMLST == false // Rename the non-unique MLST files to avoid collisions
         }.set {mlst_file_rename}
-    renamed_input = copyFile(mlst_file_rename.replace)
+    renamed_input = COPY_FILE(mlst_file_rename.replace)
     unchanged_input = mlst_file_rename.keep
         .map { meta, mlst_file, uniqueMLST ->
             tuple(meta, mlst_file) }
