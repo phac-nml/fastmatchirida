@@ -1,4 +1,4 @@
-    process COPY_FILE {
+process COPY_FILE {
     tag 'Copy and Rename file'
     label "process_single"
 
