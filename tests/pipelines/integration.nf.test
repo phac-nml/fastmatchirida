@@ -1117,4 +1117,34 @@ nextflow_pipeline {
             assert error_report_query == error_report
         }
     }
+
+    test("Testing for when there are repeat MLST allele files"){
+        // Previous versions of the pipeline would fail if there were repeat MLST allele files in the samplesheet.
+        tag "repeat-mlst"
+
+        when{
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet-samplename.csv"
+                outdir = "results"
+                batch_size = 1
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+
+            // Check that the CopyFile process was called for the correct samples
+            assert path("$launchDir/results/copyfile/sampleX_sample2_sample1.mlst.json").exists()
+            assert !path("$launchDir/results/copyfile/sampleX_sample1.mlst.json").exists()
+            assert !path("$launchDir/results/copyfile/sampleY_sample3.mlst.json").exists()
+            assert !path("$launchDir/results/copyfile/sampleZ_sample4.mlst.json").exists()
+            assert path("$launchDir/results/copyfile/sampleP_sample4.mlst.json").exists()
+
+            // The merge_tsv file used in renaming the MLST profiles in locidex merge has the right file paths
+            def merge_tsv_content = path("$launchDir/results/write/results.csv")
+            assert merge_tsv_content.text.contains("/sampleX_sample2_sample1.mlst.json") // The file path (minus the work directory)
+            assert merge_tsv_content.text.contains("/sampleP_sample4.mlst.json") // The file path (minus the work directory)
+        }
+    }
 }
