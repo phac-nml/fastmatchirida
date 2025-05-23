@@ -13,7 +13,7 @@ process LOCIDEX_MERGE {
     input:
     tuple val(batch_index), path(input_values) // [file(sample1), file(sample2), file(sample3), etc...]
     val  input_tag    // makes output unique and denotes the item as the reference or query to prevent name collision
-    val  merge_tsv
+    path  merge_tsv
 
     output:
     path("${input_tag}/profile_${batch_index}.tsv"),           emit: combined_profiles
