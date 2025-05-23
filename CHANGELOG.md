@@ -3,16 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2025-05-23
+
+- Added `baseName` to the check for repeat MLST allele files (in case file paths are different). [PR 22](https://github.com/phac-nml/fastmatchirida/pull/22)
+
 ## [0.3.1] - 2025-05-23
 
 ### `Fixes`
 
-- Fix Issue [#19](https://github.com/phac-nml/fastmatchirida/issues/19) by providing a new process `copyFile` to rename duplicate MLST files. [PR 18](https://github.com/phac-nml/fastmatchirida/pull/18)
-- Fix Issue [#18](https://github.com/phac-nml/fastmatchirida/issues/18) changing input type for `merge_tsv`. [PR 18](https://github.com/phac-nml/fastmatchirida/pull/18)
+- Fix Issue [#19](https://github.com/phac-nml/fastmatchirida/issues/19) by providing a new process `copyFile` to rename duplicate MLST files. [PR 20](https://github.com/phac-nml/fastmatchirida/pull/20)
+- Fix Issue [#18](https://github.com/phac-nml/fastmatchirida/issues/18) changing input type for `merge_tsv`. [PR 20](https://github.com/phac-nml/fastmatchirida/pull/20)
 
 ### `Updated`
 
-- Update `profile_dists` to `v.1.0.6`. [PR 18](https://github.com/phac-nml/fastmatchirida/pull/18)
+- Update `profile_dists` to `v.1.0.6`. [PR 20](https://github.com/phac-nml/fastmatchirida/pull/20)
 
 ## [0.3.0] - 2025-05-08
 
