@@ -94,12 +94,12 @@ workflow FASTMATCH {
 
             }
             // Check if the MLST file is unique
-            if (processedMLST.contains(mlst_file)) {
+            if (processedMLST.contains(mlst_file.baseName)) {
                 uniqueMLST = false
             }
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
-            processedMLST << mlst_file
+            processedMLST << mlst_file.baseName
             // If the fastmatch_category is blank make the default "reference"
             if (!ref_query) {
                 meta.ref_query = "reference"
