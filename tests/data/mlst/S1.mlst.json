@@ -1,0 +1,20 @@
+{
+    "db_info": {},
+    "parameters": {
+        "mode": "normal",
+        "min_match_ident": 100,
+        "min_match_cov": 100,
+        "max_ambiguous": 0,
+        "max_internal_stops": 0
+    },
+    "data": {
+        "sample_name": "S1",
+        "profile": {
+            "S1": {
+                "L1": "af03f7aad9b5224c2c96ff24884a37fa",
+                "L8": "82f10b9368d13744b0478d805e729d4a"
+            }
+        },
+        "seq_data": {}
+    }
+}

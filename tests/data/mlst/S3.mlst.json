@@ -1,0 +1,22 @@
+{
+    "db_info": {},
+    "parameters": {
+        "mode": "normal",
+        "min_match_ident": 100,
+        "min_match_cov": 100,
+        "max_ambiguous": 0,
+        "max_internal_stops": 0
+    },
+    "data": {
+        "sample_name": "S3",
+        "profile": {
+            "S3": {
+                "L3": "61248ce8bea047da628a021dd3c8fcdd",
+                "L1": "ca284d2c177bb61d603cb4b63a57c295",
+                "L8": "-",
+                "L9": "5582194c49e89ea8e83a0816846ef363"
+            }
+        },
+        "seq_data": {}
+    }
+}
