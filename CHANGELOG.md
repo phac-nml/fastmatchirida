@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated nf-core linting and some of the nf-core GitHub actions to the latest versions. [PR 25](https://github.com/phac-nml/fastmatchirida/pull/25)
 - Updated nf-core module [custom_dumpsoftwareversions](https://nf-co.re/modules/custom_dumpsoftwareversions/) to latest version (commit `05954dab2ff481bcb999f24455da29a5828af08d`). [PR 25](https://github.com/phac-nml/fastmatchirida/pull/25)
 
+### `Added`
+
+- Added an ubuntu container for the `COPY_FILE` process to ensure bash commands are functional. [PR 26](https://github.com/phac-nml/fastmatchirida/pull/26)
+
 ## [0.3.2] - 2025-05-23
 
 - Added `baseName` to the check for repeat MLST allele files (in case file paths are different). [PR 22](https://github.com/phac-nml/fastmatchirida/pull/22)
