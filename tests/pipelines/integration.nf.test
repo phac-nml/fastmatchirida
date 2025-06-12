@@ -1204,4 +1204,39 @@ nextflow_pipeline {
         }
     }
 
+    test("Test that profile_dist doesn't generate distance for self-comparisons") {
+        tag "self-comparison"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet-selfaddress.csv"
+                outdir = "results"
+
+                pd_distm = "hamming"
+                threshold = 1
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+
+
+            // Check Processed Output
+            def processed_output_tsv = path("$launchDir/results/process/results.tsv")
+            assert processed_output_tsv.exists()
+            def processed_output_xlsx = path("$launchDir/results/process/results.xlsx")
+            assert processed_output_xlsx.exists()
+
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t1")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample2\tsample2\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0") // No self-comparison for sample2 (which occured in profile_dist < 1.0.8)
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample3\tsample3\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t1")
+
+        }
+    }
+
 }
