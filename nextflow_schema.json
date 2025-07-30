@@ -45,7 +45,7 @@
             "description": "The column header names of the metadata columns.",
             "default": "",
             "properties": {
-                "genomic_address_name_header": {
+                "metadata_1_header": {
                     "type": "string",
                     "default": "genomic_address_name",
                     "description": "The header name of metadata column 1.",

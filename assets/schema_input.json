@@ -32,9 +32,9 @@
                 "fa_icon": "far fa-sticky-note",
                 "enum": ["query", "reference"]
             },
-            "genomic_address_name": {
+            "metadata_1": {
                 "type": "string",
-                "meta": ["metadata_1"],
+                "meta": ["genomic_address_name", "metadata_1"],
                 "errorMessage": "Metadata associated with the sample (metadata_1).",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
