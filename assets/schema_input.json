@@ -32,21 +32,21 @@
                 "fa_icon": "far fa-sticky-note",
                 "enum": ["query", "reference"]
             },
-            "metadata_1": {
+            "genomic_address_name": {
                 "type": "string",
                 "meta": ["metadata_1"],
                 "errorMessage": "Metadata associated with the sample (metadata_1).",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_2": {
+            "assembly_length": {
                 "type": "string",
                 "meta": ["metadata_2"],
                 "errorMessage": "Metadata associated with the sample (metadata_2).",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_3": {
+            "n50_value": {
                 "type": "string",
                 "meta": ["metadata_3"],
                 "errorMessage": "Metadata associated with the sample (metadata_3).",

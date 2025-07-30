@@ -47,28 +47,28 @@
             "properties": {
                 "metadata_1_header": {
                     "type": "string",
-                    "default": "metadata_1",
+                    "default": "genomic_address_name",
                     "description": "The header name of metadata column 1.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_2_header": {
                     "type": "string",
-                    "default": "metadata_2",
+                    "default": "assembly_length",
                     "description": "The header name of metadata column 2.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_3_header": {
                     "type": "string",
-                    "default": "metadata_3",
+                    "default": "n50_value",
                     "description": "The header name of metadata column 3.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_4_header": {
                     "type": "string",
-                    "default": "metadata_4",
+                    "default": "seqtkbasecount",
                     "description": "The header name of metadata column 4.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
