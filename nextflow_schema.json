@@ -45,21 +45,21 @@
             "description": "The column header names of the metadata columns.",
             "default": "",
             "properties": {
-                "metadata_1_header": {
+                "genomic_address_name_header": {
                     "type": "string",
                     "default": "genomic_address_name",
                     "description": "The header name of metadata column 1.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
-                "metadata_2_header": {
+                "assembly_length_header": {
                     "type": "string",
                     "default": "assembly_length",
                     "description": "The header name of metadata column 2.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
-                "metadata_3_header": {
+                "n50_value_header": {
                     "type": "string",
                     "default": "n50_value",
                     "description": "The header name of metadata column 3.",
