@@ -34,21 +34,21 @@
             },
             "genomic_address_name": {
                 "type": "string",
-                "meta": ["genomic_address_name"],
+                "meta": ["metadata_1"],
                 "errorMessage": "Metadata associated with the sample (metadata_1).",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
             "assembly_length": {
                 "type": "string",
-                "meta": ["assembly_length"],
+                "meta": ["metadata_2"],
                 "errorMessage": "Metadata associated with the sample (metadata_2).",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
             "n50_value": {
                 "type": "string",
-                "meta": ["n50_value"],
+                "meta": ["metadata_3"],
                 "errorMessage": "Metadata associated with the sample (metadata_3).",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
