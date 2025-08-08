@@ -24,7 +24,7 @@ nextflow_pipeline {
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
 
-            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
             assert appended.text.contains("sample1\tsample1\tsample1\tsample1\t0")
             assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t1")
             assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t1")
@@ -61,7 +61,7 @@ nextflow_pipeline {
             def processed_output_xlsx = path("$launchDir/results/process/results.xlsx")
             assert processed_output_xlsx.exists()
 
-            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8")
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tmetadata_2\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t1")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t1")
