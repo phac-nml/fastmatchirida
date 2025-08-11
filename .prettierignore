@@ -11,3 +11,4 @@ testing*
 *.pyc
 bin/
 /assets/ArborView.html
+modules/nf-core/custom/dumpsoftwareversions/meta.yml

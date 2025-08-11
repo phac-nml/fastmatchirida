@@ -10,10 +10,10 @@ A brief overview of the usage of this pipeline is given below. Further documenta
 
 The input to the pipeline is a standard sample sheet (passed as `--input samplesheet.csv`) that looks like:
 
-| sample  | fastmatch_category | mlst_alleles      | metadata_1 | metadata_2 | metadata_3 | metadata_4 | metadata_5 | metadata_6 | metadata_7 | metadata_8 |
-| ------- | ------------------ | ----------------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| SampleA | query              | sampleA.mlst.json | meta1      | meta2      | meta3      | meta4      | meta5      | meta6      | meta7      | meta8      |
-| SampleB | reference          | sampleB.mlst.json | meta1      | meta2      | meta3      | meta4      | meta5      | meta6      | meta7      | meta8      |
+| sample  | fastmatch_category | mlst_alleles      | metadata_1 | metadata_2 | metadata_3 | metadata_4 | metadata_5 | metadata_6 | metadata_7 | metadata_8 | metadata_9 | metadata_10 | metadata_11 | metadata_12 | metadata_13 | metadata_14 | metadata_15 | metadata_16 |
+| ------- | ------------------ | ----------------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
+| SampleA | query              | sampleA.mlst.json | meta1      | meta2      | meta3      | meta4      | meta5      | meta6      | meta7      | meta8      | meta9      | meta10      | meta11      | meta12      | meta13      | meta14      | meta15      | meta16      |
+| SampleB | reference          | sampleB.mlst.json | meta1      | meta2      | meta3      | meta4      | meta5      | meta6      | meta7      | meta8      | meta9      | meta10      | meta11      | meta12      | meta13      | meta14      | meta15      | meta16      |
 
 Note that each sample must be defined as a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.
 
@@ -35,7 +35,7 @@ The main parameters are `--threshold`, `--input` as defined above and `--output`
 
 ## Metadata
 
-In order to customize metadata headers, the parameters `--metadata_1_header` through `--metadata_8_header` may be specified. These parameters are used to re-name the headers in the final metadata table from the defaults (e.g., rename `metadata_1` to `country`).
+In order to customize metadata headers, the parameters `--metadata_1_header` through `--metadata_16_header` may be specified. These parameters are used to re-name the headers in the final metadata table from the defaults (e.g., rename `metadata_1` to `country`).
 
 ## LOCIDEX
 
