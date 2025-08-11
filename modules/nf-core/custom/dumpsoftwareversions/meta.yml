@@ -1,7 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: custom_dumpsoftwareversions
-description:
-  Custom module used to dump software versions within the nf-core pipeline
+description: Custom module used to dump software versions within the nf-core pipeline
   template
 keywords:
   - custom
@@ -9,8 +8,7 @@ keywords:
   - version
 tools:
   - custom:
-      description:
-        Custom module used to dump software versions within the nf-core pipeline
+      description: Custom module used to dump software versions within the nf-core pipeline
         template
       homepage: https://github.com/nf-core/tools
       documentation: https://github.com/nf-core/tools
