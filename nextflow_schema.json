@@ -47,112 +47,112 @@
             "properties": {
                 "metadata_1_header": {
                     "type": "string",
-                    "default": "metadata_1",
+                    "default": "new_isolates_date",
                     "description": "The header name of metadata column 1.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_2_header": {
                     "type": "string",
-                    "default": "metadata_2",
+                    "default": "predicted_primary_identification_name",
                     "description": "The header name of metadata column 2.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_3_header": {
                     "type": "string",
-                    "default": "metadata_3",
+                    "default": "predicted_primary_type_name",
                     "description": "The header name of metadata column 3.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_4_header": {
                     "type": "string",
-                    "default": "metadata_4",
+                    "default": "genomic_address_name",
                     "description": "The header name of metadata column 4.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_5_header": {
                     "type": "string",
-                    "default": "metadata_5",
+                    "default": "national_outbreak_code",
                     "description": "The header name of metadata column 5.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_6_header": {
                     "type": "string",
-                    "default": "metadata_6",
+                    "default": "national_outbreak_status",
                     "description": "The header name of metadata column 6.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_7_header": {
                     "type": "string",
-                    "default": "metadata_7",
+                    "default": "provisional_outbreak_code",
                     "description": "The header name of metadata column 7.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_8_header": {
                     "type": "string",
-                    "default": "metadata_8",
+                    "default": "related_specimen_primary_id",
                     "description": "The header name of metadata column 8.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_9_header": {
                     "type": "string",
-                    "default": "metadata_9",
+                    "default": "related_specimen_relationship_type",
                     "description": "The header name of metadata column 9.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_10_header": {
                     "type": "string",
-                    "default": "metadata_10",
+                    "default": "calc_source_category",
                     "description": "The header name of metadata column 10.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_11_header": {
                     "type": "string",
-                    "default": "metadata_11",
+                    "default": "geo_loc_name_country",
                     "description": "The header name of metadata column 11.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_12_header": {
                     "type": "string",
-                    "default": "metadata_12",
+                    "default": "geo_loc_name_state_province_territory",
                     "description": "The header name of metadata column 12.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_13_header": {
                     "type": "string",
-                    "default": "metadata_13",
+                    "default": "pnc_analysis_date",
                     "description": "The header name of metadata column 13.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_14_header": {
                     "type": "string",
-                    "default": "metadata_14",
+                    "default": "cnphi_post_date",
                     "description": "The header name of metadata column 14.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_15_header": {
                     "type": "string",
-                    "default": "metadata_15",
+                    "default": "calc_earliest_date",
                     "description": "The header name of metadata column 15.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
                 },
                 "metadata_16_header": {
                     "type": "string",
-                    "default": "metadata_16",
+                    "default": "fastmatch_result",
                     "description": "The header name of metadata column 16.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"

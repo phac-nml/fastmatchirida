@@ -32,115 +32,115 @@
                 "fa_icon": "far fa-sticky-note",
                 "enum": ["query", "reference"]
             },
-            "metadata_1": {
+            "new_isolates_date": {
                 "type": "string",
                 "meta": ["metadata_1"],
-                "errorMessage": "Metadata associated with the sample (metadata_1).",
+                "errorMessage": "new_isolates_date",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_2": {
+            "predicted_primary_identification_name": {
                 "type": "string",
                 "meta": ["metadata_2"],
-                "errorMessage": "Metadata associated with the sample (metadata_2).",
+                "errorMessage": "predicted_primary_identification_name",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_3": {
+            "predicted_primary_type_name": {
                 "type": "string",
                 "meta": ["metadata_3"],
-                "errorMessage": "Metadata associated with the sample (metadata_3).",
+                "errorMessage": "predicted_primary_type_name",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_4": {
+            "genomic_address_name": {
                 "type": "string",
                 "meta": ["metadata_4"],
-                "errorMessage": "Metadata associated with the sample (metadata_4).",
+                "errorMessage": "genomic_address_name",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_5": {
+            "national_outbreak_code": {
                 "type": "string",
                 "meta": ["metadata_5"],
-                "errorMessage": "Metadata associated with the sample (metadata_5).",
+                "errorMessage": "national_outbreak_code",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_6": {
+            "national_outbreak_status": {
                 "type": "string",
                 "meta": ["metadata_6"],
-                "errorMessage": "Metadata associated with the sample (metadata_6).",
+                "errorMessage": "national_outbreak_status",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_7": {
+            "provisional_outbreak_code": {
                 "type": "string",
                 "meta": ["metadata_7"],
-                "errorMessage": "Metadata associated with the sample (metadata_7).",
+                "errorMessage": "provisional_outbreak_code",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_8": {
+            "related_specimen_primary_id": {
                 "type": "string",
                 "meta": ["metadata_8"],
-                "errorMessage": "Metadata associated with the sample (metadata_8).",
+                "errorMessage": "related_specimen_primary_id",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_9": {
+            "related_specimen_relationship_type": {
                 "type": "string",
                 "meta": ["metadata_9"],
-                "errorMessage": "Metadata associated with the sample (metadata_9).",
+                "errorMessage": "related_specimen_relationship_type",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_10": {
+            "calc_source_category": {
                 "type": "string",
                 "meta": ["metadata_10"],
-                "errorMessage": "Metadata associated with the sample (metadata_10).",
+                "errorMessage": "calc_source_category",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_11": {
+            "geo_loc_name_country": {
                 "type": "string",
                 "meta": ["metadata_11"],
-                "errorMessage": "Metadata associated with the sample (metadata_11).",
+                "errorMessage": "geo_loc_name_country",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_12": {
+            "geo_loc_name_state_province_territory": {
                 "type": "string",
                 "meta": ["metadata_12"],
-                "errorMessage": "Metadata associated with the sample (metadata_12).",
+                "errorMessage": "geo_loc_name_state_province_territory",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_13": {
+            "pnc_analysis_date": {
                 "type": "string",
                 "meta": ["metadata_13"],
-                "errorMessage": "Metadata associated with the sample (metadata_13).",
+                "errorMessage": "pnc_analysis_date",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_14": {
+            "cnphi_post_date": {
                 "type": "string",
                 "meta": ["metadata_14"],
-                "errorMessage": "Metadata associated with the sample (metadata_14).",
+                "errorMessage": "cnphi_post_date",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_15": {
+            "calc_earliest_date": {
                 "type": "string",
                 "meta": ["metadata_15"],
-                "errorMessage": "Metadata associated with the sample (metadata_15).",
+                "errorMessage": "calc_earliest_date",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_16": {
+            "fastmatch_result": {
                 "type": "string",
                 "meta": ["metadata_16"],
-                "errorMessage": "Metadata associated with the sample (metadata_16).",
+                "errorMessage": "fastmatch_result",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             }
