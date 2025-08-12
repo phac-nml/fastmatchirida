@@ -1,0 +1,16 @@
+new_isolates_date
+predicted_primary_identification_name
+predicted_primary_type_name
+genomic_address_name
+national_outbreak_code
+national_outbreak_status
+provisional_outbreak_code
+related_specimen_primary_id
+related_specimen_relationship_type
+calc_source_category
+geo_loc_name_country
+geo_loc_name_state_province_territory
+pnc_analysis_date
+cnphi_post_date
+calc_earliest_date
+fastmatch_result
