@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0-pnc0] - 2025-08-13
+
+### Added
+
+- A PNC-customized branch of the FastMatch pipeline with specific metadata fields and parameters tailored to PNC requirements.
+
 ## [0.4.0] - 2025-08-11
 
 ### Changed
@@ -83,3 +89,4 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.3.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.3.2
 [0.3.3]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.3.3
 [0.4.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.0
+[0.4.0-pnc0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.0-pnc0
