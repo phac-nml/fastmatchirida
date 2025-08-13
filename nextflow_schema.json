@@ -169,7 +169,7 @@
                 "threshold": {
                     "type": "number",
                     "description": "Comparison score threshold value",
-                    "default": 50.0,
+                    "default": 35.0,
                     "minimum": 0
                 }
             }
