@@ -14,48 +14,96 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full Standard Samplesheet
 
-The input samplesheet must contain 11 columns: `sample`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_16`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above and `sample_name` (see below) will be ignored.
+The input samplesheet must contain 19 columns:
+
+- `sample`
+- `fastmatch_category`
+- `mlst_alleles`
+- `new_isolates_date`
+- `predicted_primary_identification_name`
+- `predicted_primary_type_name`
+- `genomic_address_name`
+- `national_outbreak_code`
+- `national_outbreak_status`
+- `provisional_outbreak_code`
+- `related_specimen_primary_id`
+- `related_specimen_relationship_type`
+- `calc_source_category`
+- `geo_loc_name_country`
+- `geo_loc_name_state_province_territory`
+- `pnc_analysis_date`
+- `cnphi_post_date`
+- `calc_earliest_date`
+- `fastmatch_result`
+
+The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above and `sample_name` (see below) will be ignored.
 
 A final samplesheet file consisting mlst_alleles and metadata may look like below.
 
 ```csv title="samplesheet.csv"
-sample,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8,metadata_9,metadata_10,metadata_11,metadata_12,metadata_13,metadata_14,metadata_15,metadata_16
-SAMPLE1,query,sample1.mlst.json.gz,Canada,2024,,,,,,,,,,,,,,
-SAMPLE2,reference,sample2.mlst.json.gz,USA,2024,,,,,,,,,,,,,,
-SAMPLE3,reference,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,,,,,,,,,
+sample,fastmatch_category,mlst_alleles,new_isolates_date,predicted_primary_identification_name,predicted_primary_type_name,genomic_address_name,national_outbreak_code,national_outbreak_status,provisional_outbreak_code,related_specimen_primary_id,related_specimen_relationship_type,calc_source_category,geo_loc_name_country,geo_loc_name_state_province_territory,pnc_analysis_date,cnphi_post_date,calc_earliest_date,fastmatch_result
+sample1,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample1.mlst.json,s1m1,s1m2,s1m3,s1m4,s1m5,s1m6,s1m7,s1m8,s1m9,s1m10,s1m11,s1m12,s1m13,s1m14,s1m15,s1m16
+sample2,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample2.mlst.json,s2m1,s2m2,s2m3,s2m4,s2m5,s2m6,s2m7,s2m8,s2m9,s2m10,s2m11,s2m12,s2m13,s2m14,s2m15,s2m16
+sample3,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample3.mlst.json,s3m1,s3m2,s3m3,s3m4,s3m5,s3m6,s3m7,s3m8,s3m9,s3m10,s3m11,s3m12,s3m13,s3m14,s3m15,s3m16
+sample4,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample4.mlst.json,s4m1,s4m2,s4m3,s4m4,s4m5,s4m6,s4m7,s4m8,s4m9,s4m10,s4m11,s4m12,s4m13,s4m14,s4m15,s4m16
+sample5,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample5.mlst.json,s5m1,s5m2,s5m3,s5m4,s5m5,s5m6,s5m7,s5m8,s5m9,s5m10,s5m11,s5m12,s5m13,s5m14,s5m15,s5m16
 ```
 
-| Column                        | Description                                                                                                                                                                                                                                                                                                                      |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`                      | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
-| `fastmatch_category`          | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
-| `mlst_alleles`                | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
-| `metadata_1` to `metadata_16` | Optional metadata values to integrate into the final visualization.                                                                                                                                                                                                                                                              |
+| Column               | Description                                                                                                                                                                                                                                                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample`             | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
+| `fastmatch_category` | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
+| `mlst_alleles`       | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
+| metadata             | Optional metadata values to integrate into the final visualization (see above for column names).                                                                                                                                                                                                                                 |
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
 
 ### Irida Next Optional Sample Name Configuration
 
-`fastmatchirida` accepts the [IRIDA Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns: `sample`, `sample_name`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_16`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
+`fastmatchirida` accepts the [IRIDA Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns:
+
+- `sample`
+- `fastmatch_category`
+- `mlst_alleles`
+- `new_isolates_date`
+- `predicted_primary_identification_name`
+- `predicted_primary_type_name`
+- `genomic_address_name`
+- `national_outbreak_code`
+- `national_outbreak_status`
+- `provisional_outbreak_code`
+- `related_specimen_primary_id`
+- `related_specimen_relationship_type`
+- `calc_source_category`
+- `geo_loc_name_country`
+- `geo_loc_name_state_province_territory`
+- `pnc_analysis_date`
+- `cnphi_post_date`
+- `calc_earliest_date`
+- `fastmatch_result`
+
+The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.
 
 A final samplesheet file may look something like the one below.
 
 ````console
 
 ```csv title="samplesheet.csv"
-sample,sample_name,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8,metadata_9,metadata_10,metadata_11,metadata_12,metadata_13,metadata_14,metadata_15,metadata_16
-SAMPLE1,S1,query,sample1.mlst.json.gz,Canada,2024,,,,,,,,,,,,,,
-SAMPLE2,S2,reference,sample2.mlst.json.gz,USA,2024,,,,,,,,,,,,,,
-SAMPLE3, ,reference,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,,,,,,,,,
+sample,fastmatch_category,mlst_alleles,new_isolates_date,predicted_primary_identification_name,predicted_primary_type_name,genomic_address_name,national_outbreak_code,national_outbreak_status,provisional_outbreak_code,related_specimen_primary_id,related_specimen_relationship_type,calc_source_category,geo_loc_name_country,geo_loc_name_state_province_territory,pnc_analysis_date,cnphi_post_date,calc_earliest_date,fastmatch_result
+sample1,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample1.mlst.json,s1m1,s1m2,s1m3,s1m4,s1m5,s1m6,s1m7,s1m8,s1m9,s1m10,s1m11,s1m12,s1m13,s1m14,s1m15,s1m16
+sample2,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample2.mlst.json,s2m1,s2m2,s2m3,s2m4,s2m5,s2m6,s2m7,s2m8,s2m9,s2m10,s2m11,s2m12,s2m13,s2m14,s2m15,s2m16
+sample3,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample3.mlst.json,s3m1,s3m2,s3m3,s3m4,s3m5,s3m6,s3m7,s3m8,s3m9,s3m10,s3m11,s3m12,s3m13,s3m14,s3m15,s3m16
+sample4,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample4.mlst.json,s4m1,s4m2,s4m3,s4m4,s4m5,s4m6,s4m7,s4m8,s4m9,s4m10,s4m11,s4m12,s4m13,s4m14,s4m15,s4m16
+sample5,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample5.mlst.json,s5m1,s5m2,s5m3,s5m4,s5m5,s5m6,s5m7,s5m8,s5m9,s5m10,s5m11,s5m12,s5m13,s5m14,s5m15,s5m16
 ````
 
-| Column                        | Description                                                                                                                                                                                                                                                                                                                      |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`                      | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
-| `sample_name`                 | Sample name used in outputs (filenames and sample names)                                                                                                                                                                                                                                                                         |
-| `fastmatch_category`          | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
-| `mlst_alleles`                | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
-| `metadata_1` to `metadata_16` | Optional metadata values to integrate into the final visualization.                                                                                                                                                                                                                                                              |
+| Column               | Description                                                                                                                                                                                                                                                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample`             | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
+| `sample_name`        | Sample name used in outputs (filenames and sample names)                                                                                                                                                                                                                                                                         |
+| `fastmatch_category` | Whether the sample is a `query` or `reference`. Samples designated with `query` will have their distance calculated to every sample in the sample sheet (`query` and `reference` samples), whereas `reference`-`reference` sample pairings do not have their distances calculated or reported.                                   |
+| `mlst_alleles`       | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
+| metadata             | Optional metadata values to integrate into the final visualization (see above for column names).                                                                                                                                                                                                                                 |
 
 ## Running the pipeline
 
