@@ -24,7 +24,7 @@ nextflow_pipeline {
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
 
-            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_category\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
+            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_type\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
             assert appended.text.contains("sample1\tsample1\tsample1\tsample1\t0")
             assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t1")
             assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t1")
@@ -61,7 +61,7 @@ nextflow_pipeline {
             def processed_output_xlsx = path("$launchDir/results/process/results.xlsx")
             assert processed_output_xlsx.exists()
 
-            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_category\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_type\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t1")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t1")
@@ -286,7 +286,7 @@ nextflow_pipeline {
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
 
-            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_category\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
+            assert appended.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_type\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
             assert appended.text.contains("sample1\tsample1\tsample1\tsample1\t0\ts1m1\ts1m2\ts1m3\ts1m4\ts1m5\ts1m6\ts1m7\ts1m8\ts1m9\ts1m10\ts1m11\ts1m12\ts1m13\ts1m14\ts1m15\ts1m16")
             assert appended.text.contains("sample1\tsample1\tsample3\tsample3\t1\ts3m1\ts3m2\ts3m3\ts3m4\ts3m5\ts3m6\ts3m7\ts3m8\ts3m9\ts3m10\ts3m11\ts3m12\ts3m13\ts3m14\ts3m15\ts3m16")
             assert appended.text.contains("sample1\tsample1\tsample4\tsample4\t1\ts4m1\ts4m2\ts4m3\ts4m4\ts4m5\ts4m6\ts4m7\ts4m8\ts4m9\ts4m10\ts4m11\ts4m12\ts4m13\ts4m14\ts4m15\ts4m16")
@@ -323,7 +323,7 @@ nextflow_pipeline {
             def processed_output_xlsx = path("$launchDir/results/process/results.xlsx")
             assert processed_output_xlsx.exists()
 
-            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_category\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tnew_isolates_date\tpredicted_primary_identification_name\tpredicted_primary_type_name\tgenomic_address_name\tnational_outbreak_code\tnational_outbreak_status\tprovisional_outbreak_code\trelated_specimen_primary_id\trelated_specimen_relationship_type\tcalc_source_type\tgeo_loc_name_country\tgeo_loc_name_state_province_territory\tpnc_analysis_date\tcnphi_post_date\tcalc_earliest_date\tfastmatch_result")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0\ts1m1\ts1m2\ts1m3\ts1m4\ts1m5\ts1m6\ts1m7\ts1m8\ts1m9\ts1m10\ts1m11\ts1m12\ts1m13\ts1m14\ts1m15\ts1m16")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t1\ts3m1\ts3m2\ts3m3\ts3m4\ts3m5\ts3m6\ts3m7\ts3m8\ts3m9\ts3m10\ts3m11\ts3m12\ts3m13\ts3m14\ts3m15\ts3m16")
             assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t1\ts4m1\ts4m2\ts4m3\ts4m4\ts4m5\ts4m6\ts4m7\ts4m8\ts4m9\ts4m10\ts4m11\ts4m12\ts4m13\ts4m14\ts4m15\ts4m16")

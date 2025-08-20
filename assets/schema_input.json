@@ -95,10 +95,10 @@
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "calc_source_category": {
+            "calc_source_type": {
                 "type": "string",
                 "meta": ["metadata_10"],
-                "errorMessage": "calc_source_category",
+                "errorMessage": "calc_source_type",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },

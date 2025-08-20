@@ -110,7 +110,7 @@
                 },
                 "metadata_10_header": {
                     "type": "string",
-                    "default": "calc_source_category",
+                    "default": "calc_source_type",
                     "description": "The header name of metadata column 10.",
                     "fa_icon": "far fa-sticky-note",
                     "pattern": "^[^\\n\\t\"]+$"
