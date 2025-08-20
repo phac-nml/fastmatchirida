@@ -28,7 +28,7 @@ The input samplesheet must contain 19 columns:
 - `provisional_outbreak_code`
 - `related_specimen_primary_id`
 - `related_specimen_relationship_type`
-- `calc_source_category`
+- `calc_source_type`
 - `geo_loc_name_country`
 - `geo_loc_name_state_province_territory`
 - `pnc_analysis_date`
@@ -41,7 +41,7 @@ The `sample` IDs within a samplesheet should be unique. All other columns outsid
 A final samplesheet file consisting mlst_alleles and metadata may look like below.
 
 ```csv title="samplesheet.csv"
-sample,fastmatch_category,mlst_alleles,new_isolates_date,predicted_primary_identification_name,predicted_primary_type_name,genomic_address_name,national_outbreak_code,national_outbreak_status,provisional_outbreak_code,related_specimen_primary_id,related_specimen_relationship_type,calc_source_category,geo_loc_name_country,geo_loc_name_state_province_territory,pnc_analysis_date,cnphi_post_date,calc_earliest_date,fastmatch_result
+sample,fastmatch_category,mlst_alleles,new_isolates_date,predicted_primary_identification_name,predicted_primary_type_name,genomic_address_name,national_outbreak_code,national_outbreak_status,provisional_outbreak_code,related_specimen_primary_id,related_specimen_relationship_type,calc_source_type,geo_loc_name_country,geo_loc_name_state_province_territory,pnc_analysis_date,cnphi_post_date,calc_earliest_date,fastmatch_result
 sample1,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample1.mlst.json,s1m1,s1m2,s1m3,s1m4,s1m5,s1m6,s1m7,s1m8,s1m9,s1m10,s1m11,s1m12,s1m13,s1m14,s1m15,s1m16
 sample2,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample2.mlst.json,s2m1,s2m2,s2m3,s2m4,s2m5,s2m6,s2m7,s2m8,s2m9,s2m10,s2m11,s2m12,s2m13,s2m14,s2m15,s2m16
 sample3,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample3.mlst.json,s3m1,s3m2,s3m3,s3m4,s3m5,s3m6,s3m7,s3m8,s3m9,s3m10,s3m11,s3m12,s3m13,s3m14,s3m15,s3m16
@@ -74,7 +74,7 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 - `provisional_outbreak_code`
 - `related_specimen_primary_id`
 - `related_specimen_relationship_type`
-- `calc_source_category`
+- `calc_source_type`
 - `geo_loc_name_country`
 - `geo_loc_name_state_province_territory`
 - `pnc_analysis_date`
@@ -89,7 +89,7 @@ A final samplesheet file may look something like the one below.
 ````console
 
 ```csv title="samplesheet.csv"
-sample,fastmatch_category,mlst_alleles,new_isolates_date,predicted_primary_identification_name,predicted_primary_type_name,genomic_address_name,national_outbreak_code,national_outbreak_status,provisional_outbreak_code,related_specimen_primary_id,related_specimen_relationship_type,calc_source_category,geo_loc_name_country,geo_loc_name_state_province_territory,pnc_analysis_date,cnphi_post_date,calc_earliest_date,fastmatch_result
+sample,fastmatch_category,mlst_alleles,new_isolates_date,predicted_primary_identification_name,predicted_primary_type_name,genomic_address_name,national_outbreak_code,national_outbreak_status,provisional_outbreak_code,related_specimen_primary_id,related_specimen_relationship_type,calc_source_type,geo_loc_name_country,geo_loc_name_state_province_territory,pnc_analysis_date,cnphi_post_date,calc_earliest_date,fastmatch_result
 sample1,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample1.mlst.json,s1m1,s1m2,s1m3,s1m4,s1m5,s1m6,s1m7,s1m8,s1m9,s1m10,s1m11,s1m12,s1m13,s1m14,s1m15,s1m16
 sample2,query,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample2.mlst.json,s2m1,s2m2,s2m3,s2m4,s2m5,s2m6,s2m7,s2m8,s2m9,s2m10,s2m11,s2m12,s2m13,s2m14,s2m15,s2m16
 sample3,reference,https://raw.githubusercontent.com/phac-nml/fastmatchirida/dev/tests/data/mlst/sample3.mlst.json,s3m1,s3m2,s3m3,s3m4,s3m5,s3m6,s3m7,s3m8,s3m9,s3m10,s3m11,s3m12,s3m13,s3m14,s3m15,s3m16

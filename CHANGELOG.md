@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0-pnc1] - 2025-08-20
+
+### Changed
+
+- Changed `calc_source_category` to `calc_source_type`. [PR 32](github.com/phac-nml/fastmatchirida/pull/32)
+
 ## [0.4.0-pnc0] - 2025-08-13
 
 ### Added
