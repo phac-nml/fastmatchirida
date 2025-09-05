@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgraded `locidex` to [v.0.4.0](https://github.com/phac-nml/locidex/releases/tag/v0.4.0). [PR 33](https://github.com/phac-nml/fastmatchirida/pull/33)
 
+### `Added`
+
+- Added a process level `nf-test` for `LOCIDEX_MERGE` to confirm backward compatibility between MLST JSON files with and without a `"manfiest"` key. [PR 33](https://github.com/phac-nml/fastmatchirida/pull/33)
+
 ## [0.4.0] - 2025-08-11
 
 ### `Changed`
