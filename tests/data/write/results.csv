@@ -1,0 +1,5 @@
+sample,mlst_alleles
+sampleQ,/phac-nml/gasnomenclature/dev/tests/data/reports/sampleQ.mlst.json
+sample1,/phac-nml/gasnomenclature/dev/tests/data/reports/sample1_manifest.mlst.json
+sample2,/phac-nml/gasnomenclature/dev/tests/data/reports/sample2.mlst.json
+sample3,/phac-nml/gasnomenclature/dev/tests/data/reports/sample3.mlst.json
