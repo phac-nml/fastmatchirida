@@ -3,9 +3,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2025-09-03
+
+### `Updated`
+
+- Upgraded `locidex` to [v.0.4.0](https://github.com/phac-nml/locidex/releases/tag/v0.4.0). [PR 33](https://github.com/phac-nml/fastmatchirida/pull/33)
+
+### `Added`
+
+- Added a process level `nf-test` for `LOCIDEX_MERGE` to confirm backward compatibility between MLST JSON files with and without a `"manfiest"` key. [PR 33](https://github.com/phac-nml/fastmatchirida/pull/33)
+
 ## [0.4.0] - 2025-08-11
 
-### Changed
+### `Changed`
 
 - The number of metadata columns in the sample sheet has been increased from 8 to 16. [PR 28](https://github.com/phac-nml/fastmatchirida/pull/28)
 
@@ -83,3 +93,4 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.3.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.3.2
 [0.3.3]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.3.3
 [0.4.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.0
+[0.4.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.1
