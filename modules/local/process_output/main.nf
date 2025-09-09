@@ -28,7 +28,7 @@ process PROCESS_OUTPUT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        process_outout : 0.1.0
+        process_output : 0.1.0
     END_VERSIONS
     """
 }
