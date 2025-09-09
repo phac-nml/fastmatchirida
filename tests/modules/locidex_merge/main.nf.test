@@ -1,0 +1,31 @@
+nextflow_process {
+    name "Test Process LOCIDEX_MERGE"
+    script "modules/local/locidex/merge/main.nf"
+    process "LOCIDEX_MERGE"
+
+    test("Test when LOCIDEX_MERGE handles MLST files with/without manifest") {
+        tag "LOCIDEX_MEGRE_multiple_files"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    [3, ["$baseDir/tests/data/reports/sampleQ.mlst.json","$baseDir/tests/data/reports/sample1_manifest.mlst.json", "$baseDir/tests/data/reports/sample2.mlst.json", "$baseDir/tests/data/reports/sample3.mlst.json"]])
+                input[1] = Channel.of("ref")
+                input[2] = Channel.of("$baseDir/tests/data/write/results.csv")
+                """
+            }
+
+            params {
+                outdir = "process_results"
+            }
+        }
+
+        then {
+            assert process.success
+            // Check the merged profiles files
+            def expected_profile = path("$baseDir/tests/data/profiles/expected-profile1.tsv")
+            def actual_profile = path("$launchDir/process_results/locidex/ref/profile_3.tsv")
+            assert actual_profile.text == expected_profile.text
+        }
+    }
+}
