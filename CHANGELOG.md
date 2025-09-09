@@ -27,7 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - A PNC-customized branch of the FastMatch pipeline with specific metadata fields and parameters tailored to PNC requirements. [PR 30](github.com/phac-nml/fastmatchirida/pull/30)
 
-
 ## [0.4.0] - 2025-08-11
 
 ### `Changed`
