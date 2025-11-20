@@ -41,4 +41,179 @@ nextflow_process {
 
         }
     }
+
+    test("Test using alphanumeric ids") {
+        tag "PROFILE_DISTS_num_alphanumeric"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_alphanumeric_ids.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_alphanumeric_ids-ref.tsv"])
+                input[2] = Channel.of("matrix")
+                input[3] = []
+                input[4] = []
+                """
+            }
+
+            params {
+                outdir = "results"
+                pd_count_missing = true
+            }
+        }
+
+        then {
+            assert process.success
+
+            def getFirstColumn = { file ->
+                path(file).readLines()[1..-1].collect { it.split('\t')[0] }.sort()
+            }
+
+            def inputCol = getFirstColumn("$baseDir/tests/data/profiles/input-profile-data_alphanumeric_ids.tsv")
+            def outputCol = getFirstColumn(process.out.results[0])
+
+            assert inputCol == outputCol
+        }
+    }
+
+    test("Test using integer ids") {
+        tag "PROFILE_DISTS_integer_id"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_integer_ids.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_integer_ids-ref.tsv"])
+                input[2] = Channel.of("matrix")
+                input[3] = []
+                input[4] = []
+                """
+            }
+
+            params {
+                outdir = "results"
+                pd_count_missing = true
+            }
+        }
+
+        then {
+            assert process.success
+
+            def getFirstColumn = { file ->
+                path(file).readLines()[1..-1].collect { it.split('\t')[0] }.sort()
+            }
+
+            def inputCol = getFirstColumn("$baseDir/tests/data/profiles/input-profile-data_integer_ids.tsv")
+            def outputCol = getFirstColumn(process.out.results[0])
+
+            assert inputCol == outputCol
+        }
+    }
+
+    test("Test using mixed ids and missing loci") {
+        tag "PROFILE_DISTS_mixed_id_missing_loci"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_mixed_ids_missing_loci.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_mixed_ids_missing_loci-ref.tsv"])
+                input[2] = Channel.of("matrix")
+                input[3] = []
+                input[4] = []
+                """
+            }
+
+            params {
+                outdir = "results"
+                pd_count_missing = true
+            }
+        }
+
+        then {
+            assert process.success
+
+            def getFirstColumn = { file ->
+                path(file).readLines()[1..-1].collect { it.split('\t')[0] }.sort()
+            }
+
+            def inputCol = getFirstColumn("$baseDir/tests/data/profiles/input-profile-data_mixed_ids_missing_loci.tsv")
+            def outputCol = getFirstColumn(process.out.results[0])
+
+            assert inputCol == outputCol
+        }
+    }
+
+    test("Test using numeric ids and string loci") {
+        tag "PROFILE_DISTS_numeric_id_string_loci"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_numeric_ids_string_loci.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_numeric_ids_string_loci-ref.tsv"])
+                input[2] = Channel.of("matrix")
+                input[3] = []
+                input[4] = []
+                """
+            }
+
+            params {
+                outdir = "results"
+                pd_count_missing = true
+            }
+        }
+
+        then {
+            assert process.success
+
+            def getFirstColumn = { file ->
+                path(file).readLines()[1..-1].collect { it.split('\t')[0] }.sort()
+            }
+
+            def inputCol = getFirstColumn("$baseDir/tests/data/profiles/input-profile-data_numeric_ids_string_loci.tsv")
+            def outputCol = getFirstColumn(process.out.results[0])
+
+            assert inputCol == outputCol
+        }
+    }
+
+    test("Test using numeric ids") {
+        tag "PROFILE_DISTS_numeric_id"
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_numeric_ids.tsv"])
+                input[1] = Channel.of(
+                    ["$baseDir/tests/data/profiles/input-profile-data_numeric_ids-ref.tsv"])
+                input[2] = Channel.of("matrix")
+                input[3] = []
+                input[4] = []
+                """
+            }
+
+            params {
+                outdir = "results"
+                pd_count_missing = true
+            }
+        }
+
+        then {
+            assert process.success
+
+            def getFirstColumn = { file ->
+                path(file).readLines()[1..-1].collect { it.split('\t')[0] }.sort()
+            }
+
+            def inputCol = getFirstColumn("$baseDir/tests/data/profiles/input-profile-data_numeric_ids.tsv")
+            def outputCol = getFirstColumn(process.out.results[0])
+
+            assert inputCol == outputCol
+        }
+    }
 }
