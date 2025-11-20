@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adding GitHub CI tests against Nextflow `24.10.3`. [PR #40](https://github.com/phac-nml/fastmatchirida/pull/40)
 - Version of `profile_dists` to `1.0.10`. [PR #41](https://github.com/phac-nml/fastmatchirida/pull/41)
 
-## [0.4.1] - 2025-09-03
+## [0.4.1] - 2025-09-12
 
 ### `Updated`
 
