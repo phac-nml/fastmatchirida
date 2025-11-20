@@ -3,11 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2-pnc] - 2025-11-20
+
+- Merged `dev 0.4.2` into `pnc-release`. [PR 43](https://github.com/phac-nml/fastmatchirida/pull/43)
+
+## [0.4.2] - 2025-11-20
+
+### `Changed`
+
+- Adding GitHub CI tests against Nextflow `24.10.3`. [PR #40](https://github.com/phac-nml/fastmatchirida/pull/40)
+- Version of `profile_dists` to `1.0.10`. [PR #41](https://github.com/phac-nml/fastmatchirida/pull/41)
+
 ## [0.4.1-pnc] - 2025-09-09
 
 - Merged `dev 0.4.1` into `pnc-release`. [PR 39](https://github.com/phac-nml/fastmatchirida/pull/39)
 
-## [0.4.1] - 2025-09-03
+## [0.4.1] - 2025-09-12
 
 ### `Updated`
 
@@ -113,3 +124,5 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.4.0-pnc1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.0-pnc1
 [0.4.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.1
 [0.4.1-pnc]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.1-pnc
+[0.4.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.2
+[0.4.2-pnc]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.2-pnc
