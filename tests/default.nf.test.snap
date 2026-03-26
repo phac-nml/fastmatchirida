@@ -1,0 +1,88 @@
+{
+    "-profile test": {
+        "content": [
+            {
+                "CUSTOM_DUMPSOFTWAREVERSIONS": {
+                    "python": "3.13.1",
+                    "yaml": "6.0.2"
+                },
+                "LOCIDEX_CONCAT_QUERY": {
+                    "csvtk": "0.30.0"
+                },
+                "LOCIDEX_CONCAT_REF": {
+                    "csvtk": "0.30.0"
+                },
+                "LOCIDEX_MERGE_QUERY": {
+                    "locidex": "0.4.0"
+                },
+                "LOCIDEX_MERGE_REF": {
+                    "locidex": "0.4.0"
+                },
+                "PROCESS_OUTPUT": {
+                    "process_output": "0.1.0"
+                },
+                "PROFILE_DISTS": {
+                    "profile_dists": "1.0.10"
+                },
+                "Workflow": {
+                    "phac-nml/fastmatchirida": "0.4.2"
+                }
+            },
+            [
+                "append",
+                "append/distances_and_metadata.tsv",
+                "distances",
+                "distances/profile_dists.allele_map.json",
+                "distances/profile_dists.query_profile.tsv",
+                "distances/profile_dists.ref_profile.tsv",
+                "distances/profile_dists.results.tsv",
+                "distances/profile_dists.run.json",
+                "iridanext.output.json",
+                "locidex",
+                "locidex/concat",
+                "locidex/concat/query",
+                "locidex/concat/query/MLST_error_report_concat_query.csv",
+                "locidex/concat/query/profile_concat_query.tsv",
+                "locidex/concat/reference",
+                "locidex/concat/reference/MLST_error_report_concat_ref.csv",
+                "locidex/concat/reference/profile_concat_ref.tsv",
+                "locidex/merge",
+                "locidex/merge/query",
+                "locidex/merge/query/MLST_error_report_1.csv",
+                "locidex/merge/query/profile_1.tsv",
+                "locidex/merge/ref",
+                "locidex/merge/ref/MLST_error_report_1.csv",
+                "locidex/merge/ref/profile_1.tsv",
+                "pipeline_info",
+                "pipeline_info/software_versions.yml",
+                "process",
+                "process/results.tsv",
+                "process/results.xlsx",
+                "write",
+                "write/results.csv"
+            ],
+            [
+                "distances_and_metadata.tsv:md5,e3c65463cab632a9e1b2a75c8718847a",
+                "profile_dists.allele_map.json:md5,da762f146b83da3232d6535d9332905c",
+                "profile_dists.query_profile.tsv:md5,a50a17facefed930d5d894d1175d31a5",
+                "profile_dists.ref_profile.tsv:md5,0e36755dc241bc2645a1c53ab7fcac1e",
+                "profile_dists.results.tsv:md5,7cda7b82fe74d9246451a3973c79d88e",
+                "MLST_error_report_concat_query.csv:md5,f6689b46a8f71e85ee04acc80800ad84",
+                "profile_concat_query.tsv:md5,a50a17facefed930d5d894d1175d31a5",
+                "MLST_error_report_concat_ref.csv:md5,f6689b46a8f71e85ee04acc80800ad84",
+                "profile_concat_ref.tsv:md5,0e36755dc241bc2645a1c53ab7fcac1e",
+                "MLST_error_report_1.csv:md5,f6689b46a8f71e85ee04acc80800ad84",
+                "profile_1.tsv:md5,a50a17facefed930d5d894d1175d31a5",
+                "MLST_error_report_1.csv:md5,f6689b46a8f71e85ee04acc80800ad84",
+                "profile_1.tsv:md5,0e36755dc241bc2645a1c53ab7fcac1e",
+                "results.tsv:md5,e3c65463cab632a9e1b2a75c8718847a",
+                "results.csv:md5,7ea90cfb97fb6e104db37c21fbed1c67"
+            ]
+        ],
+        "timestamp": "2026-03-26T15:06:13.255202652",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    }
+}
