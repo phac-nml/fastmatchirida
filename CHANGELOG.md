@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Set nextflow version 25.10.4 to replace 'latest-everything' to confirm compatibility with next IRIDA-Next nextflow version in `.github/workflows` for nf-test. [PR 44](https://github.com/phac-nml/fastmatchirida/pull/44)
 - Updated tests and GitHub Actions/Workflows to the latest versions from the nf-core template. [PR 46](https://github.com/phac-nml/fastmatchirida/pull/46)
+- Updated the minimum Nextflow version to `24.10.3`. [PR 46](https://github.com/phac-nml/fastmatchirida/pull/46)
 
 ### `Fixed`
 
