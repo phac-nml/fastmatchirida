@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Set nextflow version 25.10.4 to replace 'latest-everything' to confirm compatibility with next IRIDA-Next nextflow version in `.github/workflows` for nf-test. [PR 44](https://github.com/phac-nml/fastmatchirida/pull/44)
 
+### `Fixed`
+
+- Fixed `containerOptions` string so the required options are only passed when using the `docker` profile (and not for `singularity`). [PR #45](https://github.com/phac-nml/fastmatchirida/pull/45)
+
 ## [0.4.2] - 2025-11-20
 
 ### `Changed`
