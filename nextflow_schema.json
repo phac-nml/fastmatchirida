@@ -39,11 +39,12 @@
                 },
                 "output_prefix": {
                     "type": "string",
-                    "description": "Adds a prefix to output files.",
+                    "description": "Specifies a prefix for the fastmatch results file names.",
                     "pattern": "^[a-zA-Z0-9_.-]+$"
                 },
                 "prefix_include_date": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "description": "Whether or not to add a date and time prefix to the fastmatch results files."
                 }
             }
         },
