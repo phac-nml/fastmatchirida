@@ -7,8 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `--output_prefix`: a parameter for prepending a prefix to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
-- `--prefix_include_date`: a parameter for prending a date and time prefix in the UTC time zone to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
+- `--output_prefix`: a parameter for adding a prefix to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
+- `--prefix_include_date`: a parameter for adding a date and time prefix in the UTC time zone to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
 
 ### `Updated`
 
