@@ -70,6 +70,13 @@ def prepareFilePath(String filep){
     return return_path // empty value if file argument is null
 }
 
+def findScheduledPipelineColumn(List headers, String columnName) {
+    def idx = headers.indexOf(columnName)
+    if (idx == -1) error "'${columnName}' column not found in input"
+    log.info "Found '${columnName}' at metadata_${idx}, replacing ref_query with metadata_${idx} values"
+    return idx
+}
+
 workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
@@ -146,23 +153,22 @@ workflow FASTMATCH {
     // Scheduled Pipeline Parameter:
     // If true, determine reference or query status based on 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'
     // Additionally, if the fastmatch_category is blank make the default "query", and value of "Completed" will be considered "reference"
-    if (params.query_selection_method == "fastmatch_status") {
-        // Use map to find the index, then combine with input and branch
+    scheduled_pipeline_column = "fastmatch_status"
+
+    if (params.query_selection_method == scheduled_pipeline_column) {
+
         metadata_headers
-            .map { headers ->
-                def idx = headers.indexOf("fastmatch_status")
-                if (idx == -1) error "'fastmatch_status' column not found in input"
-                log.info "Found 'fastmatch_status' at metadata_${idx}, replacing ref_query with metadata_${idx} values"
-                return idx
-            }
-            .combine(input)
+            .map { headers -> findScheduledPipelineColumn(headers, scheduled_pipeline_column) }
+            .combine(input) // Combine the index (idx) with the input channel (meta, mlst_file) to use for branching
             .branch { idx, meta, mlst_file ->
                 reference: meta["metadata_${idx}"] == "Completed"
                 query:     meta["metadata_${idx}"] == ""
             }
             .set { merged_alleles_raw }
-            merged_alleles_raw.reference.map { idx, meta, mlst_file -> [meta, mlst_file] }.set { merged_alleles_reference_raw }
-            merged_alleles_raw.query.map     { idx, meta, mlst_file -> [meta, mlst_file] }.set { merged_alleles_query_raw }
+
+            def stripIdx = { idx, meta, mlst_file -> [meta, mlst_file] }
+            merged_alleles_raw.reference.map(stripIdx).set { merged_alleles_reference_raw }
+            merged_alleles_raw.query.map(stripIdx).set     { merged_alleles_query_raw }
 
             // Prepare reference and query MLST files for LOCIDEX_MERGE
             merged_alleles_query = merged_alleles_query_raw.map{

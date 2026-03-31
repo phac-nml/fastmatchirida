@@ -1418,4 +1418,26 @@ nextflow_pipeline {
             assert distances.text.contains("sample2\tsample5\t3")
         }
     }
+
+    test("Fail scheduled pipelines if fastmatch_status not a renamed metadata field") {
+        tag "scheduled_pipelines"
+        tag "scheduled_pipelines_fail"
+        // This test uses the samplesheet with a column fastmatch_category that matches the column used by fastmatch_status so outputs should be identical as "Basic test of pipeline with fastmatch_status"
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet-query_selection_method.csv"
+                outdir = "results"
+
+                pd_distm = "hamming"
+                threshold = 1
+                query_selection_method = "fastmatch_status" // Without renaming a column from metadata_n there will be no fastmatch_status column to detect
+            }
+        }
+
+        then {
+            assert workflow.failed
+            assert workflow.stdout.contains("'fastmatch_status' column not found in input")
+
+        }
+    }
 }
