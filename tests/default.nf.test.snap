@@ -56,8 +56,9 @@
                 "pipeline_info",
                 "pipeline_info/software_versions.yml",
                 "process",
-                "process/results.tsv",
-                "process/results.xlsx",
+                "process/fastmatch.tsv",
+                "process/fastmatch.xlsx",
+                "process/versions.yml",
                 "write",
                 "write/results.csv"
             ],
@@ -75,14 +76,14 @@
                 "profile_1.tsv:md5,a50a17facefed930d5d894d1175d31a5",
                 "MLST_error_report_1.csv:md5,f6689b46a8f71e85ee04acc80800ad84",
                 "profile_1.tsv:md5,0e36755dc241bc2645a1c53ab7fcac1e",
-                "results.tsv:md5,e3c65463cab632a9e1b2a75c8718847a",
+                "versions.yml:md5,76504de2c239300b7e292f76eb427517",
                 "results.csv:md5,7ea90cfb97fb6e104db37c21fbed1c67"
             ]
         ],
-        "timestamp": "2026-03-26T15:06:13.255202652",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "25.10.4"
-        }
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2026-03-31T10:35:52.027213345"
     }
 }

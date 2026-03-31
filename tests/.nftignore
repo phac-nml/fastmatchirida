@@ -12,4 +12,5 @@ fastqc/*_fastqc.{html,zip}
 pipeline_info/*.{html,json,txt,yml}
 distances/profile_dists.run.json
 iridanext.output.json
-process/results.xlsx
+process/fastmatch.xlsx
+process/fastmatch.tsv
