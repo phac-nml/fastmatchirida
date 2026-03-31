@@ -94,8 +94,13 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 <summary>Output files</summary>
 
 - `process/`
-  - Pairwise distance results meeting specifications in TSV-format: `results.tsv`
-  - Pairwise distance results meeting specifications in XLSX-format: `results.xlsx`
+  - Pairwise distance results meeting specifications in TSV-format (file path may have a prefix added): `fastmatch.tsv`
+  - Pairwise distance results meeting specifications in XLSX-format (file path may have a prefix added): `fastmatch.xlsx`
+
+The following parameters may be used (independently or together) to modify the prefix of the above file paths:
+
+- `--output_prefix`: Prepends the specified prefix to the TSV and XLSX-format files above. For example, `--output_prefix PREFIX_` will result in the following file paths: `PREFIX_fastmatch.tsv` and `PREFIX_fastmatch.xlsx`.
+- `--prefix_include_date`: Prepends the date and time in the UTC time zone. For example, `2026-03-31T13:32Z_fastmatch.tsv` and `2026-03-31T13:32Z_fastmatch.xlsx`.
 
 </details>
 
