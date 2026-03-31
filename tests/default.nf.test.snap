@@ -75,7 +75,7 @@
                 "profile_1.tsv:md5,a50a17facefed930d5d894d1175d31a5",
                 "MLST_error_report_1.csv:md5,f6689b46a8f71e85ee04acc80800ad84",
                 "profile_1.tsv:md5,0e36755dc241bc2645a1c53ab7fcac1e",
-                "fastmatch.tsv:md5,e3c65463cab632a9e1b2a75c8718847a",
+                "results.tsv:md5,d5023e871184404851ac61e848e9aa6b",
                 "results.csv:md5,7ea90cfb97fb6e104db37c21fbed1c67"
             ]
         ],
@@ -83,6 +83,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.6"
         },
-        "timestamp": "2026-04-02T11:27:14.953810434"
+        "timestamp": "2026-03-30T15:42:48.659359092"
     }
 }
