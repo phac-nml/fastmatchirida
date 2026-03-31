@@ -34,6 +34,38 @@ SAMPLE3,reference,sample3.mlst.subtyping.json.gz,Canada,2021,,,,,,,,,,,,,,
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
 
+### Scheduled Pipeline Samplesheet
+
+When the parameter `query_selection_method` is set to `fastmatch_status` an alternative column is used for selecting the query/reference samples.
+
+The input samplesheet must still contain up to 11 columns: `sample`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_16`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above and `sample_name` (see below) will be ignored. `fastmatch_category` will also be ignored in this scenario.
+
+One of the `metadata_n` columns MUST contain the values: `Completed` (for `reference` samples) or be empty (for `query` samples), and be renamed by to `fastmatch_status`.
+
+e.g.,
+
+```bash
+nextflow run main.nf --outdir results --query_selection_method "fastmatch_status" --metadata_2_header "fastmatch_status" --input tests/data/samplesheets/samplesheet-query_selection_method.csv
+```
+
+The scheduled pipeline samplesheet file below, would be equivalent to the above **Full Standard Samplesheet** when run with the above command
+
+```csv title="samplesheet.csv"
+sample,fastmatch_category,mlst_alleles,metadata_1,metadata_2,metadata_3,metadata_4,metadata_5,metadata_6,metadata_7,metadata_8,metadata_9,metadata_10,metadata_11,metadata_12,metadata_13,metadata_14,metadata_15,metadata_16
+SAMPLE1,,sample1.mlst.json.gz,Canada,2024,,,,,,,,,,,,,,
+SAMPLE2,,sample2.mlst.json.gz,USA,2024,,"Completed",,,,,,,,,,,,
+SAMPLE3,,sample3.mlst.subtyping.json.gz,Canada,2021,,"Completed",,,,,,,,,,,,
+```
+
+| Column                        | Description                                                                                                                                                                                                                                                                                                                      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample`                      | Custom sample name. Samples should be unique within a samplesheet.                                                                                                                                                                                                                                                               |
+| `fastmatch_category`          | Ignored when `--query_selection_method "fastmatch_status"`                                                                                                                                                                                                                                                                       |
+| `mlst_alleles`                | Full path to an MLST JSON file describing the loci/alleles for the sample against some MLST scheme. A way to generate this file is via [locidex](https://github.com/phac-nml/locidex). File can optionally be gzipped and must have the extension ".mlst.json", ".mlst.subtyping.json" (or with an additional ".gz" if gzipped). |
+| `metadata_1` to `metadata_16` | At least one metadata column needs to be indicated as the `fastmatch_status` `--metadata_n_header "fastmatch_status"`                                                                                                                                                                                                            |
+
+An [example samplesheet](../tests/data/samplesheets/samplesheet-query_selection_method.csv) for scheduled pipeline.
+
 ### Irida Next Optional Sample Name Configuration
 
 `fastmatchirida` accepts the [IRIDA Next](https://github.com/phac-nml/irida-next) format for samplesheets which contain the following columns: `sample`, `sample_name`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_16`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above will be ignored.

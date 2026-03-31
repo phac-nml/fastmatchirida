@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed `containerOptions` string so the required options are only passed when using the `docker` profile (and not for `singularity`). [PR #45](https://github.com/phac-nml/fastmatchirida/pull/45)
 
+### `Added`
+
+- Added a parameter `query_selection_method` which takes either "user_provided" or "fastmatch_status" to determine which behavior for selecting the reference/query samples. "user_provided", the default behaves as before, with `fastmatch_category` being the column in the samplesheet for selecting reference/query based on "reference","query" or empty. "fastmatch_status", is to be used in the scheduled pipelines of IRIDA-Next, where it looks for a metadata_n column renamed to "fastmatch_status". Samples with values "Completed" are set as referene and empty values are set as query, and samples with other values are dropped. [PR #47](https://github.com/phac-nml/fastmatchirida/pull/47)
+
 ## [0.4.2] - 2025-11-20
 
 ### `Changed`

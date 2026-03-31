@@ -80,6 +80,8 @@ The following can be used to adjust parameters for the [profile_dists][] tool.
 
 Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schema.json).
 
+See [Scheduled Pipeline Samplesheet](docs/usage.md#scheduled-pipeline-samplesheet) for running with `--query_selection_method "fastmatch_status"`.
+
 # Running
 
 To run the pipeline, please do:
