@@ -104,10 +104,10 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
                 "path": "pipeline_info/software_versions.yml"
             },
             {
-                "path": "process/results.xlsx"
+                "path": "process/fastmatch.xlsx"
             },
             {
-                "path": "process/results.tsv"
+                "path": "process/fastmatch.tsv"
             },
             {
                 "path": "distances/profile_dists.run.json"
