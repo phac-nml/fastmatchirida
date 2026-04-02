@@ -1302,9 +1302,9 @@ nextflow_pipeline {
             assert merged_reference.text.contains("sample2\t1\t2\t1\t1\t1\n")
 
             // Check Processed Output
-            def processed_output_tsv = path("$launchDir/results/process/*fastmatch.tsv")
+            def processed_output_tsv = path("$launchDir/results/process/fastmatch.tsv")
             assert processed_output_tsv.exists()
-            def processed_output_xlsx = path("$launchDir/results/process/*fastmatch.xlsx")
+            def processed_output_xlsx = path("$launchDir/results/process/fastmatch.xlsx")
             assert processed_output_xlsx.exists()
 
             assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tfastmatch_status\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
@@ -1388,9 +1388,9 @@ nextflow_pipeline {
             assert merged_reference.text.contains("sample2\t1\t2\t1\t1\t1\n")
 
             // Check Processed Output
-            def processed_output_tsv = path("$launchDir/results/process/*fastmatch.tsv")
+            def processed_output_tsv = path("$launchDir/results/process/fastmatch.tsv")
             assert processed_output_tsv.exists()
-            def processed_output_xlsx = path("$launchDir/results/process/*fastmatch.xlsx")
+            def processed_output_xlsx = path("$launchDir/results/process/fastmatch.xlsx")
             assert processed_output_xlsx.exists()
 
             assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tmetadata_1\tfastmatch_status\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
