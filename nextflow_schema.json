@@ -180,6 +180,12 @@
                     "description": "Comparison score threshold value",
                     "default": 50.0,
                     "minimum": 0
+                },
+                "query_selection_method": {
+                    "type": "string",
+                    "description": "Scheduled Pipeline Parameter: Query samples are determined by 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'",
+                    "default": "user_provided",
+                    "enum": ["user_provided", "fastmatch_status"]
                 }
             }
         },
