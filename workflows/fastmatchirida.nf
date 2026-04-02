@@ -70,6 +70,13 @@ def prepareFilePath(String filep){
     return return_path // empty value if file argument is null
 }
 
+def findScheduledPipelineColumn(List headers, String columnName) {
+    def idx = headers.indexOf(columnName)
+    if (idx == -1) error "'${columnName}' column not found in input"
+    log.info "Found '${columnName}' at metadata_${idx}, replacing ref_query with metadata_${idx} values"
+    return idx
+}
+
 workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
@@ -100,6 +107,7 @@ workflow FASTMATCH {
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
             processedMLST << mlst_file.baseName
+
             // If the fastmatch_category is blank make the default "reference"
             if (!ref_query) {
                 meta.ref_query = "reference"
@@ -142,21 +150,46 @@ workflow FASTMATCH {
         meta.metadata_13, meta.metadata_14, meta.metadata_15, meta.metadata_16)
     }.toList()
 
+    // Scheduled Pipeline Parameter:
+    // If true, determine reference or query status based on 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'
+    // Additionally, if the fastmatch_category is blank make the default "query", and value of "Completed" will be considered "reference"
+    scheduled_pipeline_column = "fastmatch_status"
 
-    // Seperate the input into two channels based on the referemce or query samples
-    input
-    .branch { meta, mlst_file ->
-        reference: meta.ref_query == "reference"
-        query: meta.ref_query == "query"
-        }.set {merged_alleles}
+    if (params.query_selection_method == scheduled_pipeline_column) {
 
+        metadata_headers
+            .map { headers -> findScheduledPipelineColumn(headers, scheduled_pipeline_column) }
+            .combine(input) // Combine the index (idx) with the input channel (meta, mlst_file) to use for branching
+            .branch { idx, meta, mlst_file ->
+                reference: meta["metadata_${idx}"] == "Completed"
+                query:     meta["metadata_${idx}"] == ""
+            }
+            .set { merged_alleles_raw }
+
+            def stripIdx = { idx, meta, mlst_file -> [meta, mlst_file] }
+            merged_alleles_raw.reference.map(stripIdx).set { merged_alleles_reference_raw }
+            merged_alleles_raw.query.map(stripIdx).set     { merged_alleles_query_raw }
+
+
+    } else {
+        // Default behaviour:Seperate the input into two channels based on the referemce or query samples
+        log.info "Using 'fastmatch_category' to determine reference or query status, as per default behaviour"
+        input
+        .branch { meta, mlst_file ->
+            reference: meta.ref_query == "reference"
+            query: meta.ref_query == "query"
+            }.set {merged_alleles}
+
+        merged_alleles.reference.set { merged_alleles_reference_raw }
+        merged_alleles.query.set     { merged_alleles_query_raw }
+    }
     // Prepare reference and query MLST files for LOCIDEX_MERGE
-    merged_alleles_query = merged_alleles.query.map{
+    merged_alleles_query = merged_alleles_query_raw.map{
         meta, mlst_files -> mlst_files
     }.collect()
 
-    merged_alleles_reference = merged_alleles.reference.
-    concat(merged_alleles.query).map{   // Reference will contain both query and reference
+    merged_alleles_reference = merged_alleles_reference_raw.
+    concat(merged_alleles_query_raw).map{   // Reference will contain both query and reference
         meta, mlst_files -> mlst_files
     }.collect()
 
