@@ -170,15 +170,6 @@ workflow FASTMATCH {
             merged_alleles_raw.reference.map(stripIdx).set { merged_alleles_reference_raw }
             merged_alleles_raw.query.map(stripIdx).set     { merged_alleles_query_raw }
 
-            // Prepare reference and query MLST files for LOCIDEX_MERGE
-            merged_alleles_query = merged_alleles_query_raw.map{
-                meta, mlst_files -> mlst_files
-            }.collect()
-
-            merged_alleles_reference = merged_alleles_reference_raw.
-            concat(merged_alleles_query_raw).map{   // Reference will contain both query and reference
-                meta, mlst_files -> mlst_files
-            }.collect()
 
     } else {
         // Default behaviour:Seperate the input into two channels based on the referemce or query samples
@@ -189,16 +180,18 @@ workflow FASTMATCH {
             query: meta.ref_query == "query"
             }.set {merged_alleles}
 
-        // Prepare reference and query MLST files for LOCIDEX_MERGE
-        merged_alleles_query = merged_alleles.query.map{
-            meta, mlst_files -> mlst_files
-        }.collect()
-
-        merged_alleles_reference = merged_alleles.reference.
-        concat(merged_alleles.query).map{   // Reference will contain both query and reference
-            meta, mlst_files -> mlst_files
-        }.collect()
+        merged_alleles.reference.set { merged_alleles_reference_raw }
+        merged_alleles.query.set     { merged_alleles_query_raw }
     }
+    // Prepare reference and query MLST files for LOCIDEX_MERGE
+    merged_alleles_query = merged_alleles_query_raw.map{
+        meta, mlst_files -> mlst_files
+    }.collect()
+
+    merged_alleles_reference = merged_alleles_reference_raw.
+    concat(merged_alleles_query_raw).map{   // Reference will contain both query and reference
+        meta, mlst_files -> mlst_files
+    }.collect()
 
     // LOCIDEX BLOCK
     // Two Steps: 1) Merge and 2) Concatenate
