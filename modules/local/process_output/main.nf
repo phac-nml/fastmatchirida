@@ -19,6 +19,7 @@ process PROCESS_OUTPUT {
 
     script:
     def args = task.ext.args ?: ''
+
     """
     process_output.py \\
         $args \\
