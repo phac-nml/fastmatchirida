@@ -37,6 +37,12 @@
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
                     "hidden": true
                 },
+                "output_type": {
+                    "type": "string",
+                    "description": "Specifies the whether the pipeline is being run within IRIDA Next or as a scheduled pipeline.",
+                    "enum": ["iridanext", "scheduled"],
+                    "default": "iridanext"
+                },
                 "output_prefix": {
                     "type": "string",
                     "description": "Specifies a prefix for the fastmatch results file names.",
