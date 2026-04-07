@@ -128,19 +128,19 @@ workflow FASTMATCH {
             tuple(meta, mlst_file) }
     input = unchanged_input.mix(renamed_input)
 
+    metadata_headers_list = [
+        SAMPLE_HEADER,
+        params.metadata_1_header, params.metadata_2_header,
+        params.metadata_3_header, params.metadata_4_header,
+        params.metadata_5_header, params.metadata_6_header,
+        params.metadata_7_header, params.metadata_8_header,
+        params.metadata_9_header, params.metadata_10_header,
+        params.metadata_11_header, params.metadata_12_header,
+        params.metadata_13_header, params.metadata_14_header,
+        params.metadata_15_header, params.metadata_16_header]
+
     // Metadata formatting
-    metadata_headers = Channel.of(
-        tuple(
-            SAMPLE_HEADER,
-            params.metadata_1_header, params.metadata_2_header,
-            params.metadata_3_header, params.metadata_4_header,
-            params.metadata_5_header, params.metadata_6_header,
-            params.metadata_7_header, params.metadata_8_header,
-            params.metadata_9_header, params.metadata_10_header,
-            params.metadata_11_header, params.metadata_12_header,
-            params.metadata_13_header, params.metadata_14_header,
-            params.metadata_15_header, params.metadata_16_header)
-        )
+    metadata_headers = Channel.of(metadata_headers_list)
 
     metadata_rows = input.map{
         meta, mlst_files -> tuple(meta.id, meta.irida_id,
@@ -149,6 +149,20 @@ workflow FASTMATCH {
         meta.metadata_9, meta.metadata_10, meta.metadata_11, meta.metadata_12,
         meta.metadata_13, meta.metadata_14, meta.metadata_15, meta.metadata_16)
     }.toList()
+
+    // Do we have the correct metadata for a scheduled pipelines run?
+    if (params.output_type == "scheduled") {
+        genomic_address_name_count = metadata_headers_list.count("genomic_address_name")
+        national_outbreak_code_count = metadata_headers_list.count("national_outbreak_code")
+
+        if (genomic_address_name_count != 1) {
+            exit 1, "The workflow was run in scheduled pipelines mode without providing the correct number of 'genomic_address_name' metadata columns. Expected 1 but found ${genomic_address_name_count}."
+        }
+
+        if (national_outbreak_code_count != 1) {
+            exit 1, "The workflow was run in scheduled pipelines mode without providing the correct number of 'national_outbreak_code' metadata columns. Expected 1 but found ${national_outbreak_code_count}."
+        }
+    }
 
     // Scheduled Pipeline Parameter:
     // If true, determine reference or query status based on 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'
@@ -281,6 +295,7 @@ workflow FASTMATCH {
                     + " Please either set '--threshold' or adjust the threshold values.")
         }
     }
+
     // Options related to profile dists
     mapping_format = Channel.value("pairwise")
 
