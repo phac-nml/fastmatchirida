@@ -72,21 +72,28 @@ def process_scheduled_pipelines_data(data, date_string):
     # Insert date:
     data.insert(len(data.columns), Metadata.DATE.value, date_string)
 
-    info = {}
+    summaries = {}
 
     for index, row in data.iterrows():
         query_id = row[Metadata.QUERY_ID.value]
 
-        if query_id not in info:
-            info[query_id] = Summary(query_id)
+        if query_id not in summaries:
+            summaries[query_id] = Summary(query_id)
 
-        info[query_id].add_row(row)
+        summaries[query_id].add_row(row)
 
-    for query_id in info:
-        summary = info[query_id]
+    summaries_data = []
+
+    for query_id in summaries:
+        summary = summaries[query_id]
         print(summary.query_id)
         print(summary.genomic_address_names)
         print(summary.national_outbreak_codes)
+
+        summaries_data.append((summary.query_id, summary.genomic_address_names, summary.national_outbreak_codes))
+
+    df = pd.DataFrame.from_records(summaries_data, columns=[Metadata.QUERY_ID.value, Metadata.GENOMIC_ADDRESS_NAME.value, Metadata.NATIONAL_OUTBREAK_CODE.value])
+    print(df)
 
     return data
 
