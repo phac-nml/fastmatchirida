@@ -11,6 +11,7 @@ import pandas as pd
 
 class Metadata(Enum):
     # Input
+    QUERY_ID = "Query ID"
     GENOMIC_ADDRESS_NAME = "genomic_address_name"
     NATIONAL_OUTBREAK_CODE = "national_outbreak_code"
 
@@ -24,6 +25,28 @@ class Metadata(Enum):
     TOP_GENOMIC_ADDRESS = "fastmatch_top_genomic_address"
     RESULTS_FILENAME = "fastmatch_results_filename"
 
+class Summary():
+
+    def __init__(self, query_id):
+        self.query_id = query_id
+        self.genomic_address_names = []
+        self.national_outbreak_codes = []
+
+    def add_genomic_address_name(self, genomic_address_name):
+        if genomic_address_name not in self.genomic_address_names:
+            self.genomic_address_names.append(genomic_address_name)
+
+    def add_national_outbreak_code(self, national_outbreak_code):
+        if national_outbreak_code not in self.national_outbreak_codes:
+            self.national_outbreak_codes.append(national_outbreak_code)
+
+    def add_row(self, row):
+        genomic_address_name = row[Metadata.GENOMIC_ADDRESS_NAME.value]
+        national_outbreak_code = row[Metadata.NATIONAL_OUTBREAK_CODE.value]
+
+        self.add_genomic_address_name(genomic_address_name)
+        self.add_national_outbreak_code(national_outbreak_code)
+
 def get_open(f):
     if "gzip" == guess_type(str(f))[1]:
         return partial(gzip.open)
@@ -33,6 +56,9 @@ def get_open(f):
 def process_scheduled_pipelines_data(data, date_string):
     # Check that the necessary metadata exists:
     headers = data.columns.values
+
+    if not Metadata.QUERY_ID.value in headers:
+        raise Exception(str(Metadata.QUERY_ID.value) + " is missing from the input data.")
 
     if not Metadata.GENOMIC_ADDRESS_NAME.value in headers:
         raise Exception(str(Metadata.GENOMIC_ADDRESS_NAME.value) + " is missing from the input data.")
@@ -45,6 +71,22 @@ def process_scheduled_pipelines_data(data, date_string):
 
     # Insert date:
     data.insert(len(data.columns), Metadata.DATE.value, date_string)
+
+    info = {}
+
+    for index, row in data.iterrows():
+        query_id = row[Metadata.QUERY_ID.value]
+
+        if query_id not in info:
+            info[query_id] = Summary(query_id)
+
+        info[query_id].add_row(row)
+
+    for query_id in info:
+        summary = info[query_id]
+        print(summary.query_id)
+        print(summary.genomic_address_names)
+        print(summary.national_outbreak_codes)
 
     return data
 
