@@ -25,6 +25,9 @@ class Metadata(Enum):
     TOP_GENOMIC_ADDRESS = "fastmatch_top_genomic_address"
     RESULTS_FILENAME = "fastmatch_results_filename"
 
+    # Values:
+    COMPLETED = "Completed"
+
 class Summary():
 
     def __init__(self, query_id):
@@ -34,11 +37,11 @@ class Summary():
 
     def add_genomic_address_name(self, genomic_address_name):
         if genomic_address_name not in self.genomic_address_names:
-            self.genomic_address_names.append(genomic_address_name)
+            self.genomic_address_names.append(str(genomic_address_name))
 
     def add_national_outbreak_code(self, national_outbreak_code):
         if national_outbreak_code not in self.national_outbreak_codes:
-            self.national_outbreak_codes.append(national_outbreak_code)
+            self.national_outbreak_codes.append(str(national_outbreak_code))
 
     def add_row(self, row):
         genomic_address_name = row[Metadata.GENOMIC_ADDRESS_NAME.value]
@@ -47,13 +50,19 @@ class Summary():
         self.add_genomic_address_name(genomic_address_name)
         self.add_national_outbreak_code(national_outbreak_code)
 
+    def get_genomic_address_names(self):
+        return ",".join(self.genomic_address_names)
+
+    def get_national_outbreak_codes(self):
+        return ",".join(self.national_outbreak_codes)
+
 def get_open(f):
     if "gzip" == guess_type(str(f))[1]:
         return partial(gzip.open)
     else:
         return open
 
-def process_scheduled_pipelines_data(data, date_string):
+def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
     # Check that the necessary metadata exists:
     headers = data.columns.values
 
@@ -69,9 +78,6 @@ def process_scheduled_pipelines_data(data, date_string):
     if not date_string:
         raise Exception("A date string was not provided.")
 
-    # Insert date:
-    data.insert(len(data.columns), Metadata.DATE.value, date_string)
-
     summaries = {}
 
     for index, row in data.iterrows():
@@ -86,16 +92,30 @@ def process_scheduled_pipelines_data(data, date_string):
 
     for query_id in summaries:
         summary = summaries[query_id]
-        print(summary.query_id)
-        print(summary.genomic_address_names)
-        print(summary.national_outbreak_codes)
+        summaries_data.append((summary.query_id,
+                               summary.get_genomic_address_names(),
+                               summary.get_national_outbreak_codes()))
 
-        summaries_data.append((summary.query_id, summary.genomic_address_names, summary.national_outbreak_codes))
+    df = pd.DataFrame.from_records(summaries_data,
+                                   columns=[Metadata.QUERY_ID.value,
+                                            Metadata.TOP_GENOMIC_ADDRESS.value,
+                                            Metadata.CODE_MATCH.value])
 
-    df = pd.DataFrame.from_records(summaries_data, columns=[Metadata.QUERY_ID.value, Metadata.GENOMIC_ADDRESS_NAME.value, Metadata.NATIONAL_OUTBREAK_CODE.value])
+    # Insert date:
+    df.insert(len(df.columns), Metadata.DATE.value, date_string)
+
+    # Insert status:
+    df.insert(len(df.columns), Metadata.STATUS.value, Metadata.COMPLETED.value)
+
+    # Insert threshold:
+    df.insert(len(df.columns), Metadata.THRESHOLD.value, threshold)
+
+    # Insert results file location:
+    df.insert(len(df.columns), Metadata.RESULTS_FILENAME.value, excel_path)
+
     print(df)
 
-    return data
+    return df
 
 def main(argv=None):
 
@@ -162,7 +182,7 @@ def main(argv=None):
     data = data[data['Distance'] <= threshold]
 
     if args.scheduled:
-        data = process_scheduled_pipelines_data(data, date_string)
+        data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path)
 
     data.to_csv(tsv_path, sep="\t", index=False)
     data.to_excel(excel_path, index=False)
