@@ -35,6 +35,13 @@ class Metadata(Enum):
 
 class Summary():
 
+    class Sample():
+
+        def __init__(self, reference_id, distance, genomic_address_name):
+            self.reference_id = reference_id
+            self.distance = distance
+            self.genomic_address_name = genomic_address_name
+
     def __init__(self, query_id):
         self.query_id = query_id
         self.genomic_address_names = []
@@ -42,17 +49,12 @@ class Summary():
         self.closest_samples = []
         self.matched_samples = 0
 
-    def add_genomic_address_name(self, genomic_address_name):
-        if genomic_address_name not in self.genomic_address_names:
-            self.genomic_address_names.append(str(genomic_address_name))
-
     def add_national_outbreak_code(self, national_outbreak_code):
         if national_outbreak_code not in self.national_outbreak_codes:
             self.national_outbreak_codes.append(str(national_outbreak_code))
 
-    def maintain_closest_samples(self, reference_id, distance):
-        sample = (reference_id, distance)
-        bisect.insort(self.closest_samples, sample, key=lambda sample: sample[1])
+    def maintain_closest_samples(self, sample):
+        bisect.insort(self.closest_samples, sample, key=lambda sample: sample.distance)
         self.closest_samples = self.closest_samples[:NUM_CLOSEST_SAMPLES]
 
     def add_row(self, row):
@@ -63,19 +65,21 @@ class Summary():
 
         self.matched_samples += 1
 
-        self.add_genomic_address_name(genomic_address_name)
         self.add_national_outbreak_code(national_outbreak_code)
-        self.maintain_closest_samples(reference_id, distance)
+
+        sample = self.Sample(reference_id, distance, genomic_address_name)
+        self.maintain_closest_samples(sample)
 
     def get_genomic_address_names(self):
-        return ",".join(self.genomic_address_names)
+        closest_addresses = [sample.genomic_address_name for sample in self.closest_samples]
+        return ",".join(closest_addresses)
 
     def get_national_outbreak_codes(self):
         return ",".join(self.national_outbreak_codes)
 
     def get_closest_samples(self):
-        closest = [str(x[0]) for x in self.closest_samples]
-        return ",".join(closest)
+        closest_samples = [sample.reference_id for sample in self.closest_samples]
+        return ",".join(closest_samples)
 
 def get_open(f):
     if "gzip" == guess_type(str(f))[1]:
@@ -119,28 +123,43 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
                                summary.get_genomic_address_names(),
                                summary.get_national_outbreak_codes()))
 
-    df = pd.DataFrame.from_records(summaries_data,
-                                   columns=[Metadata.QUERY_ID.value,
-                                            Metadata.TOP_SAMPLES.value,
-                                            Metadata.MATCHED_SAMPLES_COUNT.value,
-                                            Metadata.TOP_GENOMIC_ADDRESS.value,
-                                            Metadata.CODE_MATCH.value])
+    processed_data = pd.DataFrame.from_records(summaries_data,
+                                               columns=[Metadata.QUERY_ID.value,
+                                                        Metadata.TOP_SAMPLES.value,
+                                                        Metadata.MATCHED_SAMPLES_COUNT.value,
+                                                        Metadata.TOP_GENOMIC_ADDRESS.value,
+                                                        Metadata.CODE_MATCH.value])
 
     # Insert date:
-    df.insert(len(df.columns), Metadata.DATE.value, date_string)
+    processed_data.insert(len(processed_data.columns),
+                          Metadata.DATE.value, date_string)
 
     # Insert status:
-    df.insert(len(df.columns), Metadata.STATUS.value, Metadata.COMPLETED.value)
+    processed_data.insert(len(processed_data.columns),
+                          Metadata.STATUS.value, Metadata.COMPLETED.value)
 
     # Insert threshold:
-    df.insert(len(df.columns), Metadata.THRESHOLD.value, threshold)
+    processed_data.insert(len(processed_data.columns),
+                          Metadata.THRESHOLD.value, threshold)
 
     # Insert results file location:
-    df.insert(len(df.columns), Metadata.RESULTS_FILENAME.value, excel_path)
+    processed_data.insert(len(processed_data.columns),
+                          Metadata.RESULTS_FILENAME.value, excel_path)
 
-    print(df)
+    columns = [Metadata.QUERY_ID.value,
+               Metadata.STATUS.value,
+               Metadata.TOP_SAMPLES.value,
+               Metadata.MATCHED_SAMPLES_COUNT.value,
+               Metadata.THRESHOLD.value,
+               Metadata.DATE.value,
+               Metadata.CODE_MATCH.value,
+               Metadata.TOP_GENOMIC_ADDRESS.value,
+               Metadata.RESULTS_FILENAME.value]
 
-    return df
+    processed_data = processed_data.reindex(columns=columns)
+
+    print(processed_data)
+    return processed_data
 
 def main(argv=None):
 
