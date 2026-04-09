@@ -40,6 +40,7 @@ class Summary():
         self.genomic_address_names = []
         self.national_outbreak_codes = []
         self.closest_samples = []
+        self.matched_samples = 0
 
     def add_genomic_address_name(self, genomic_address_name):
         if genomic_address_name not in self.genomic_address_names:
@@ -59,6 +60,8 @@ class Summary():
         national_outbreak_code = row[Metadata.NATIONAL_OUTBREAK_CODE.value]
         reference_id = row[Metadata.REFERENCE_ID.value]
         distance = row[Metadata.DISTANCE.value]
+
+        self.matched_samples += 1
 
         self.add_genomic_address_name(genomic_address_name)
         self.add_national_outbreak_code(national_outbreak_code)
@@ -112,12 +115,14 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
         summary = summaries[query_id]
         summaries_data.append((summary.query_id,
                                summary.get_closest_samples(),
+                               summary.matched_samples,
                                summary.get_genomic_address_names(),
                                summary.get_national_outbreak_codes()))
 
     df = pd.DataFrame.from_records(summaries_data,
                                    columns=[Metadata.QUERY_ID.value,
                                             Metadata.TOP_SAMPLES.value,
+                                            Metadata.MATCHED_SAMPLES_COUNT.value,
                                             Metadata.TOP_GENOMIC_ADDRESS.value,
                                             Metadata.CODE_MATCH.value])
 
