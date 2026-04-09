@@ -8,12 +8,17 @@ import gzip
 import sys
 import argparse
 import pandas as pd
+import bisect
+
+NUM_CLOSEST_SAMPLES = 5
 
 class Metadata(Enum):
     # Input
     QUERY_ID = "Query ID"
+    REFERENCE_ID = "Reference ID"
     GENOMIC_ADDRESS_NAME = "genomic_address_name"
     NATIONAL_OUTBREAK_CODE = "national_outbreak_code"
+    DISTANCE = "Distance"
 
     # Output
     STATUS = "fastmatch_status"
@@ -34,6 +39,7 @@ class Summary():
         self.query_id = query_id
         self.genomic_address_names = []
         self.national_outbreak_codes = []
+        self.closest_samples = []
 
     def add_genomic_address_name(self, genomic_address_name):
         if genomic_address_name not in self.genomic_address_names:
@@ -43,18 +49,30 @@ class Summary():
         if national_outbreak_code not in self.national_outbreak_codes:
             self.national_outbreak_codes.append(str(national_outbreak_code))
 
+    def maintain_closest_samples(self, reference_id, distance):
+        sample = (reference_id, distance)
+        bisect.insort(self.closest_samples, sample, key=lambda sample: sample[1])
+        self.closest_samples = self.closest_samples[:NUM_CLOSEST_SAMPLES]
+
     def add_row(self, row):
         genomic_address_name = row[Metadata.GENOMIC_ADDRESS_NAME.value]
         national_outbreak_code = row[Metadata.NATIONAL_OUTBREAK_CODE.value]
+        reference_id = row[Metadata.REFERENCE_ID.value]
+        distance = row[Metadata.DISTANCE.value]
 
         self.add_genomic_address_name(genomic_address_name)
         self.add_national_outbreak_code(national_outbreak_code)
+        self.maintain_closest_samples(reference_id, distance)
 
     def get_genomic_address_names(self):
         return ",".join(self.genomic_address_names)
 
     def get_national_outbreak_codes(self):
         return ",".join(self.national_outbreak_codes)
+
+    def get_closest_samples(self):
+        closest = [str(x[0]) for x in self.closest_samples]
+        return ",".join(closest)
 
 def get_open(f):
     if "gzip" == guess_type(str(f))[1]:
@@ -93,11 +111,13 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
     for query_id in summaries:
         summary = summaries[query_id]
         summaries_data.append((summary.query_id,
+                               summary.get_closest_samples(),
                                summary.get_genomic_address_names(),
                                summary.get_national_outbreak_codes()))
 
     df = pd.DataFrame.from_records(summaries_data,
                                    columns=[Metadata.QUERY_ID.value,
+                                            Metadata.TOP_SAMPLES.value,
                                             Metadata.TOP_GENOMIC_ADDRESS.value,
                                             Metadata.CODE_MATCH.value])
 
