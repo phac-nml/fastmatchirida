@@ -46,7 +46,6 @@ class Metadata(Enum):
 class Summary():
 
     class Sample():
-
         def __init__(self, reference_id, distance, genomic_address_name):
             self.reference_id = reference_id
             self.distance = distance
@@ -187,7 +186,7 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser(
         description="Parses a profile_dists distances to create query-reference-format output for the FastMatch pipeline.",
-        epilog="Example: python process_output.py --input distances.tsv --output results.tsv --threshold 10",
+        epilog="Example: python process_output.py --input distances.tsv --output results --threshold 10",
     )
 
     parser.add_argument(
@@ -215,7 +214,7 @@ def main(argv=None):
         action="store",
         dest="output",
         type=str,
-        help="output prefix (without extension)",
+        help="The output path name (without extension). For example: 'results' -> 'results.tsv', 'results.xlsx'.",
         default=None,
         required=True,
     )
@@ -236,19 +235,32 @@ def main(argv=None):
         default=None
     )
 
+    parser.add_argument(
+        "--prefix_string",
+        action="store",
+        dest="prefix_string",
+        type=str,
+        help="A prefix that will later be prepended by Nextflow to the output files. This prefix is NOT added to the file path in this program, but rather informs the eventual file path name reported by scheduled pipelines output.",
+        default=None
+    )
+
     args = parser.parse_args(argv)
 
     input = Path(args.input)
-    tsv_path = Path(args.output + ".tsv")
-    excel_path = Path(args.output + ".xlsx")
     threshold = args.threshold
+    prefix_string = args.prefix_string
     date_string = args.date_string
+    output_string = args.output
+
+    tsv_path = Path(output_string + ".tsv")
+    excel_path = Path(output_string + ".xlsx")
 
     data = pd.read_csv(input, sep="\t")
     data = data[data['Distance'] <= threshold]
 
     if args.scheduled:
-        data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path)
+        scheduled_excel_path = prefix_string + date_string + "_" + output_string + ".xlsx"
+        data = process_scheduled_pipelines_data(data, date_string, threshold, scheduled_excel_path)
 
     data.to_csv(tsv_path, sep="\t", index=False)
     data.to_excel(excel_path, index=False)
