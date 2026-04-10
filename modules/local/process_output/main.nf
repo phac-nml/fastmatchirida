@@ -8,6 +8,7 @@ process PROCESS_OUTPUT {
     input:
     path distances
     val threshold
+    val top_samples_threshold
 
     output:
     path "fastmatch.tsv", emit: tsv
@@ -25,7 +26,8 @@ process PROCESS_OUTPUT {
         $args \\
         --input $distances \\
         --output fastmatch \\
-        --threshold $threshold
+        --threshold $threshold \\
+        --top_samples_threshold $top_samples_threshold
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

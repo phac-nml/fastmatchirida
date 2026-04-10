@@ -10,7 +10,7 @@ import argparse
 import pandas as pd
 import bisect
 
-NUM_CLOSEST_SAMPLES = 5
+DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
 class Metadata(Enum):
     # Input
@@ -51,8 +51,10 @@ class Summary():
             self.distance = distance
             self.genomic_address_name = genomic_address_name
 
-    def __init__(self, query_id):
+    def __init__(self, query_id, top_samples_threshold):
         self.query_id = query_id
+        self.top_samples_threshold = top_samples_threshold
+
         self.genomic_address_names = []
         self.national_outbreak_codes = []
         self.closest_samples = []
@@ -64,7 +66,7 @@ class Summary():
 
     def maintain_closest_samples(self, sample):
         bisect.insort(self.closest_samples, sample, key=lambda sample: sample.distance)
-        self.closest_samples = self.closest_samples[:NUM_CLOSEST_SAMPLES]
+        self.closest_samples = self.closest_samples[:self.top_samples_threshold]
 
     def process_row(self, row):
         genomic_address_name = getattr(row, Metadata.GENOMIC_ADDRESS_NAME.value)
@@ -106,7 +108,7 @@ def rename_columns(data):
 
     return renamed
 
-def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
+def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold):
     # Check that the necessary metadata exists:
     headers = data.columns.values
 
@@ -122,6 +124,9 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
     if not date_string:
         raise Exception("A date string was not provided.")
 
+    if top_samples_threshold < 0:
+        raise Exception("The number of closest samples to maintain must be a non-negative integer.")
+
     summaries = {}
 
     # Rename columns to remove spaces for upcoming .itertuples() call:
@@ -131,7 +136,7 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
         query_id = getattr(row, Metadata.QUERY_ID_RENAME.value)
 
         if query_id not in summaries:
-            summaries[query_id] = Summary(query_id)
+            summaries[query_id] = Summary(query_id, top_samples_threshold)
 
         summaries[query_id].process_row(row)
 
@@ -244,6 +249,15 @@ def main(argv=None):
         default=None
     )
 
+    parser.add_argument(
+        "--top_samples_threshold",
+        action="store",
+        dest="top_samples_threshold",
+        type=int,
+        help="When running with the scheduled pipelines option enabled, this controls the number of closest samples to each query that are maintained and reported.",
+        default=DEFAULT_NUM_CLOSEST_SAMPLES
+    )
+
     args = parser.parse_args(argv)
 
     input = Path(args.input)
@@ -251,6 +265,7 @@ def main(argv=None):
     prefix_string = args.prefix_string
     date_string = args.date_string
     output_string = args.output
+    top_samples_threshold = args.top_samples_threshold
 
     tsv_path = Path(output_string + ".tsv")
     excel_path = Path(output_string + ".xlsx")
@@ -260,7 +275,7 @@ def main(argv=None):
 
     if args.scheduled:
         scheduled_excel_path = prefix_string + date_string + "_" + output_string + ".xlsx"
-        data = process_scheduled_pipelines_data(data, date_string, threshold, scheduled_excel_path)
+        data = process_scheduled_pipelines_data(data, date_string, threshold, scheduled_excel_path, top_samples_threshold)
 
     data.to_csv(tsv_path, sep="\t", index=False)
     data.to_excel(excel_path, index=False)

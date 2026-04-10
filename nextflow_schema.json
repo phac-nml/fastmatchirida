@@ -187,6 +187,12 @@
                     "default": 50.0,
                     "minimum": 0
                 },
+                "fastmatch_top_samples_threshold": {
+                    "type": "integer",
+                    "description": "When running with the scheduled pipelines option enabled, this controls the number of closest samples to each query that are maintained and reported.",
+                    "default": 5,
+                    "minimum": 0
+                },
                 "query_selection_method": {
                     "type": "string",
                     "description": "Scheduled Pipeline Parameter: Query samples are determined by 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'",
