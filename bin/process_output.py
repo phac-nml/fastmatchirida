@@ -237,7 +237,7 @@ def main(argv=None):
         dest="date_string",
         type=str,
         help="The date to report for each sample. Only used and required when running in scheduled pipelines mode.",
-        default=None
+        default=""
     )
 
     parser.add_argument(
@@ -246,7 +246,7 @@ def main(argv=None):
         dest="prefix_string",
         type=str,
         help="A prefix that will later be prepended by Nextflow to the output files. This prefix is NOT added to the file path in this program, but rather informs the eventual file path name reported by scheduled pipelines output.",
-        default=None
+        default=""
     )
 
     parser.add_argument(
@@ -274,7 +274,7 @@ def main(argv=None):
     data = data[data['Distance'] <= threshold]
 
     if args.scheduled:
-        scheduled_excel_path = prefix_string + date_string + "_" + output_string + ".xlsx"
+        scheduled_excel_path = prefix_string + output_string + ".xlsx"
         data = process_scheduled_pipelines_data(data, date_string, threshold, scheduled_excel_path, top_samples_threshold)
 
     data.to_csv(tsv_path, sep="\t", index=False)
