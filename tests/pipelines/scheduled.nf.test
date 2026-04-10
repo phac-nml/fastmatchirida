@@ -51,6 +51,39 @@ nextflow_pipeline {
 
             def sample2_regex = /sample2\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z\t1,2,3\t1.1.1.1,1.1.1.2,2.3.4.5\tfastmatch.xlsx/
             assert lines[2].matches(sample2_regex)
+
+            // Check JSON Output
+            def iridanext_json = path("$launchDir/results/iridanext.output.json").json
+            def iridanext_global = iridanext_json.files.global
+            def iridanext_samples = iridanext_json.files.samples
+            def iridanext_metadata = iridanext_json.metadata.samples
+
+            assert iridanext_global.findAll { it.path == "process/fastmatch.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/fastmatch.tsv" }.size() == 0
+
+            assert iridanext_metadata.size() == 2
+
+            assert iridanext_metadata.containsKey("sample1")
+            assert iridanext_metadata.sample1.fastmatch_status == "Completed"
+            assert iridanext_metadata.sample1.fastmatch_top_samples == "sample1,sample2,sample3"
+            assert iridanext_metadata.sample1.fastmatch_matched_samples_count == "3"
+            assert iridanext_metadata.sample1.fastmatch_threshold == "10.0"
+            assert iridanext_metadata.sample1.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z/)
+            assert iridanext_metadata.sample1.fastmatch_code_match == "1,2,3"
+            assert iridanext_metadata.sample1.fastmatch_top_genomic_address == "1.1.1.1,1.1.1.2,2.3.4.5"
+            assert iridanext_metadata.sample1.fastmatch_results_filename == "fastmatch.xlsx"
+
+            assert iridanext_metadata.containsKey("sample2")
+            assert iridanext_metadata.sample2.fastmatch_status == "Completed"
+            assert iridanext_metadata.sample2.fastmatch_top_samples == "sample1,sample2,sample3"
+            assert iridanext_metadata.sample2.fastmatch_matched_samples_count == "3"
+            assert iridanext_metadata.sample2.fastmatch_threshold == "10.0"
+            assert iridanext_metadata.sample2.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z/)
+            assert iridanext_metadata.sample2.fastmatch_code_match == "1,2,3"
+            assert iridanext_metadata.sample2.fastmatch_top_genomic_address == "1.1.1.1,1.1.1.2,2.3.4.5"
+            assert iridanext_metadata.sample2.fastmatch_results_filename == "fastmatch.xlsx"
+
+            assert iridanext_samples.isEmpty()
         }
     }
 }
