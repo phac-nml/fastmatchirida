@@ -15,10 +15,20 @@ NUM_CLOSEST_SAMPLES = 5
 class Metadata(Enum):
     # Input
     QUERY_ID = "Query ID"
+    QUERY_SAMPLE_NAME = "Query Sample Name"
     REFERENCE_ID = "Reference ID"
+    REFERENCE_SAMPLE_NAME = "Reference Sample Name"
     GENOMIC_ADDRESS_NAME = "genomic_address_name"
     NATIONAL_OUTBREAK_CODE = "national_outbreak_code"
     DISTANCE = "Distance"
+
+    # Renamed Input
+    # Pandas' .itertuples() (namedtuples specifically) cannot handle spaces,
+    # so we must rename the IDs that have spaces.
+    QUERY_ID_RENAME = "query_id"
+    QUERY_SAMPLE_NAME_RENAME = "query_sample_name"
+    REFERENCE_ID_RENAME = "reference_id"
+    REFERENCE_SAMPLE_NAME_RENAME = "reference_sample_name"
 
     # Output
     STATUS = "fastmatch_status"
@@ -57,11 +67,11 @@ class Summary():
         bisect.insort(self.closest_samples, sample, key=lambda sample: sample.distance)
         self.closest_samples = self.closest_samples[:NUM_CLOSEST_SAMPLES]
 
-    def add_row(self, row):
-        genomic_address_name = row[Metadata.GENOMIC_ADDRESS_NAME.value]
-        national_outbreak_code = row[Metadata.NATIONAL_OUTBREAK_CODE.value]
-        reference_id = row[Metadata.REFERENCE_ID.value]
-        distance = row[Metadata.DISTANCE.value]
+    def process_row(self, row):
+        genomic_address_name = getattr(row, Metadata.GENOMIC_ADDRESS_NAME.value)
+        national_outbreak_code = getattr(row, Metadata.NATIONAL_OUTBREAK_CODE.value)
+        reference_id = getattr(row, Metadata.REFERENCE_ID_RENAME.value)
+        distance = getattr(row, Metadata.DISTANCE.value)
 
         self.matched_samples += 1
 
@@ -87,6 +97,16 @@ def get_open(f):
     else:
         return open
 
+def rename_columns(data):
+    renamed = data.rename(columns={
+        Metadata.QUERY_ID.value: Metadata.QUERY_ID_RENAME.value,
+        Metadata.QUERY_SAMPLE_NAME.value: Metadata.QUERY_SAMPLE_NAME_RENAME.value,
+        Metadata.REFERENCE_ID.value: Metadata.REFERENCE_ID_RENAME.value,
+        Metadata.REFERENCE_SAMPLE_NAME: Metadata.REFERENCE_SAMPLE_NAME_RENAME.value
+    })
+
+    return renamed
+
 def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
     # Check that the necessary metadata exists:
     headers = data.columns.values
@@ -105,13 +125,16 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
 
     summaries = {}
 
-    for index, row in data.iterrows():
-        query_id = row[Metadata.QUERY_ID.value]
+    # Rename columns to remove spaces for upcoming .itertuples() call:
+    data = rename_columns(data)
+
+    for row in data.itertuples():
+        query_id = getattr(row, Metadata.QUERY_ID_RENAME.value)
 
         if query_id not in summaries:
             summaries[query_id] = Summary(query_id)
 
-        summaries[query_id].add_row(row)
+        summaries[query_id].process_row(row)
 
     summaries_data = []
 
@@ -124,7 +147,7 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
                                summary.get_national_outbreak_codes()))
 
     processed_data = pd.DataFrame.from_records(summaries_data,
-                                               columns=[Metadata.QUERY_ID.value,
+                                               columns=[Metadata.QUERY_ID_RENAME.value,
                                                         Metadata.TOP_SAMPLES.value,
                                                         Metadata.MATCHED_SAMPLES_COUNT.value,
                                                         Metadata.TOP_GENOMIC_ADDRESS.value,
@@ -145,8 +168,8 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
     # Insert results file location:
     processed_data.insert(len(processed_data.columns),
                           Metadata.RESULTS_FILENAME.value, excel_path)
-
-    columns = [Metadata.QUERY_ID.value,
+    
+    columns = [Metadata.QUERY_ID_RENAME.value,
                Metadata.STATUS.value,
                Metadata.TOP_SAMPLES.value,
                Metadata.MATCHED_SAMPLES_COUNT.value,
@@ -158,7 +181,6 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path):
 
     processed_data = processed_data.reindex(columns=columns)
 
-    print(processed_data)
     return processed_data
 
 def main(argv=None):
