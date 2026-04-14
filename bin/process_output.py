@@ -86,11 +86,12 @@ class Summary():
         return ",".join(closest_addresses)
 
     def get_national_outbreak_codes(self):
-        return ",".join(self.national_outbreak_codes)
+        codes = sorted(self.national_outbreak_codes)
+        return ",".join(codes)
 
     def get_closest_samples(self):
         closest_samples = [sample.reference_id for sample in self.closest_samples]
-        return ",".join(closest_samples)
+        return ",".join(closest_samples) # List is already sorted by distance.
 
 def get_open(f):
     if "gzip" == guess_type(str(f))[1]:
