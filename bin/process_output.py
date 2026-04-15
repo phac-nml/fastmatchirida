@@ -173,7 +173,7 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
     # Insert results file location:
     processed_data.insert(len(processed_data.columns),
                           Metadata.RESULTS_FILENAME.value, excel_path)
-    
+
     columns = [Metadata.QUERY_ID_RENAME.value,
                Metadata.STATUS.value,
                Metadata.TOP_SAMPLES.value,
