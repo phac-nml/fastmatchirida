@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `--output_prefix`: a parameter for adding a prefix to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
 - `--prefix_include_date`: a parameter for adding a date and time prefix in the UTC time zone to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
 - Added a parameter `query_selection_method` which takes either "user_provided" or "fastmatch_status" to determine which behavior for selecting the reference/query samples. "user_provided", the default behaves as before, with `fastmatch_category` being the column in the samplesheet for selecting reference/query based on "reference","query" or empty. "fastmatch_status", is to be used in the scheduled pipelines of IRIDA-Next, where it looks for a metadata_n column renamed to "fastmatch_status". Samples with values "Completed" are set as referene and empty values are set as query, and samples with other values are dropped. [PR #47](https://github.com/phac-nml/fastmatchirida/pull/47)
+- Added an `--output_type` parameter that controls whether the output should be formatted for a regular IRIDA Next execution (`--output_type iridanext` / default) or for a scheduled pipeline execution (`--output_type scheduled`). [PR 49](https://github.com/phac-nml/fastmatchirida/pull/49)
+- Added a `--fastmatch_top_samples_threshold` parameter that is only used when generating output for a scheduled pipeline execution (`--output_type scheduled`). `--fastmatch_top_samples_threshold` controls the number of samples that are reported as `fastmatch_top_samples` and `fastmatch_top_genomic_address`. [PR 49](https://github.com/phac-nml/fastmatchirida/pull/49)
 
 ### `Updated`
 
