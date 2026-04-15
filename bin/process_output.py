@@ -242,7 +242,7 @@ def main(argv=None):
         dest="date_string",
         type=str,
         help="The date to report for each sample. Only used and required when running in scheduled pipelines mode.",
-        default=""
+        default=None
     )
 
     parser.add_argument(
@@ -272,6 +272,10 @@ def main(argv=None):
     output_string = args.output
     top_samples_threshold = args.top_samples_threshold
 
+    # Note that the prefix and date string are not added to the output file paths here.
+    # The prepending is done later by Nextflow, but we must know the prefix_string
+    # and date_string so that when run in scheduled mode, we know what the XLSX file
+    # will eventually be called and we can report it in the metadata.
     tsv_path = Path(output_string + ".tsv")
     excel_path = Path(output_string + ".xlsx")
 
