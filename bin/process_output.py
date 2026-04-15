@@ -44,6 +44,10 @@ class Metadata(Enum):
     COMPLETED = "Completed"
 
 class Summary():
+    """
+    The Summary object summarizes information related to an individual query ID (ex: sample1),
+    which will likely match to multiple queries and references (ex: sample1, sample2, sample3).
+    """
 
     class Sample():
         def __init__(self, reference_id, distance, genomic_address_name):
