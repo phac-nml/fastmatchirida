@@ -43,13 +43,21 @@ class Metadata(Enum):
     # Values:
     COMPLETED = "Completed"
 
-class Summary():
+class QuerySummary():
     """
-    The Summary object summarizes information related to an individual query ID (ex: sample1),
+    Summarizes information related to an individual query ID (ex: sample1),
     which will likely match to multiple queries and references (ex: sample1, sample2, sample3).
     """
 
     class Sample():
+        """
+        Encapsulates the information about the match between the query being summarized
+        in the QuerySummary object and a given sample.
+
+        Note that in some cases, depending on how the inputs are structured,
+        this may represent queries matching to other queries, and queries matching
+        to themselves.
+        """
         def __init__(self, reference_id, distance, genomic_address_name):
             self.reference_id = reference_id
             self.distance = distance
@@ -141,7 +149,7 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
         query_id = getattr(row, Metadata.QUERY_ID_RENAME.value)
 
         if query_id not in summaries:
-            summaries[query_id] = Summary(query_id, top_samples_threshold)
+            summaries[query_id] = QuerySummary(query_id, top_samples_threshold)
 
         summaries[query_id].process_row(row)
 
