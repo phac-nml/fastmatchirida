@@ -93,15 +93,15 @@ class QuerySummary():
         sample = self.Sample(reference_id, distance, genomic_address_name)
         self.maintain_closest_samples(sample)
 
-    def get_genomic_address_names(self):
+    def generate_closest_genomic_address_names(self):
         closest_addresses = [sample.genomic_address_name for sample in self.closest_samples]
         return ",".join(closest_addresses)
 
-    def get_national_outbreak_codes(self):
+    def generate_closest_national_outbreak_codes(self):
         codes = sorted(self.national_outbreak_codes)
         return ",".join(codes)
 
-    def get_closest_samples(self):
+    def generate_closest_samples(self):
         closest_samples = [sample.reference_id for sample in self.closest_samples]
         return ",".join(closest_samples) # List is already sorted by distance.
 
@@ -158,10 +158,10 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
     for query_id in summaries:
         summary = summaries[query_id]
         summaries_data.append((summary.query_id,
-                               summary.get_closest_samples(),
+                               summary.generate_closest_samples(),
                                summary.matched_samples,
-                               summary.get_genomic_address_names(),
-                               summary.get_national_outbreak_codes()))
+                               summary.generate_closest_genomic_address_names(),
+                               summary.generate_closest_national_outbreak_codes()))
 
     processed_data = pd.DataFrame.from_records(summaries_data,
                                                columns=[Metadata.QUERY_ID_RENAME.value,
