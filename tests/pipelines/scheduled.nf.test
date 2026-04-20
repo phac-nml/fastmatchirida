@@ -777,4 +777,90 @@ nextflow_pipeline {
 
         }
     }
+
+    test("Scheduled and FastMatch Status Query") {
+        tag "pipeline_scheduled"
+        tag "pipeline_scheduled_fastmatch_status_query"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/scheduled_fastmatch_status.csv"
+                outdir = "results"
+
+                output_type = "scheduled"
+
+                pd_distm = "hamming"
+                threshold = 10
+                fastmatch_top_samples_threshold = 5
+
+                output_prefix = ""
+                prefix_include_date = false
+                query_selection_method = "fastmatch_status"
+
+                metadata_1_header = "genomic_address_name"
+                metadata_2_header = "national_outbreak_code"
+                metadata_3_header = "fastmatch_status"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            // Check Files Exist
+            assert path("$launchDir/results").exists()
+
+            assert path("$launchDir/results/append/distances_and_metadata.tsv").exists()
+            assert path("$launchDir/results/locidex/concat/query/profile_concat_query.tsv").exists()
+            assert path("$launchDir/results/locidex/concat/reference/profile_concat_ref.tsv").exists()
+            assert path("$launchDir/results/process/fastmatch.tsv").exists()
+            assert path("$launchDir/results/process/fastmatch.xlsx").exists()
+            assert path("$launchDir/results/distances/profile_dists.results.tsv").exists()
+
+            // Check Processed Output
+            def processed_output_tsv = path("$launchDir/results/process/fastmatch.tsv")
+            def processed_output_xlsx = path("$launchDir/results/process/fastmatch.xlsx")
+
+            def lines = processed_output_tsv.text.split("\n")
+            assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
+
+            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z\t1,2,3\t1.1.1.1,1.1.1.2,2.3.4.5\tfastmatch.xlsx/
+            assert lines[1].matches(sample1_regex)
+
+            def sample2_regex = /sample2\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z\t1,2,3\t1.1.1.1,1.1.1.2,2.3.4.5\tfastmatch.xlsx/
+            assert lines[2].matches(sample2_regex)
+
+            // Check JSON Output
+            def iridanext_json = path("$launchDir/results/iridanext.output.json").json
+            def iridanext_global = iridanext_json.files.global
+            def iridanext_samples = iridanext_json.files.samples
+            def iridanext_metadata = iridanext_json.metadata.samples
+
+            assert iridanext_global.findAll { it.path == "process/fastmatch.xlsx" }.size() == 1
+            assert iridanext_global.findAll { it.path == "process/fastmatch.tsv" }.size() == 0
+
+            assert iridanext_metadata.size() == 2
+
+            assert iridanext_metadata.containsKey("sample1")
+            assert iridanext_metadata.sample1.fastmatch_status == "Completed"
+            assert iridanext_metadata.sample1.fastmatch_top_samples == "sample1,sample2,sample3"
+            assert iridanext_metadata.sample1.fastmatch_matched_samples_count == "3"
+            assert iridanext_metadata.sample1.fastmatch_threshold == "10.0"
+            assert iridanext_metadata.sample1.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z/)
+            assert iridanext_metadata.sample1.fastmatch_code_match == "1,2,3"
+            assert iridanext_metadata.sample1.fastmatch_top_genomic_address == "1.1.1.1,1.1.1.2,2.3.4.5"
+            assert iridanext_metadata.sample1.fastmatch_results_filename == "fastmatch.xlsx"
+
+            assert iridanext_metadata.containsKey("sample2")
+            assert iridanext_metadata.sample2.fastmatch_status == "Completed"
+            assert iridanext_metadata.sample2.fastmatch_top_samples == "sample1,sample2,sample3"
+            assert iridanext_metadata.sample2.fastmatch_matched_samples_count == "3"
+            assert iridanext_metadata.sample2.fastmatch_threshold == "10.0"
+            assert iridanext_metadata.sample2.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z/)
+            assert iridanext_metadata.sample2.fastmatch_code_match == "1,2,3"
+            assert iridanext_metadata.sample2.fastmatch_top_genomic_address == "1.1.1.1,1.1.1.2,2.3.4.5"
+            assert iridanext_metadata.sample2.fastmatch_results_filename == "fastmatch.xlsx"
+
+            assert iridanext_samples.isEmpty()
+        }
+    }
 }
