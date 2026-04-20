@@ -155,12 +155,18 @@ workflow FASTMATCH {
         genomic_address_name_count = metadata_headers_list.count("genomic_address_name")
         national_outbreak_code_count = metadata_headers_list.count("national_outbreak_code")
 
-        if (genomic_address_name_count != 1) {
-            exit 1, "The workflow was run in scheduled pipelines mode without providing the correct number of 'genomic_address_name' metadata columns. Expected 1 but found ${genomic_address_name_count}."
+        if (genomic_address_name_count < 1) {
+            error "The workflow was run in scheduled pipelines mode without providing a 'genomic_address_name' metadata column."
+        }
+        else if (genomic_address_name_count > 1) {
+            error "The workflow was run in scheduled pipelines mode with too many 'genomic_address_name' metadata columns provided. Expected 1 column but found ${genomic_address_name_count} columns."
         }
 
-        if (national_outbreak_code_count != 1) {
-            exit 1, "The workflow was run in scheduled pipelines mode without providing the correct number of 'national_outbreak_code' metadata columns. Expected 1 but found ${national_outbreak_code_count}."
+        if (national_outbreak_code_count < 1) {
+            error "The workflow was run in scheduled pipelines mode without providing a 'national_outbreak_code' metadata column."
+        }
+        else if (national_outbreak_code_count > 1) {
+            error "The workflow was run in scheduled pipelines mode with too many 'national_outbreak_code' metadata columns provided. Expected 1 column but found ${national_outbreak_code_count} columns."
         }
     }
 
@@ -275,24 +281,24 @@ workflow FASTMATCH {
     // optional files passed in
     mapping_file = prepareFilePath(params.pd_mapping_file)
     if(mapping_file == null){
-        exit 1, "${params.pd_mapping_file}: Does not exist but was passed to the pipeline. Exiting now."
+        error "${params.pd_mapping_file}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
     columns_file = prepareFilePath(params.pd_columns)
     if(columns_file == null){
-        exit 1, "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
+        error "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
     // Check that only 'hamming' or 'scaled' are provided to pd_distm
     if ((params.pd_distm != 'hamming') & (params.pd_distm != 'scaled')) {
-        exit 1, "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
+        error "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
     }
 
     // Check that when using scaled the threshold exists between 0-100
     if (params.pd_distm == 'scaled') {
         if ((params.threshold < 0.0) || (params.threshold > 100.0)) {
-            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
-                    + " Please either set '--threshold' or adjust the threshold values.")
+            error ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
+                  + " Please either set '--threshold' or adjust the threshold values.")
         }
     }
 
