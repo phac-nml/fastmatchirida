@@ -40,7 +40,7 @@ When the parameter `query_selection_method` is set to `fastmatch_status` an alte
 
 The input samplesheet must still contain up to 11 columns: `sample`, `fastmatch_category`, `mlst_alleles`, `metadata_1`, `metadata_2`, ..., `metadata_16`. The `sample` IDs within a samplesheet should be unique. All other columns outside of the listed above and `sample_name` (see below) will be ignored. `fastmatch_category` will also be ignored in this scenario.
 
-One of the `metadata_n` columns MUST contain the values: `Completed` (for `reference` samples) or be empty (for `query` samples), and be renamed by to `fastmatch_status`.
+One of the `metadata_n` columns MUST contain the values: `Completed` (for `reference` samples) or be empty (for `query` samples), and be renamed by to `fastmatch_status`. Additionally, if running the pipeline in scheduled pipelines output mode (`--output_type scheduled`), `genomic_address_name` and `national_outbreak_code` must be provided as metadata in the samplesheet alongside metadata header specification (ex: `--metadata_1_header genomic_address_name`).
 
 e.g.,
 
