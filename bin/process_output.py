@@ -10,6 +10,7 @@ import argparse
 import pandas as pd
 import bisect
 
+DEFAULT_OUTPUT_NAME = "results"
 DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
 class Metadata(Enum):
@@ -232,9 +233,9 @@ def main(argv=None):
         action="store",
         dest="output",
         type=str,
-        help="The output path name (without extension). For example: 'results' -> 'results.tsv', 'results.xlsx'.",
-        default=None,
-        required=True,
+        help="The output name (without extension). For example: 'results' -> 'results.tsv', 'results.xlsx'.",
+        default=DEFAULT_OUTPUT_NAME,
+        required=False,
     )
 
     parser.add_argument(
@@ -254,15 +255,6 @@ def main(argv=None):
     )
 
     parser.add_argument(
-        "--prefix_string",
-        action="store",
-        dest="prefix_string",
-        type=str,
-        help="A prefix that will later be prepended by Nextflow to the output files. This prefix is NOT added to the file path in this program, but rather informs the eventual file path name reported by scheduled pipelines output.",
-        default=""
-    )
-
-    parser.add_argument(
         "--top_samples_threshold",
         action="store",
         dest="top_samples_threshold",
@@ -275,15 +267,10 @@ def main(argv=None):
 
     input = Path(args.input)
     threshold = args.threshold
-    prefix_string = args.prefix_string
     date_string = args.date_string
     output_string = args.output
     top_samples_threshold = args.top_samples_threshold
 
-    # Note that the prefix and date string are not added to the output file paths here.
-    # The prepending is done later by Nextflow, but we must know the prefix_string
-    # and date_string so that when run in scheduled mode, we know what the XLSX file
-    # will eventually be called and we can report it in the metadata.
     tsv_path = Path(output_string + ".tsv")
     excel_path = Path(output_string + ".xlsx")
 
@@ -291,8 +278,7 @@ def main(argv=None):
     data = data[data['Distance'] <= threshold]
 
     if args.scheduled:
-        scheduled_excel_path = prefix_string + output_string + ".xlsx"
-        data = process_scheduled_pipelines_data(data, date_string, threshold, scheduled_excel_path, top_samples_threshold)
+        data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold)
 
     data.to_csv(tsv_path, sep="\t", index=False)
     data.to_excel(excel_path, index=False)
