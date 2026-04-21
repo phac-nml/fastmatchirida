@@ -70,6 +70,13 @@ def prepareFilePath(String filep){
     return return_path // empty value if file argument is null
 }
 
+def findScheduledPipelineColumn(List headers, String columnName) {
+    def idx = headers.indexOf(columnName)
+    if (idx == -1) error "'${columnName}' column not found in input"
+    log.info "Found '${columnName}' at metadata_${idx}, replacing ref_query with metadata_${idx} values"
+    return idx
+}
+
 workflow FASTMATCH {
     SAMPLE_HEADER = "sample"
     ch_versions = Channel.empty()
@@ -100,6 +107,7 @@ workflow FASTMATCH {
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
             processedMLST << mlst_file.baseName
+
             // If the fastmatch_category is blank make the default "reference"
             if (!ref_query) {
                 meta.ref_query = "reference"
@@ -120,19 +128,19 @@ workflow FASTMATCH {
             tuple(meta, mlst_file) }
     input = unchanged_input.mix(renamed_input)
 
+    metadata_headers_list = [
+        SAMPLE_HEADER,
+        params.metadata_1_header, params.metadata_2_header,
+        params.metadata_3_header, params.metadata_4_header,
+        params.metadata_5_header, params.metadata_6_header,
+        params.metadata_7_header, params.metadata_8_header,
+        params.metadata_9_header, params.metadata_10_header,
+        params.metadata_11_header, params.metadata_12_header,
+        params.metadata_13_header, params.metadata_14_header,
+        params.metadata_15_header, params.metadata_16_header]
+
     // Metadata formatting
-    metadata_headers = Channel.of(
-        tuple(
-            SAMPLE_HEADER,
-            params.metadata_1_header, params.metadata_2_header,
-            params.metadata_3_header, params.metadata_4_header,
-            params.metadata_5_header, params.metadata_6_header,
-            params.metadata_7_header, params.metadata_8_header,
-            params.metadata_9_header, params.metadata_10_header,
-            params.metadata_11_header, params.metadata_12_header,
-            params.metadata_13_header, params.metadata_14_header,
-            params.metadata_15_header, params.metadata_16_header)
-        )
+    metadata_headers = Channel.of(metadata_headers_list)
 
     metadata_rows = input.map{
         meta, mlst_files -> tuple(meta.id, meta.irida_id,
@@ -142,21 +150,66 @@ workflow FASTMATCH {
         meta.metadata_13, meta.metadata_14, meta.metadata_15, meta.metadata_16)
     }.toList()
 
+    // Do we have the correct metadata for a scheduled pipelines run?
+    if (params.output_type == "scheduled") {
+        genomic_address_name_count = metadata_headers_list.count("genomic_address_name")
+        national_outbreak_code_count = metadata_headers_list.count("national_outbreak_code")
 
-    // Seperate the input into two channels based on the referemce or query samples
-    input
-    .branch { meta, mlst_file ->
-        reference: meta.ref_query == "reference"
-        query: meta.ref_query == "query"
-        }.set {merged_alleles}
+        if (genomic_address_name_count < 1) {
+            error "The workflow was run in scheduled pipelines mode without providing a 'genomic_address_name' metadata column."
+        }
+        else if (genomic_address_name_count > 1) {
+            error "The workflow was run in scheduled pipelines mode with too many 'genomic_address_name' metadata columns provided. Expected 1 column but found ${genomic_address_name_count} columns."
+        }
 
+        if (national_outbreak_code_count < 1) {
+            error "The workflow was run in scheduled pipelines mode without providing a 'national_outbreak_code' metadata column."
+        }
+        else if (national_outbreak_code_count > 1) {
+            error "The workflow was run in scheduled pipelines mode with too many 'national_outbreak_code' metadata columns provided. Expected 1 column but found ${national_outbreak_code_count} columns."
+        }
+    }
+
+    // Scheduled Pipeline Parameter:
+    // If true, determine reference or query status based on 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'
+    // Additionally, if the fastmatch_category is blank make the default "query", and value of "Completed" will be considered "reference"
+    scheduled_pipeline_column = "fastmatch_status"
+
+    if (params.query_selection_method == scheduled_pipeline_column) {
+
+        metadata_headers
+            .map { headers -> findScheduledPipelineColumn(headers, scheduled_pipeline_column) }
+            .combine(input) // Combine the index (idx) with the input channel (meta, mlst_file) to use for branching
+            .branch { idx, meta, mlst_file ->
+                reference: meta["metadata_${idx}"] == "Completed"
+                query:     meta["metadata_${idx}"] == ""
+            }
+            .set { merged_alleles_raw }
+
+            def stripIdx = { idx, meta, mlst_file -> [meta, mlst_file] }
+            merged_alleles_raw.reference.map(stripIdx).set { merged_alleles_reference_raw }
+            merged_alleles_raw.query.map(stripIdx).set     { merged_alleles_query_raw }
+
+
+    } else {
+        // Default behaviour:Seperate the input into two channels based on the referemce or query samples
+        log.info "Using 'fastmatch_category' to determine reference or query status, as per default behaviour"
+        input
+        .branch { meta, mlst_file ->
+            reference: meta.ref_query == "reference"
+            query: meta.ref_query == "query"
+            }.set {merged_alleles}
+
+        merged_alleles.reference.set { merged_alleles_reference_raw }
+        merged_alleles.query.set     { merged_alleles_query_raw }
+    }
     // Prepare reference and query MLST files for LOCIDEX_MERGE
-    merged_alleles_query = merged_alleles.query.map{
+    merged_alleles_query = merged_alleles_query_raw.map{
         meta, mlst_files -> mlst_files
     }.collect()
 
-    merged_alleles_reference = merged_alleles.reference.
-    concat(merged_alleles.query).map{   // Reference will contain both query and reference
+    merged_alleles_reference = merged_alleles_reference_raw.
+    concat(merged_alleles_query_raw).map{   // Reference will contain both query and reference
         meta, mlst_files -> mlst_files
     }.collect()
 
@@ -228,26 +281,27 @@ workflow FASTMATCH {
     // optional files passed in
     mapping_file = prepareFilePath(params.pd_mapping_file)
     if(mapping_file == null){
-        exit 1, "${params.pd_mapping_file}: Does not exist but was passed to the pipeline. Exiting now."
+        error "${params.pd_mapping_file}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
     columns_file = prepareFilePath(params.pd_columns)
     if(columns_file == null){
-        exit 1, "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
+        error "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
     // Check that only 'hamming' or 'scaled' are provided to pd_distm
     if ((params.pd_distm != 'hamming') & (params.pd_distm != 'scaled')) {
-        exit 1, "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
+        error "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
     }
 
     // Check that when using scaled the threshold exists between 0-100
     if (params.pd_distm == 'scaled') {
         if ((params.threshold < 0.0) || (params.threshold > 100.0)) {
-            exit 1, ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
-                    + " Please either set '--threshold' or adjust the threshold values.")
+            error ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
+                  + " Please either set '--threshold' or adjust the threshold values.")
         }
     }
+
     // Options related to profile dists
     mapping_format = Channel.value("pairwise")
 

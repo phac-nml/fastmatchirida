@@ -3,6 +3,28 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026/04/21
+
+### Added
+
+- Scheduled Pipelines: Added a new operational mode for running the pipeline as a scheduled pipeline.
+  - Added an `--output_type` parameter that controls whether the output should be formatted for a regular IRIDA Next execution (`--output_type iridanext` / default) or for a scheduled pipeline execution (`--output_type scheduled`). [PR 49](https://github.com/phac-nml/fastmatchirida/pull/49)
+  - Added a parameter `query_selection_method` which takes either "user_provided" or "fastmatch_status" to determine which behavior for selecting the reference/query samples. "user_provided", the default behaves as before, with `fastmatch_category` being the column in the samplesheet for selecting reference/query based on "reference","query" or empty. "fastmatch_status", is to be used in the scheduled pipelines of IRIDA-Next, where it looks for a metadata_n column renamed to "fastmatch_status". Samples with values "Completed" are set as referene and empty values are set as query, and samples with other values are dropped. [PR #47](https://github.com/phac-nml/fastmatchirida/pull/47)
+  - `--output_prefix`: a parameter for adding a prefix to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
+  - `--prefix_include_date`: a parameter for adding a date and time prefix in the UTC time zone to the results files. [PR #48](https://github.com/phac-nml/fastmatchirida/pull/48)
+  - Added a `--fastmatch_top_samples_threshold` parameter that is only used when generating output for a scheduled pipeline execution (`--output_type scheduled`). `--fastmatch_top_samples_threshold` controls the number of samples that are reported as `fastmatch_top_samples` and `fastmatch_top_genomic_address`. [PR 49](https://github.com/phac-nml/fastmatchirida/pull/49)
+
+### `Updated`
+
+- Set nextflow version 25.10.4 to replace 'latest-everything' to confirm compatibility with next IRIDA-Next nextflow version in `.github/workflows` for nf-test. [PR 4#4](https://github.com/phac-nml/fastmatchirida/pull/44)
+- Updated tests and GitHub Actions/Workflows to the latest versions from the nf-core template. [PR #46](https://github.com/phac-nml/fastmatchirida/pull/46)
+- Updated the minimum Nextflow version to `24.10.3`. [PR #46](https://github.com/phac-nml/fastmatchirida/pull/46)
+- Changed `LOCIDEX_MERGE`from profile `proccess_medium` to `process_single`. [PR #47](https://github.com/phac-nml/fastmatchirida/pull/47)
+
+### `Fixed`
+
+- Fixed `containerOptions` string so the required options are only passed when using the `docker` profile (and not for `singularity`). [PR #45](https://github.com/phac-nml/fastmatchirida/pull/45)
+
 ## [0.4.2] - 2025-11-20
 
 ### `Changed`
@@ -102,3 +124,4 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.4.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.0
 [0.4.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.1
 [0.4.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.2
+[0.5.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.0

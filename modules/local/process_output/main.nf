@@ -10,8 +10,8 @@ process PROCESS_OUTPUT {
     val threshold
 
     output:
-    path "results.tsv", emit: tsv
-    path "results.xlsx", emit: excel
+    path "*fastmatch.tsv", emit: tsv
+    path "*fastmatch.xlsx", emit: excel
     path "versions.yml", emit: versions
 
     when:
@@ -19,11 +19,11 @@ process PROCESS_OUTPUT {
 
     script:
     def args = task.ext.args ?: ''
+
     """
     process_output.py \\
         $args \\
         --input $distances \\
-        --output results \\
         --threshold $threshold
 
     cat <<-END_VERSIONS > versions.yml

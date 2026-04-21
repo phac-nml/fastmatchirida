@@ -36,6 +36,21 @@
                     "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
                     "hidden": true
+                },
+                "output_type": {
+                    "type": "string",
+                    "description": "Specifies the whether the pipeline is being run within IRIDA Next or as a scheduled pipeline.",
+                    "enum": ["iridanext", "scheduled"],
+                    "default": "iridanext"
+                },
+                "output_prefix": {
+                    "type": "string",
+                    "description": "Specifies a prefix for the fastmatch results file names.",
+                    "pattern": "^[a-zA-Z0-9_.-]+$"
+                },
+                "prefix_include_date": {
+                    "type": "boolean",
+                    "description": "Whether or not to add a date and time prefix to the fastmatch results files."
                 }
             }
         },
@@ -171,6 +186,18 @@
                     "description": "Comparison score threshold value",
                     "default": 50.0,
                     "minimum": 0
+                },
+                "fastmatch_top_samples_threshold": {
+                    "type": "integer",
+                    "description": "When running with the scheduled pipelines option enabled, this controls the number of closest samples to each query that are maintained and reported.",
+                    "default": 5,
+                    "minimum": 0
+                },
+                "query_selection_method": {
+                    "type": "string",
+                    "description": "Scheduled Pipeline Parameter: Query samples are determined by 'fastmatch_status' column in samplesheet rather than 'fastmatch_category'",
+                    "default": "user_provided",
+                    "enum": ["user_provided", "fastmatch_status"]
                 }
             }
         },

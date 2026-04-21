@@ -2,12 +2,14 @@
 
 process LOCIDEX_MERGE {
     tag 'Merge Profiles'
-    label 'process_medium'
+    label 'process_single'
     fair true
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/locidex%3A0.4.0--pyhdfd78af_0' :
         'biocontainers/locidex:0.4.0--pyhdfd78af_0' }"
+
+    containerOptions "${task.ext.containerOptions ?: ''}"
 
 
     input:

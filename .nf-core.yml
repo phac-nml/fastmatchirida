@@ -1,5 +1,5 @@
 repository_type: pipeline
-nf_core_version: "3.3.2"
+nf_core_version: "3.5.2"
 lint:
   files_exist:
     - assets/nf-core-fastmatchirida_logo_light.png
@@ -46,4 +46,8 @@ lint:
     - nf-test.config
 
 template:
+  org: phac-nml
+  name: fastmatchirida
+  is_nfcore: false
+  version: 0.5.0
   prefix: phac-nml
