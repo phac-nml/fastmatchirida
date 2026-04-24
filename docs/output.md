@@ -31,9 +31,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 <summary>Output files</summary>
 
 - `locidex/`
-
   - `merge/`
-
     - `query/`
       - Merged MLST query profiles: `profile_{n}.tsv`
       - Merged MLST query error reports: `MLST_error_report_{n}.csv`
