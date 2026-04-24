@@ -49,5 +49,5 @@ template:
   org: phac-nml
   name: fastmatchirida
   is_nfcore: false
-  version: 0.5.0
+  version: 0.5.1
   prefix: phac-nml
