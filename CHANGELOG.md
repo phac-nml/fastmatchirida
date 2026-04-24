@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026/04/24
+
+### Bug Fix
+
+- The output filename, when used with `--prefix_include_date`,had an invalid character ":" for Azure Blob Storage in the timestamp. We replaced ":" with "h". [PR 51](https://github.com/phac-nml/fastmatchirida/pull/51)
+
 ## [0.5.0] - 2026/04/21
 
 ### Added
