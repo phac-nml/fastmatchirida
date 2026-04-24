@@ -240,8 +240,8 @@ nextflow_pipeline {
             def iridanext_samples = iridanext_json.files.samples
             def iridanext_metadata = iridanext_json.metadata.samples
 
-            assert iridanext_global.findAll { it.path.matches("process/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z_fastmatch.xlsx") }.size() == 1
-            assert iridanext_global.findAll { it.path.matches("process/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z_fastmatch.tsv") }.size() == 0
+            assert iridanext_global.findAll { it.path.matches("process/\\d{4}-\\d{2}-\\d{2}T\\d{2}h\\d{2}Z_fastmatch.xlsx") }.size() == 1
+            assert iridanext_global.findAll { it.path.matches("process/\\d{4}-\\d{2}-\\d{2}T\\d{2}h\\d{2}Z_fastmatch.tsv") }.size() == 0
 
             assert iridanext_metadata.size() == 2
 
@@ -338,8 +338,8 @@ nextflow_pipeline {
             def iridanext_samples = iridanext_json.files.samples
             def iridanext_metadata = iridanext_json.metadata.samples
 
-            assert iridanext_global.findAll { it.path.matches("process/PREFIX_\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z_fastmatch.xlsx") }.size() == 1
-            assert iridanext_global.findAll { it.path.matches("process/PREFIX_\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z_fastmatch.tsv") }.size() == 0
+            assert iridanext_global.findAll { it.path.matches("process/PREFIX_\\d{4}-\\d{2}-\\d{2}T\\d{2}h\\d{2}Z_fastmatch.xlsx") }.size() == 1
+            assert iridanext_global.findAll { it.path.matches("process/PREFIX_\\d{4}-\\d{2}-\\d{2}T\\d{2}h\\d{2}Z_fastmatch.tsv") }.size() == 0
 
             assert iridanext_metadata.size() == 2
 
