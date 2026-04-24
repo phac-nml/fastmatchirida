@@ -212,7 +212,7 @@ nextflow_pipeline {
             assert fastmatch_tsv_path != null
 
             def fastmatch_tsv_path_last_element = fastmatch_tsv_path.getName(fastmatch_tsv_path.getNameCount() - 1)
-            // Example: 2026-03-31T14:54Z_fastmatch.tsv
+            // Example: 2026-03-31T14h54Z_fastmatch.tsv
             def fastmatch_tsv_regex = /\d{4}-\d{2}-\d{2}T\d{2}h\d{2}Z_fastmatch\.tsv/
             assert fastmatch_tsv_path_last_element.toString().matches(fastmatch_tsv_regex)
 
@@ -221,7 +221,7 @@ nextflow_pipeline {
             assert fastmatch_xlsx_path != null
 
             def fastmatch_xlsx_path_last_element = fastmatch_xlsx_path.getName(fastmatch_xlsx_path.getNameCount() - 1)
-            // Example: 2026-03-31T14:54Z_fastmatch.xlsx
+            // Example: 2026-03-31T14h54Z_fastmatch.xlsx
             def fastmatch_xlsx_regex = /\d{4}-\d{2}-\d{2}T\d{2}h\d{2}Z_fastmatch\.xlsx/
             assert fastmatch_xlsx_path_last_element.toString().matches(fastmatch_xlsx_regex)
 
@@ -310,7 +310,7 @@ nextflow_pipeline {
             assert fastmatch_tsv_path != null
 
             def fastmatch_tsv_path_last_element = fastmatch_tsv_path.getName(fastmatch_tsv_path.getNameCount() - 1)
-            // Example: 2026-03-31T14:54Z_fastmatch.tsv
+            // Example: 2026-03-31T14h54Z_fastmatch.tsv
             def fastmatch_tsv_regex = /PREFIX_\d{4}-\d{2}-\d{2}T\d{2}h\d{2}Z_fastmatch\.tsv/
             assert fastmatch_tsv_path_last_element.toString().matches(fastmatch_tsv_regex)
 
@@ -319,7 +319,7 @@ nextflow_pipeline {
             assert fastmatch_xlsx_path != null
 
             def fastmatch_xlsx_path_last_element = fastmatch_xlsx_path.getName(fastmatch_xlsx_path.getNameCount() - 1)
-            // Example: 2026-03-31T14:54Z_fastmatch.xlsx
+            // Example: 2026-03-31T14h54Z_fastmatch.xlsx
             def fastmatch_xlsx_regex = /PREFIX_\d{4}-\d{2}-\d{2}T\d{2}h\d{2}Z_fastmatch\.xlsx/
             assert fastmatch_xlsx_path_last_element.toString().matches(fastmatch_xlsx_regex)
 
