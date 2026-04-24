@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Bug Fix
 
-- The output filename, when used with `--prefix_include_date`,had an invalid character ":" for Azure Blob Storage in the timestamp. We replaced ":" with "h". [PR 51](https://github.com/phac-nml/fastmatchirida/pull/51)
+- The output filename, when used with `--prefix_include_date`,had an invalid character ":" for Azure Blob Storage in the timestamp. We will conform to the alternative ISO option of dropping ":". [PR 51](https://github.com/phac-nml/fastmatchirida/pull/51)
 
 ## [0.5.0] - 2026/04/21
 
