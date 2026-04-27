@@ -12,6 +12,7 @@ process PROCESS_OUTPUT {
     output:
     path "*fastmatch.tsv", emit: tsv
     path "*fastmatch.xlsx", emit: excel
+    path "*fastmatch.scheduled.tsv", emit: scheduled, optional: true
     path "versions.yml", emit: versions
 
     when:
