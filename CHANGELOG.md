@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Changed
+
+- The scheduled pipelines output mode (`--output_type scheduled`) now outputs only the original FastMatch XLSX file format. An additional file (`process/fastmatch.scheduled.tsv`) is now generated as described in v0.5.0 as scheduled mode ouput that is used exclusive for parsing schedule pipelines metadata back to IRIDA Next. [PR 53](https://github.com/phac-nml/fastmatchirida/pull/53)
+
 ## [0.5.1] - 2026/04/24
 
 ### Bug Fix
