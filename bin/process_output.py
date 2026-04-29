@@ -273,12 +273,14 @@ def main(argv=None):
 
     tsv_path = Path(output_string + ".tsv")
     excel_path = Path(output_string + ".xlsx")
+    scheduled_path = Path(output_string + ".scheduled.tsv")
 
     data = pd.read_csv(input, sep="\t")
     data = data[data['Distance'] <= threshold]
 
     if args.scheduled:
-        data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold)
+        scheduled_data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold)
+        scheduled_data.to_csv(scheduled_path, sep="\t", index=False)
 
     data.to_csv(tsv_path, sep="\t", index=False)
     data.to_excel(excel_path, index=False)

@@ -3,11 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2026/04/29
+
+### Changed
+
+- The scheduled pipelines output mode (`--output_type scheduled`) now outputs only the original FastMatch XLSX file format. An additional file (`process/fastmatch.scheduled.tsv`) is now generated as described in v0.5.0 as scheduled mode ouput that is used exclusive for parsing schedule pipelines metadata back to IRIDA Next. [PR 53](https://github.com/phac-nml/fastmatchirida/pull/53)
+
 ## [0.5.1] - 2026/04/24
 
 ### Bug Fix
 
-- The output filename, when used with `--prefix_include_date`, had an invalid character ":" for Azure Blob Storage in the timestamp. We will conform to the alternative ISO option of dropping ":". [PR 51](https://github.com/phac-nml/fastmatchirida/pull/51)
+- The output filename, when used with `--prefix_include_date`, had an invalid character ":" for Azure Blob Storage in the timestamp. We will conform to the ISO 8601 basic format for the time component of the date, thereby dropping ":" from it. [PR 51](https://github.com/phac-nml/fastmatchirida/pull/51)
 
 ## [0.5.0] - 2026/04/21
 
@@ -132,3 +138,4 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.4.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.4.2
 [0.5.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.0
 [0.5.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.1
+[0.5.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.2
