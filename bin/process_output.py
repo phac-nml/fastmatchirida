@@ -96,8 +96,8 @@ class QuerySummary():
         sample = self.Sample(reference_id, distance, genomic_address_name)
         self.maintain_closest_samples(sample)
 
-    def remove_missing(self, my_list):
-        return list(filter(lambda item: item != "" and not pd.isna(item), my_list))
+    def remove_missing(self, full_list):
+        return list(filter(lambda item: item != "" and not pd.isna(item), full_list))
 
     def generate_closest_genomic_address_names(self):
         closest_addresses = [sample.genomic_address_name for sample in self.closest_samples]
