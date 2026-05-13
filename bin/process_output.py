@@ -13,6 +13,8 @@ import bisect
 DEFAULT_OUTPUT_NAME = "results"
 DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
+EMPTY_STRING = ""
+
 class Metadata(Enum):
     # Input
     QUERY_ID = "Query ID"
@@ -94,16 +96,22 @@ class QuerySummary():
         sample = self.Sample(reference_id, distance, genomic_address_name)
         self.maintain_closest_samples(sample)
 
+    def remove_missing(self, my_list):
+        return list(filter(lambda item: item != "" and not pd.isna(item), my_list))
+
     def generate_closest_genomic_address_names(self):
         closest_addresses = [sample.genomic_address_name for sample in self.closest_samples]
+        closest_addresses = self.remove_missing(closest_addresses)
         return ",".join(closest_addresses)
 
     def generate_closest_national_outbreak_codes(self):
         codes = sorted(self.national_outbreak_codes)
+        codes = self.remove_missing(codes)
         return ",".join(codes)
 
     def generate_closest_samples(self):
         closest_samples = [sample.reference_id for sample in self.closest_samples]
+        closest_samples = self.remove_missing(closest_samples)
         return ",".join(closest_samples) # List is already sorted by distance.
 
 def get_open(f):
@@ -117,7 +125,7 @@ def rename_columns(data):
         Metadata.QUERY_ID.value: Metadata.QUERY_ID_RENAME.value,
         Metadata.QUERY_SAMPLE_NAME.value: Metadata.QUERY_SAMPLE_NAME_RENAME.value,
         Metadata.REFERENCE_ID.value: Metadata.REFERENCE_ID_RENAME.value,
-        Metadata.REFERENCE_SAMPLE_NAME: Metadata.REFERENCE_SAMPLE_NAME_RENAME.value
+        Metadata.REFERENCE_SAMPLE_NAME.value: Metadata.REFERENCE_SAMPLE_NAME_RENAME.value
     })
 
     return renamed
@@ -145,6 +153,10 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
 
     # Rename columns to remove spaces for upcoming .itertuples() call:
     data = rename_columns(data)
+
+    # Need to cast some columns to string dtypes and remove NAs:
+    columns = [Metadata.QUERY_ID_RENAME.value, Metadata.QUERY_SAMPLE_NAME_RENAME.value, Metadata.REFERENCE_ID_RENAME.value, Metadata.REFERENCE_SAMPLE_NAME_RENAME.value, Metadata.GENOMIC_ADDRESS_NAME.value, Metadata.NATIONAL_OUTBREAK_CODE.value]
+    data[columns] = data[columns].astype(pd.StringDtype()).fillna(EMPTY_STRING)
 
     for row in data.itertuples():
         query_id = getattr(row, Metadata.QUERY_ID_RENAME.value)
