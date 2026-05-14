@@ -4,6 +4,7 @@ from pathlib import Path
 from mimetypes import guess_type
 from functools import partial
 from enum import Enum
+from collections import defaultdict
 import gzip
 import sys
 import argparse
@@ -14,6 +15,10 @@ DEFAULT_OUTPUT_NAME = "results"
 DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
 EMPTY_STRING = ""
+
+class DistanceType(Enum):
+    HAMMING = "hamming"
+    PROPORTION = "proportion"
 
 class Metadata(Enum):
     # Input
@@ -154,7 +159,7 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
     # Rename columns to remove spaces for upcoming .itertuples() call:
     data = rename_columns(data)
 
-    # Need to cast some columns to string dtypes and remove NAs:
+    # Need to cast some columns to String dtypes and remove NAs:
     columns = [Metadata.QUERY_ID_RENAME.value, Metadata.QUERY_SAMPLE_NAME_RENAME.value, Metadata.REFERENCE_ID_RENAME.value, Metadata.REFERENCE_SAMPLE_NAME_RENAME.value, Metadata.GENOMIC_ADDRESS_NAME.value, Metadata.NATIONAL_OUTBREAK_CODE.value]
     data[columns] = data[columns].astype(pd.StringDtype()).fillna(EMPTY_STRING)
 
@@ -275,6 +280,14 @@ def main(argv=None):
         default=DEFAULT_NUM_CLOSEST_SAMPLES
     )
 
+    parser.add_argument(
+        "--distance_type",
+        dest="distance_type",
+        choices=[DistanceType.HAMMING.value, DistanceType.PROPORTION.value],
+        help="The distance type (Hamming or proportion of differences).",
+        required=True
+    )
+
     args = parser.parse_args(argv)
 
     input = Path(args.input)
@@ -287,8 +300,15 @@ def main(argv=None):
     excel_path = Path(output_string + ".xlsx")
     scheduled_path = Path(output_string + ".scheduled.tsv")
 
-    data = pd.read_csv(input, sep="\t")
-    data = data[data['Distance'] <= threshold]
+    types = defaultdict(lambda: pd.StringDtype())
+
+    if args.distance_type == DistanceType.HAMMING.value:
+        types[Metadata.DISTANCE.value] = int
+    else:
+        types[Metadata.DISTANCE.value] = float
+
+    data = pd.read_csv(input, sep="\t", dtype=types, keep_default_na=False)
+    data = data[data[Metadata.DISTANCE.value] <= threshold]
 
     if args.scheduled:
         scheduled_data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold)
