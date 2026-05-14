@@ -15,6 +15,7 @@ DEFAULT_OUTPUT_NAME = "results"
 DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
 EMPTY_STRING = ""
+NULL = "NULL"
 
 class DistanceType(Enum):
     HAMMING = "hamming"
@@ -81,7 +82,7 @@ class QuerySummary():
         self.matched_samples = 0
 
     def add_national_outbreak_code(self, national_outbreak_code):
-        if national_outbreak_code not in self.national_outbreak_codes:
+        if not self.is_missing(national_outbreak_code) and national_outbreak_code not in self.national_outbreak_codes:
             self.national_outbreak_codes.append(str(national_outbreak_code))
 
     def maintain_closest_samples(self, sample):
@@ -101,23 +102,51 @@ class QuerySummary():
         sample = self.Sample(reference_id, distance, genomic_address_name)
         self.maintain_closest_samples(sample)
 
-    def remove_missing(self, full_list):
-        return list(filter(lambda item: item != "" and not pd.isna(item), full_list))
+    def is_missing(self, item):
+        return item == EMPTY_STRING or pd.isna(item)
 
     def generate_closest_genomic_address_names(self):
-        closest_addresses = [sample.genomic_address_name for sample in self.closest_samples]
-        closest_addresses = self.remove_missing(closest_addresses)
-        return ",".join(closest_addresses)
+        closest_addresses = []
+
+        for sample in self.closest_samples:
+            address = sample.genomic_address_name
+
+            if not self.is_missing(address) and address not in closest_addresses:
+                closest_addresses.append(address)
+
+        if len(closest_addresses) == 0:
+            result = NULL
+        else:
+            result = ",".join(closest_addresses)
+
+        return result
 
     def generate_closest_national_outbreak_codes(self):
         codes = sorted(self.national_outbreak_codes)
-        codes = self.remove_missing(codes)
-        return ",".join(codes)
+        # Filtering is done when adding to maintained list earlier.
 
-    def generate_closest_samples(self):
-        closest_samples = [sample.reference_id for sample in self.closest_samples]
-        closest_samples = self.remove_missing(closest_samples)
-        return ",".join(closest_samples) # List is already sorted by distance.
+        if len(codes) == 0:
+            result = NULL
+        else:
+            result = ",".join(codes)
+
+        return result
+
+    def generate_closest_ids(self):
+        closest_ids = []
+
+        for sample in self.closest_samples:
+            id = sample.reference_id
+
+            if not self.is_missing(id) and id not in closest_ids:
+                closest_ids.append(id)
+
+        if len(closest_ids) == 0:
+            result = NULL
+        else:
+            result = ",".join(closest_ids) # List is already sorted by distance.
+
+        return result
 
 def get_open(f):
     if "gzip" == guess_type(str(f))[1]:
@@ -176,7 +205,7 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
     for query_id in summaries:
         summary = summaries[query_id]
         summaries_data.append((summary.query_id,
-                               summary.generate_closest_samples(),
+                               summary.generate_closest_ids(),
                                summary.matched_samples,
                                summary.generate_closest_genomic_address_names(),
                                summary.generate_closest_national_outbreak_codes()))
