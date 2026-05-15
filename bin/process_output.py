@@ -243,6 +243,8 @@ def process_scheduled_pipelines_data(data, query_ids, date_string, threshold, ex
     # Insert threshold:
     processed_data.insert(len(processed_data.columns),
                           Metadata.THRESHOLD.value, threshold)
+    processed_data[Metadata.THRESHOLD.value] = processed_data[Metadata.THRESHOLD.value].astype(pd.Float64Dtype())
+    processed_data[Metadata.THRESHOLD.value] = processed_data[Metadata.THRESHOLD.value].round(FLOAT_PRECISION)
 
     # Insert results file location:
     processed_data.insert(len(processed_data.columns),
