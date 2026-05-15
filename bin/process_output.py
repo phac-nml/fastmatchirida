@@ -16,6 +16,7 @@ DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
 EMPTY_STRING = ""
 NULL = "NULL"
+NO_MATCHES = "No match within threshold"
 
 class DistanceType(Enum):
     HAMMING = "hamming"
@@ -142,7 +143,8 @@ class QuerySummary():
                 closest_ids.append(id)
 
         if len(closest_ids) == 0:
-            result = NULL
+            # Unlikely to happen without manipulating the input file:
+            result = NO_MATCHES
         else:
             result = ",".join(closest_ids) # List is already sorted by distance.
 
@@ -164,7 +166,7 @@ def rename_columns(data):
 
     return renamed
 
-def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold):
+def process_scheduled_pipelines_data(data, query_ids, date_string, threshold, excel_path, top_samples_threshold):
     # Check that the necessary metadata exists:
     headers = data.columns.values
 
@@ -192,12 +194,12 @@ def process_scheduled_pipelines_data(data, date_string, threshold, excel_path, t
     columns = [Metadata.QUERY_ID_RENAME.value, Metadata.QUERY_SAMPLE_NAME_RENAME.value, Metadata.REFERENCE_ID_RENAME.value, Metadata.REFERENCE_SAMPLE_NAME_RENAME.value, Metadata.GENOMIC_ADDRESS_NAME.value, Metadata.NATIONAL_OUTBREAK_CODE.value]
     data[columns] = data[columns].astype(pd.StringDtype()).fillna(EMPTY_STRING)
 
-    for row in data.itertuples():
-        query_id = getattr(row, Metadata.QUERY_ID_RENAME.value)
-
+    for query_id in query_ids:
         if query_id not in summaries:
             summaries[query_id] = QuerySummary(query_id, top_samples_threshold)
 
+    for row in data.itertuples():
+        query_id = getattr(row, Metadata.QUERY_ID_RENAME.value)
         summaries[query_id].process_row(row)
 
     summaries_data = []
@@ -337,10 +339,11 @@ def main(argv=None):
         types[Metadata.DISTANCE.value] = float
 
     data = pd.read_csv(input, sep="\t", dtype=types, keep_default_na=False)
+    query_ids = data[Metadata.QUERY_ID.value].unique()
     data = data[data[Metadata.DISTANCE.value] <= threshold]
 
     if args.scheduled:
-        scheduled_data = process_scheduled_pipelines_data(data, date_string, threshold, excel_path, top_samples_threshold)
+        scheduled_data = process_scheduled_pipelines_data(data, query_ids, date_string, threshold, excel_path, top_samples_threshold)
         scheduled_data.to_csv(scheduled_path, sep="\t", index=False)
 
     data.to_csv(tsv_path, sep="\t", index=False)
