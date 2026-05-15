@@ -87,8 +87,19 @@ class QuerySummary():
             self.national_outbreak_codes.append(str(national_outbreak_code))
 
     def maintain_closest_samples(self, sample):
-        bisect.insort(self.closest_samples, sample, key=lambda sample: sample.distance)
-        self.closest_samples = self.closest_samples[:self.top_samples_threshold]
+        # Don't add duplicates:
+        # Not expected under normal circumstances.
+        if sample not in self.closest_samples:
+
+            # Force the self-hit to be first:
+            if sample.reference_id == self.query_id:
+                self.closest_samples.insert(0, sample)
+                self.closest_samples = self.closest_samples[:self.top_samples_threshold]
+
+            # Normal insertion sort:
+            else:
+                bisect.insort(self.closest_samples, sample, key=lambda sample: sample.distance)
+                self.closest_samples = self.closest_samples[:self.top_samples_threshold]
 
     def process_row(self, row):
         genomic_address_name = getattr(row, Metadata.GENOMIC_ADDRESS_NAME.value)
