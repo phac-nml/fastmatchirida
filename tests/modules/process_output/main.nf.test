@@ -342,10 +342,10 @@ nextflow_process {
             assert lines.size() == 3
             assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
 
-            def sample1_regex = /sample1\tCompleted\tNo match within threshold\t0\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\tNULL\tfastmatch.xlsx/
+            def sample1_regex = /sample1\tCompleted\tNo matches within thresholds\t0\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\tNULL\tfastmatch.xlsx/
             assert lines[1].matches(sample1_regex)
 
-            def sample2_regex = /sample2\tCompleted\tNo match within threshold\t0\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\tNULL\tfastmatch.xlsx/
+            def sample2_regex = /sample2\tCompleted\tNo matches within thresholds\t0\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\tNULL\tfastmatch.xlsx/
             assert lines[2].matches(sample2_regex)
 
             lines = processed_output_tsv.text.split("\n")
@@ -464,6 +464,119 @@ nextflow_process {
             assert processed_output_tsv.text.contains("sample5\tsample5\tsample8\tsample8\t0\t\t8\ttrue\tTrue\t\t\t\t46\t\tstring\tUTC")
             assert processed_output_tsv.text.contains("sample5\tsample5\tsample5\tsample5\t0\t\t5\ttrue\tTrue\t\t\t\t47\t\tstring")
             assert processed_output_tsv.text.contains("sample6\tsample6\tsample6\tsample6\t0\t\t\ttrue\tTrue\t\t\t\t48\t\tstring")
+        }
+    }
+
+    test("0 Top Samples") {
+        tag "process_output"
+        tag "process_output_0_top_samples"
+
+        when {
+            process {
+                """
+                input[0] = Channel.from(["$baseDir/tests/data/distances/multiple.tsv"])
+                input[1] = Channel.from([10])
+                """
+            }
+
+            params {
+                outdir = "results"
+
+                output_type = "scheduled"
+
+                pd_distm = "hamming"
+                fastmatch_top_samples_threshold = 0
+
+                output_prefix = ""
+                prefix_include_date = false
+
+                metadata_1_header = "genomic_address_name"
+                metadata_2_header = "national_outbreak_code"
+            }
+        }
+
+        then {
+            assert process.success
+
+            assert path("$launchDir/results/process/fastmatch.tsv").exists()
+            assert path("$launchDir/results/process/fastmatch.xlsx").exists()
+            assert path("$launchDir/results/process/fastmatch.scheduled.tsv").exists()
+
+            // Check Processed Output
+            def processed_output_tsv = path("$launchDir/results/process/fastmatch.tsv")
+            def processed_output_xlsx = path("$launchDir/results/process/fastmatch.xlsx")
+            def scheduled_output_tsv = path("$launchDir/results/process/fastmatch.scheduled.tsv")
+
+            def lines = scheduled_output_tsv.text.split("\n")
+            assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
+
+            def sample1_regex = /sample1\tCompleted\tNo matches within thresholds\t8\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3,4,5,6,7,8\tNULL\tfastmatch.xlsx/
+            assert lines[1].matches(sample1_regex)
+
+            def sample2_regex = /sample2\tCompleted\tNo matches within thresholds\t8\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3,4,5,6,7,8\tNULL\tfastmatch.xlsx/
+            assert lines[2].matches(sample2_regex)
+
+            def sample3_regex = /sample3\tCompleted\tNo matches within thresholds\t8\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3,4,5,6,7,8\tNULL\tfastmatch.xlsx/
+            assert lines[3].matches(sample3_regex)
+
+            def sample4_regex = /sample4\tCompleted\tNo matches within thresholds\t8\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3,4,5,6,7,8\tNULL\tfastmatch.xlsx/
+            assert lines[4].matches(sample4_regex)
+
+            def sample5_regex = /sample5\tCompleted\tNo matches within thresholds\t8\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3,4,5,6,7,8\tNULL\tfastmatch.xlsx/
+            assert lines[5].matches(sample5_regex)
+
+            def sample6_regex = /sample6\tCompleted\tNo matches within thresholds\t8\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3,4,5,6,7,8\tNULL\tfastmatch.xlsx/
+            assert lines[6].matches(sample6_regex)
+
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tgenomic_address_name\tnational_outbreak_code\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample2\tsample2\t0\t2.2.2.2\t2")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t1\t3.3.3.3\t3")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample8\tsample8\t2\t8.8.8.8\t8")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample4\tsample4\t2\t4.4.4.4\t4")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample5\tsample5\t2\t5.5.5.5\t5")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample7\tsample7\t3\t7.7.7.7\t7")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample6\tsample6\t3\t6.6.6.6\t6")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t0\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0\t2.2.2.2\t2")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample3\tsample3\t1\t3.3.3.3\t3")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample8\tsample8\t2\t8.8.8.8\t8")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample4\tsample4\t2\t4.4.4.4\t4")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample5\tsample5\t2\t5.5.5.5\t5")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample7\tsample7\t3\t7.7.7.7\t7")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample6\tsample6\t3\t6.6.6.6\t6")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample3\tsample3\t0\t3.3.3.3\t3")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample1\tsample1\t1\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample2\tsample2\t1\t2.2.2.2\t2")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample6\tsample6\t2\t6.6.6.6\t6")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample7\tsample7\t3\t7.7.7.7\t7")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample8\tsample8\t3\t8.8.8.8\t8")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample4\tsample4\t3\t4.4.4.4\t4")
+            assert processed_output_tsv.text.contains("sample3\tsample3\tsample5\tsample5\t3\t5.5.5.5\t5")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample4\tsample4\t0\t4.4.4.4\t4")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample8\tsample8\t1\t8.8.8.8\t8")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample5\tsample5\t1\t5.5.5.5\t5")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample1\tsample1\t2\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample2\tsample2\t2\t2.2.2.2\t2")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample6\tsample6\t2\t6.6.6.6\t6")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample7\tsample7\t3\t7.7.7.7\t7")
+            assert processed_output_tsv.text.contains("sample4\tsample4\tsample3\tsample3\t3\t3.3.3.3\t3")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample8\tsample8\t0\t8.8.8.8\t8")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample5\tsample5\t0\t5.5.5.5\t5")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample4\tsample4\t1\t4.4.4.4\t4")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample7\tsample7\t2\t7.7.7.7\t7")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample1\tsample1\t2\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample2\tsample2\t2\t2.2.2.2\t2")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample3\tsample3\t3\t3.3.3.3\t3")
+            assert processed_output_tsv.text.contains("sample5\tsample5\tsample6\tsample6\t3\t6.6.6.6\t6")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample6\tsample6\t0\t6.6.6.6\t6")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample7\tsample7\t2\t7.7.7.7\t7")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample3\tsample3\t2\t3.3.3.3\t3")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample4\tsample4\t2\t4.4.4.4\t4")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample8\tsample8\t3\t8.8.8.8\t8")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample1\tsample1\t3\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample2\tsample2\t3\t2.2.2.2\t2")
+            assert processed_output_tsv.text.contains("sample6\tsample6\tsample5\tsample5\t3\t5.5.5.5\t5")
         }
     }
 }

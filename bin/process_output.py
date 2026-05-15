@@ -16,7 +16,8 @@ DEFAULT_NUM_CLOSEST_SAMPLES = 5
 
 EMPTY_STRING = ""
 NULL = "NULL"
-NO_MATCHES = "No match within threshold"
+NO_MATCHES = "No matches within thresholds"
+# The above may happen as a consequence of the distance threshold, the top matches threshold, or both.
 
 class DistanceType(Enum):
     HAMMING = "hamming"
