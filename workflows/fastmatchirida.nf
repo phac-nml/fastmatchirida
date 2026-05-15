@@ -289,13 +289,13 @@ workflow FASTMATCH {
         error "--pd_columns ${params.pd_columns}: Does not exist but was passed to the pipeline. Exiting now."
     }
 
-    // Check that only 'hamming' or 'scaled' are provided to pd_distm
-    if ((params.pd_distm != 'hamming') & (params.pd_distm != 'scaled')) {
-        error "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
+    // Check that only 'hamming' or 'proportional' are provided to pd_distm
+    if ((params.pd_distm != 'hamming') & (params.pd_distm != 'proportional')) {
+        error "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'proportional'."
     }
 
-    // Check that when using scaled the threshold exists between 0-100
-    if (params.pd_distm == 'scaled') {
+    // Check that when using proportional distances, the threshold exists between 0-100
+    if (params.pd_distm == 'proportional') {
         if ((params.threshold < 0.0) || (params.threshold > 100.0)) {
             error ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
                   + " Please either set '--threshold' or adjust the threshold values.")

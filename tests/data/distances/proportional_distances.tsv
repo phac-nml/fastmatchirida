@@ -1,0 +1,7 @@
+Query ID	Query Sample Name	Reference ID	Reference Sample Name	Distance	genomic_address_name	national_outbreak_code	metadata_3	metadata_4	metadata_5	metadata_6	metadata_7	metadata_8	metadata_9	metadata_10	metadata_11	metadata_12	metadata_13	metadata_14	metadata_15	metadata_16
+sample1	sample1	sample1	sample1	0	1.1.1.1	1														
+sample1	sample1	sample2	sample2	0	1.1.1.2	2														
+sample1	sample1	sample3	sample3	50.0	2.3.4.5	3														
+sample2	sample2	sample1	sample1	0	1.1.1.1	1														
+sample2	sample2	sample2	sample2	0	1.1.1.2	2														
+sample2	sample2	sample3	sample3	75.1	2.3.4.5	3														

@@ -13,6 +13,7 @@ import bisect
 
 DEFAULT_OUTPUT_NAME = "results"
 DEFAULT_NUM_CLOSEST_SAMPLES = 5
+FLOAT_PRECISION = 2
 
 EMPTY_STRING = ""
 NULL = "NULL"
@@ -21,7 +22,7 @@ NO_MATCHES = "No matches within thresholds"
 
 class DistanceType(Enum):
     HAMMING = "hamming"
-    PROPORTION = "proportion"
+    PROPORTIONAL = "proportional"
 
 class Metadata(Enum):
     # Input
@@ -326,8 +327,8 @@ def main(argv=None):
     parser.add_argument(
         "--distance_type",
         dest="distance_type",
-        choices=[DistanceType.HAMMING.value, DistanceType.PROPORTION.value],
-        help="The distance type (Hamming or proportion of differences).",
+        choices=[DistanceType.HAMMING.value, DistanceType.PROPORTIONAL.value],
+        help="The distance type (Hamming or proportional differences).",
         required=True
     )
 
@@ -351,6 +352,11 @@ def main(argv=None):
         types[Metadata.DISTANCE.value] = float
 
     data = pd.read_csv(input, sep="\t", dtype=types, keep_default_na=False)
+
+    # Limit float precision if using proportional distances:
+    if args.distance_type == DistanceType.PROPORTIONAL.value:
+        data[Metadata.DISTANCE.value] = data[Metadata.DISTANCE.value].round(FLOAT_PRECISION)
+
     query_ids = data[Metadata.QUERY_ID.value].unique()
     data = data[data[Metadata.DISTANCE.value] <= threshold]
 

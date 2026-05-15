@@ -370,15 +370,15 @@ nextflow_pipeline {
         }
     }
 
-    test("Basic test scaled distances") {
-        tag "pipeline_scaled"
+    test("Basic test proportional distances") {
+        tag "pipeline_proportional"
 
         when {
             params {
                 input = "$baseDir/tests/data/samplesheets/basic.csv"
                 outdir = "results"
 
-                pd_distm = "scaled"
+                pd_distm = "proportional"
                 threshold = 50.0
             }
         }

@@ -643,4 +643,63 @@ nextflow_process {
             assert lines[6].matches(sample6_regex)
         }
     }
+
+    test("Proportional Distances (Floats)") {
+        tag "process_output"
+        tag "process_output_proportional_distances"
+
+        when {
+            process {
+                """
+                input[0] = Channel.from(["$baseDir/tests/data/distances/proportional_distances.tsv"])
+                input[1] = Channel.from([90.10])
+                """
+            }
+
+            params {
+                outdir = "results"
+
+                output_type = "scheduled"
+
+                pd_distm = "proportional"
+                fastmatch_top_samples_threshold = 5
+
+                output_prefix = ""
+                prefix_include_date = false
+
+                metadata_1_header = "genomic_address_name"
+                metadata_2_header = "national_outbreak_code"
+            }
+        }
+
+        then {
+            assert process.success
+
+            assert path("$launchDir/results/process/fastmatch.tsv").exists()
+            assert path("$launchDir/results/process/fastmatch.xlsx").exists()
+            assert path("$launchDir/results/process/fastmatch.scheduled.tsv").exists()
+
+            // Check Processed Output
+            def processed_output_tsv = path("$launchDir/results/process/fastmatch.tsv")
+            def processed_output_xlsx = path("$launchDir/results/process/fastmatch.xlsx")
+            def scheduled_output_tsv = path("$launchDir/results/process/fastmatch.scheduled.tsv")
+
+            def lines = scheduled_output_tsv.text.split("\n")
+            assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
+
+            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t90.1\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3\t1.1.1.1,1.1.1.2,2.3.4.5\tfastmatch.xlsx/
+            assert lines[1].matches(sample1_regex)
+
+            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t90.1\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3\t1.1.1.2,1.1.1.1,2.3.4.5\tfastmatch.xlsx/
+            assert lines[2].matches(sample2_regex)
+
+            assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tgenomic_address_name\tnational_outbreak_code\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample1\tsample1\t0.0\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample2\tsample2\t0.0\t1.1.1.2\t2")
+            assert processed_output_tsv.text.contains("sample1\tsample1\tsample3\tsample3\t50.0\t2.3.4.5\t3")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample1\tsample1\t0.0\t1.1.1.1\t1")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample2\tsample2\t0.0\t1.1.1.2\t2")
+            assert processed_output_tsv.text.contains("sample2\tsample2\tsample3\tsample3\t75.1\t2.3.4.5\t3")
+        }
+    }
 }

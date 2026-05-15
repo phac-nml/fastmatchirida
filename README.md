@@ -43,25 +43,25 @@ When large samplesheets are provided to LOCIDEX, they are split-up, into batches
 
 ## Distance Threshold
 
-A distance threshold parameter may be used to constrain the maximum distances between reported sample pairs in the final reports. This can be accomplished by specifying `--threshold DISTANCE`, where `DISTANCE` is a non-negative integer when using Hamming distances or a float between [0.0, 100.0] when using scaled distances. See below for more information on these distance methods.
+A distance threshold parameter may be used to constrain the maximum distances between reported sample pairs in the final reports. This can be accomplished by specifying `--threshold DISTANCE`, where `DISTANCE` is a non-negative integer when using Hamming distances or a float between [0.0, 100.0] when using proportional distances. See below for more information on these distance methods.
 
 ## Distance Methods
 
-The distance measurement used can be one of two methods: Hamming or scaled.
+The distance measurement used can be one of two methods: Hamming or proportional.
 
 ### Hamming Distances
 
 Hamming distances are integers representing the number of differing loci between two sequences and will range between [0, n], where `n` is the total number of loci. When using Hamming distances, you must specify `--pd_distm hamming`.
 
-### Scaled Distances
+### Proportional Distances
 
-Scaled distances are floats representing the percentage of differing loci between two sequences and will range between [0.0, 100.0]. When using scaled distances, you must specify `--pd_distm scaled`.
+Proportional distances are floats representing the percentage of differing loci between two sequences and will range between [0.0, 100.0]. When using proportional distances, you must specify `--pd_distm proportional`.
 
 ## profile_dists
 
 The following can be used to adjust parameters for the [profile_dists][] tool.
 
-- `--pd_distm`: The distance method/unit, either _hamming_ or _scaled_. For _hamming_ distances, the distance values will be a non-negative integer. For _scaled_ distances, the distance values are between 0.0 and 100.0. Please see the [Distance Method](#distance-method) section for more information.
+- `--pd_distm`: The distance method/unit, either _hamming_ or _proportional_. For _hamming_ distances, the distance values will be a non-negative integer. For _proportional_ distances, the distance values are between 0.0 and 100.0. Please see the [Distance Method](#distance-method) section for more information.
 - `--pd_missing_threshold`: The maximum proportion of missing data per locus for a locus to be kept in the analysis. Values from 0.0 to 1.0.
 - `--pd_sample_quality_threshold`: The maximum proportion of missing data per sample for a sample to be kept in the analysis. Values from 0.0 to 1.0.
 - `--pd_file_type`: Output format file type. One of _text_ or _parquet_.
