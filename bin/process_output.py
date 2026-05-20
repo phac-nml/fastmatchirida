@@ -16,13 +16,12 @@ DEFAULT_NUM_CLOSEST_SAMPLES = 5
 FLOAT_PRECISION = 2
 
 EMPTY_STRING = ""
-# NULL = "NULL"
 NO_MATCHES = "No matches within thresholds"
 # The above may happen as a consequence of the distance threshold, the top matches threshold, or both.
 
 class DistanceType(Enum):
     HAMMING = "hamming"
-    PROPORTIONAL = "proportional"
+    SCALED = "scaled"
 
 class Metadata(Enum):
     # Input
@@ -329,8 +328,8 @@ def main(argv=None):
     parser.add_argument(
         "--distance_type",
         dest="distance_type",
-        choices=[DistanceType.HAMMING.value, DistanceType.PROPORTIONAL.value],
-        help="The distance type (Hamming or proportional differences).",
+        choices=[DistanceType.HAMMING.value, DistanceType.SCALED.value],
+        help="The distance type (Hamming or scaled differences).",
         required=True
     )
 
@@ -355,8 +354,8 @@ def main(argv=None):
 
     data = pd.read_csv(input, sep="\t", dtype=types, keep_default_na=False)
 
-    # Limit float precision if using proportional distances:
-    if args.distance_type == DistanceType.PROPORTIONAL.value:
+    # Limit float precision if using scaled distances:
+    if args.distance_type == DistanceType.SCALED.value:
         data[Metadata.DISTANCE.value] = data[Metadata.DISTANCE.value].round(FLOAT_PRECISION)
 
     query_ids = data[Metadata.QUERY_ID.value].unique()

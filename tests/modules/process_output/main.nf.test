@@ -644,14 +644,14 @@ nextflow_process {
         }
     }
 
-    test("Proportional Distances (Floats)") {
+    test("Scaled Distances (Floats)") {
         tag "process_output"
-        tag "process_output_proportional_distances"
+        tag "process_output_scaled_distances"
 
         when {
             process {
                 """
-                input[0] = Channel.from(["$baseDir/tests/data/distances/proportional_distances.tsv"])
+                input[0] = Channel.from(["$baseDir/tests/data/distances/scaled_distances.tsv"])
                 input[1] = Channel.from([90.10])
                 """
             }
@@ -661,7 +661,7 @@ nextflow_process {
 
                 output_type = "scheduled"
 
-                pd_distm = "proportional"
+                pd_distm = "scaled"
                 fastmatch_top_samples_threshold = 5
 
                 output_prefix = ""

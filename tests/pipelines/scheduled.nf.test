@@ -1556,16 +1556,16 @@ nextflow_pipeline {
 
     test("Proportional Distances (Floats)") {
         tag "pipeline_scheduled"
-        tag "pipeline_scheduled_proportional_distances"
+        tag "pipeline_scheduled_scaled_distances"
 
         when {
             params {
-                input = "$baseDir/tests/data/samplesheets/scheduled_proportional.csv"
+                input = "$baseDir/tests/data/samplesheets/scheduled_scaled.csv"
                 outdir = "results"
 
                 output_type = "scheduled"
 
-                pd_distm = "proportional"
+                pd_distm = "scaled"
                 threshold = 100.0
                 fastmatch_top_samples_threshold = 5
 
