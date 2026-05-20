@@ -1129,10 +1129,10 @@ nextflow_pipeline {
             def lines = scheduled_output_tsv.text.split("\n")
             assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
 
-            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3\tNULL\tfastmatch.xlsx/
+            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3\t\tfastmatch.xlsx/
             assert lines[1].matches(sample1_regex)
 
-            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3\tNULL\tfastmatch.xlsx/
+            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t1,2,3\t\tfastmatch.xlsx/
             assert lines[2].matches(sample2_regex)
 
             assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tgenomic_address_name\tnational_outbreak_code\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
@@ -1161,7 +1161,7 @@ nextflow_pipeline {
             assert iridanext_metadata.sample1.fastmatch_threshold == "10.0"
             assert iridanext_metadata.sample1.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z/)
             assert iridanext_metadata.sample1.fastmatch_code_match == "1,2,3"
-            assert iridanext_metadata.sample1.fastmatch_top_genomic_address == "NULL"
+            assert iridanext_metadata.sample1.fastmatch_top_genomic_address == ""
             assert iridanext_metadata.sample1.fastmatch_results_filename == "fastmatch.xlsx"
 
             assert iridanext_metadata.containsKey("sample2")
@@ -1171,7 +1171,7 @@ nextflow_pipeline {
             assert iridanext_metadata.sample2.fastmatch_threshold == "10.0"
             assert iridanext_metadata.sample2.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z/)
             assert iridanext_metadata.sample2.fastmatch_code_match == "1,2,3"
-            assert iridanext_metadata.sample2.fastmatch_top_genomic_address == "NULL"
+            assert iridanext_metadata.sample2.fastmatch_top_genomic_address == ""
             assert iridanext_metadata.sample2.fastmatch_results_filename == "fastmatch.xlsx"
 
             assert iridanext_samples.isEmpty()
@@ -1223,10 +1223,10 @@ nextflow_pipeline {
             def lines = scheduled_output_tsv.text.split("\n")
             assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
 
-            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\t1.1.1.1,1.1.1.2,2.3.4.5\tfastmatch.xlsx/
+            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t\t1.1.1.1,1.1.1.2,2.3.4.5\tfastmatch.xlsx/
             assert lines[1].matches(sample1_regex)
 
-            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\t1.1.1.2,1.1.1.1,2.3.4.5\tfastmatch.xlsx/
+            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t\t1.1.1.2,1.1.1.1,2.3.4.5\tfastmatch.xlsx/
             assert lines[2].matches(sample2_regex)
 
             assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tgenomic_address_name\tnational_outbreak_code\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
@@ -1254,7 +1254,7 @@ nextflow_pipeline {
             assert iridanext_metadata.sample1.fastmatch_matched_samples_count == "3"
             assert iridanext_metadata.sample1.fastmatch_threshold == "10.0"
             assert iridanext_metadata.sample1.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z/)
-            assert iridanext_metadata.sample1.fastmatch_code_match == "NULL"
+            assert iridanext_metadata.sample1.fastmatch_code_match == ""
             assert iridanext_metadata.sample1.fastmatch_top_genomic_address == "1.1.1.1,1.1.1.2,2.3.4.5"
             assert iridanext_metadata.sample1.fastmatch_results_filename == "fastmatch.xlsx"
 
@@ -1264,7 +1264,7 @@ nextflow_pipeline {
             assert iridanext_metadata.sample2.fastmatch_matched_samples_count == "3"
             assert iridanext_metadata.sample2.fastmatch_threshold == "10.0"
             assert iridanext_metadata.sample2.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z/)
-            assert iridanext_metadata.sample2.fastmatch_code_match == "NULL"
+            assert iridanext_metadata.sample2.fastmatch_code_match == ""
             assert iridanext_metadata.sample2.fastmatch_top_genomic_address == "1.1.1.2,1.1.1.1,2.3.4.5"
             assert iridanext_metadata.sample2.fastmatch_results_filename == "fastmatch.xlsx"
 
@@ -1317,10 +1317,10 @@ nextflow_pipeline {
             def lines = scheduled_output_tsv.text.split("\n")
             assert lines[0] == "query_id\tfastmatch_status\tfastmatch_top_samples\tfastmatch_matched_samples_count\tfastmatch_threshold\tfastmatch_date\tfastmatch_code_match\tfastmatch_top_genomic_address\tfastmatch_results_filename"
 
-            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\tNULL\tfastmatch.xlsx/
+            def sample1_regex = /sample1\tCompleted\tsample1,sample2,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t\t\tfastmatch.xlsx/
             assert lines[1].matches(sample1_regex)
 
-            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\tNULL\tNULL\tfastmatch.xlsx/
+            def sample2_regex = /sample2\tCompleted\tsample2,sample1,sample3\t3\t10.0\t\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z\t\t\tfastmatch.xlsx/
             assert lines[2].matches(sample2_regex)
 
             assert processed_output_tsv.text.contains("Query ID\tQuery Sample Name\tReference ID\tReference Sample Name\tDistance\tgenomic_address_name\tnational_outbreak_code\tmetadata_3\tmetadata_4\tmetadata_5\tmetadata_6\tmetadata_7\tmetadata_8\tmetadata_9\tmetadata_10\tmetadata_11\tmetadata_12\tmetadata_13\tmetadata_14\tmetadata_15\tmetadata_16")
@@ -1348,8 +1348,8 @@ nextflow_pipeline {
             assert iridanext_metadata.sample1.fastmatch_matched_samples_count == "3"
             assert iridanext_metadata.sample1.fastmatch_threshold == "10.0"
             assert iridanext_metadata.sample1.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z/)
-            assert iridanext_metadata.sample1.fastmatch_code_match == "NULL"
-            assert iridanext_metadata.sample1.fastmatch_top_genomic_address == "NULL"
+            assert iridanext_metadata.sample1.fastmatch_code_match == ""
+            assert iridanext_metadata.sample1.fastmatch_top_genomic_address == ""
             assert iridanext_metadata.sample1.fastmatch_results_filename == "fastmatch.xlsx"
 
             assert iridanext_metadata.containsKey("sample2")
@@ -1358,8 +1358,8 @@ nextflow_pipeline {
             assert iridanext_metadata.sample2.fastmatch_matched_samples_count == "3"
             assert iridanext_metadata.sample2.fastmatch_threshold == "10.0"
             assert iridanext_metadata.sample2.fastmatch_date.matches(/\d{4}-\d{2}-\d{2}T\d{2}\d{2}Z/)
-            assert iridanext_metadata.sample2.fastmatch_code_match == "NULL"
-            assert iridanext_metadata.sample2.fastmatch_top_genomic_address == "NULL"
+            assert iridanext_metadata.sample2.fastmatch_code_match == ""
+            assert iridanext_metadata.sample2.fastmatch_top_genomic_address == ""
             assert iridanext_metadata.sample2.fastmatch_results_filename == "fastmatch.xlsx"
 
             assert iridanext_samples.isEmpty()

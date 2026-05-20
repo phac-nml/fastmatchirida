@@ -16,7 +16,7 @@ DEFAULT_NUM_CLOSEST_SAMPLES = 5
 FLOAT_PRECISION = 2
 
 EMPTY_STRING = ""
-NULL = "NULL"
+# NULL = "NULL"
 NO_MATCHES = "No matches within thresholds"
 # The above may happen as a consequence of the distance threshold, the top matches threshold, or both.
 
@@ -129,7 +129,7 @@ class QuerySummary():
                 closest_addresses.append(address)
 
         if len(closest_addresses) == 0:
-            result = NULL
+            result = EMPTY_STRING
         else:
             result = ",".join(closest_addresses)
 
@@ -140,7 +140,7 @@ class QuerySummary():
         # Filtering is done when adding to maintained list earlier.
 
         if len(codes) == 0:
-            result = NULL
+            result = EMPTY_STRING
         else:
             result = ",".join(codes)
 
