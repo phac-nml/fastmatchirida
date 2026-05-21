@@ -294,7 +294,7 @@ workflow FASTMATCH {
         error "'--pd_distm ${params.pd_distm}' is an invalid value. Please set to either 'hamming' or 'scaled'."
     }
 
-    // Check that when using scaled the threshold exists between 0-100
+    // Check that when using scaled distances, the threshold exists between 0-100
     if (params.pd_distm == 'scaled') {
         if ((params.threshold < 0.0) || (params.threshold > 100.0)) {
             error ("'--pd_distm ${params.pd_distm}' is set, but '--threshold ${params.threshold}' contains thresholds outside of range [0, 100]."
