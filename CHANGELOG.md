@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.3] - 2026/05/21
+
+### Bug Fix
+
+- Fix issue with dtype of distance matrix when importing into `process_output.py` where all columns except for distance are cast as strings. [PR 56](https://github.com/phac-nml/fastmatchirida/pull/56)
+
 ## [0.5.2] - 2026/04/29
 
 ### Changed
@@ -139,3 +145,4 @@ fastmatchirida is built using Gasclustering [0.4.0] as a template. Set up the ba
 [0.5.0]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.0
 [0.5.1]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.1
 [0.5.2]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.2
+[0.5.3]: https://github.com/phac-nml/fastmatchirida/releases/tag/0.5.3
