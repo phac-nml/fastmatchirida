@@ -38,11 +38,18 @@ process PROFILE_DISTS{
     if(params.pd_count_missing){
         args = args + " --count_missing"
     }
+
+    if(params.pd_distm == "hamming"){
+        args = args + " --distm hamming"
+    }
+    else
+    {
+        args = args + " --distm scaled"
+    }
     prefix = "distances"
     """
     profile_dists --query $query --ref $reference $args --outfmt $mapping_format \\
                 --force \\
-                --distm $params.pd_distm \\
                 --file_type $params.pd_file_type \\
                 --missing_thresh $params.pd_missing_threshold \\
                 --sample_qual_thresh $params.pd_sample_quality_threshold \\

@@ -25,7 +25,7 @@
                     "profile_dists": "1.0.10"
                 },
                 "Workflow": {
-                    "phac-nml/fastmatchirida": "0.5.2"
+                    "phac-nml/fastmatchirida": "0.5.3"
                 }
             },
             [
@@ -83,6 +83,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.6"
         },
-        "timestamp": "2026-04-24T12:16:06.307268482"
+        "timestamp": "2026-05-21T12:58:22.872103778"
     }
 }
