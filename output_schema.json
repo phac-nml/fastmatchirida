@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/phac-nml/nf-iridanext/main/plugins/nf-iridanext/src/resources/nextflow/iridanext/output_schema.json",
-  "title": "Default IRIDA Next JSON output schema",
-  "description": "Default schema used for validating IRIDA Next JSON output data",
+  "$id": "https://raw.githubusercontent.com/phac-nml/fastchmatchirida/main/output_schema.json",
+  "title": "Fast Match Irida Output Schema",
+  "description": "The fastmatchirida-specific schema used for validating IRIDA Next JSON output data",
   "type": "object",
   "properties": {
     "files": {
