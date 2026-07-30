@@ -16,7 +16,7 @@
                 "anyOf": [
                   { "pattern": "^.*profile_dists.allele_map.json$", "description": "A JSON-formatted file that maps allele identifiers to integers used to represent those identifiers during distance calculations." },
                   { "pattern": "^.*profile_dists.query_profile.tsv$", "description": "The query MLST profiles." },
-                  { "pattern": "^.*profile_dists.ref_profile.tsv$", "description": "The reference MLST propfiles." },
+                  { "pattern": "^.*profile_dists.ref_profile.tsv$", "description": "The reference MLST profiles." },
                   { "pattern": "^.*profile_dists.results.tsv$", "description": "The computed distances based on MLST allele differences." },
                   { "pattern": "^.*profile_dists.run.json$", "description": "Information on the profile_dists run used to generate distances." },
                   { "pattern": "^.*locidex.merge.profile.tsv$", "description": "The MLST JSON files merged into a single MLST profiles file." },
