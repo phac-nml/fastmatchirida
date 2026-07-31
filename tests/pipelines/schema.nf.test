@@ -1,0 +1,71 @@
+nextflow_pipeline {
+
+    name "FastMatch Integration Testing"
+    script "main.nf"
+
+    test("Schema - Bad Metadata") {
+        tag "schema_bad_metadata"
+        config "${projectDir}/tests/configs/iridanext_bad_metadata.config"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/scheduled_basic.csv"
+                outdir = "results"
+
+                output_type = "scheduled"
+
+                pd_distm = "hamming"
+                threshold = 10
+                fastmatch_top_samples_threshold = 5
+
+                output_prefix = ""
+                prefix_include_date = false
+
+                metadata_1_header = "genomic_address_name"
+                metadata_2_header = "national_outbreak_code"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def combined_stdout = workflow.stdout.join(",")
+
+            assert combined_stdout.contains("JSON did not match schema")
+            assert combined_stdout.contains("metadata/samples/sample1/fastmatch_status_bad failed")
+        }
+    }
+
+    test("Schema - Bad File") {
+        tag "schema_bad_file"
+        config "${projectDir}/tests/configs/iridanext_bad_file.config"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/scheduled_basic.csv"
+                outdir = "results"
+
+                output_type = "scheduled"
+
+                pd_distm = "hamming"
+                threshold = 10
+                fastmatch_top_samples_threshold = 5
+
+                output_prefix = ""
+                prefix_include_date = false
+
+                metadata_1_header = "genomic_address_name"
+                metadata_2_header = "national_outbreak_code"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def combined_stdout = workflow.stdout.join(",")
+
+            assert combined_stdout.contains("JSON did not match schema")
+            assert combined_stdout.contains('Validation errors: "append/distances_and_metadata.tsv" at #/files/global/1/path failed')
+        }
+    }
+}
