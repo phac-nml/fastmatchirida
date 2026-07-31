@@ -1,81 +1,114 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/phac-nml/fastchmatchirida/main/output_schema.json",
-  "title": "FastMatchIrida Output Schema",
-  "description": "The fastmatchirida-specific schema used for validating IRIDA Next JSON output data",
-  "type": "object",
-  "properties": {
-    "files": {
-      "type": "object",
-      "properties": {
-        "global": {
-          "type": "array",
-          "items": {
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/phac-nml/fastchmatchirida/main/output_schema.json",
+    "title": "FastMatchIrida Output Schema",
+    "description": "The fastmatchirida-specific schema used for validating IRIDA Next JSON output data",
+    "type": "object",
+    "properties": {
+        "files": {
+            "type": "object",
             "properties": {
-              "path": {
-                "anyOf": [
-                  { "pattern": "^.*profile_dists.allele_map.json$", "description": "A JSON-formatted file that maps allele identifiers to integers used to represent those identifiers during distance calculations." },
-                  { "pattern": "^.*profile_dists.query_profile.tsv$", "description": "The query MLST profiles." },
-                  { "pattern": "^.*profile_dists.ref_profile.tsv$", "description": "The reference MLST profiles." },
-                  { "pattern": "^.*profile_dists.results.tsv$", "description": "The computed distances based on MLST allele differences." },
-                  { "pattern": "^.*profile_dists.run.json$", "description": "Information on the profile_dists run used to generate distances." },
-                  { "pattern": "^.*locidex.merge.profile.tsv$", "description": "The MLST JSON files merged into a single MLST profiles file." },
-                  { "pattern": "^.*fastmatch.tsv$", "description": "Pairwise distance results meeting specifications in TSV-format." },
-                  { "pattern": "^.*fastmatch.xlsx$", "description": "Pairwise distance results meeting specifications in XLSX-format." },
-                  { "pattern": "^.*software_versions.yml$", "description": "Software versions used by the pipeline." },
-                  { "pattern": "^.*MLST_error_report_concat_query.csv$", "description": "Error reports related to query profiles." },
-                  { "pattern": "^.*MLST_error_report_concat_ref.csv$", "description": "Error reports related to reference profiles." }
-                ]
-              }
-            }
-          },
-          "uniqueItems": true
-        },
-        "samples": {
-          "type": "object"
-        }
-      }
-    },
-    "metadata": {
-      "type": "object",
-      "properties": {
-        "samples": {
-          "type": "object",
-          "patternProperties": {
-            "^.*$": {
-              "type": "object",
-              "properties": {
-                "fastmatch_status": {
-                  "description": "The status of the sample from previous FastMatch runs.",
-                  "enum": ["Completed", ""]
+                "global": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "pattern": "^.*profile_dists.allele_map.json$",
+                                        "description": "A JSON-formatted file that maps allele identifiers to integers used to represent those identifiers during distance calculations."
+                                    },
+                                    {
+                                        "pattern": "^.*profile_dists.query_profile.tsv$",
+                                        "description": "The query MLST profiles."
+                                    },
+                                    {
+                                        "pattern": "^.*profile_dists.ref_profile.tsv$",
+                                        "description": "The reference MLST profiles."
+                                    },
+                                    {
+                                        "pattern": "^.*profile_dists.results.tsv$",
+                                        "description": "The computed distances based on MLST allele differences."
+                                    },
+                                    {
+                                        "pattern": "^.*profile_dists.run.json$",
+                                        "description": "Information on the profile_dists run used to generate distances."
+                                    },
+                                    {
+                                        "pattern": "^.*locidex.merge.profile.tsv$",
+                                        "description": "The MLST JSON files merged into a single MLST profiles file."
+                                    },
+                                    {
+                                        "pattern": "^.*fastmatch.tsv$",
+                                        "description": "Pairwise distance results meeting specifications in TSV-format."
+                                    },
+                                    {
+                                        "pattern": "^.*fastmatch.xlsx$",
+                                        "description": "Pairwise distance results meeting specifications in XLSX-format."
+                                    },
+                                    {
+                                        "pattern": "^.*software_versions.yml$",
+                                        "description": "Software versions used by the pipeline."
+                                    },
+                                    {
+                                        "pattern": "^.*MLST_error_report_concat_query.csv$",
+                                        "description": "Error reports related to query profiles."
+                                    },
+                                    {
+                                        "pattern": "^.*MLST_error_report_concat_ref.csv$",
+                                        "description": "Error reports related to reference profiles."
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "uniqueItems": true
                 },
-                "fastmatch_top_samples": {
-                  "description": "A comma-seperated list of the top matching samples."
-                },
-                "fastmatch_matched_samples_count": {
-                  "description": "The number of samples that the query matched below the threshold."
-                },
-                "fastmatch_threshold": {
-                  "description": "The threshold parameter that was used to generate the results."
-                },
-                "fastmatch_date": {
-                  "description": "The date and time in UTC that the pipeline was run."
-                },
-                "fastmatch_code_match": {
-                  "description": "A comma-seperated list of all national outbreak code matches."
-                },
-                "fastmatch_top_genomic_address": {
-                  "description": "The closest matches to each query."
-                },
-                "fastmatch_results_filename": {
-                  "description": "The name of the XLSX file generated by the pipeline."
+                "samples": {
+                    "type": "object"
                 }
-              },
-              "additionalProperties": false
             }
-          }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "samples": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^.*$": {
+                            "type": "object",
+                            "properties": {
+                                "fastmatch_status": {
+                                    "description": "The status of the sample from previous FastMatch runs.",
+                                    "enum": ["Completed", ""]
+                                },
+                                "fastmatch_top_samples": {
+                                    "description": "A comma-seperated list of the top matching samples."
+                                },
+                                "fastmatch_matched_samples_count": {
+                                    "description": "The number of samples that the query matched below the threshold."
+                                },
+                                "fastmatch_threshold": {
+                                    "description": "The threshold parameter that was used to generate the results."
+                                },
+                                "fastmatch_date": {
+                                    "description": "The date and time in UTC that the pipeline was run."
+                                },
+                                "fastmatch_code_match": {
+                                    "description": "A comma-seperated list of all national outbreak code matches."
+                                },
+                                "fastmatch_top_genomic_address": {
+                                    "description": "The closest matches to each query."
+                                },
+                                "fastmatch_results_filename": {
+                                    "description": "The name of the XLSX file generated by the pipeline."
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
