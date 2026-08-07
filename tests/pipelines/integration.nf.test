@@ -20,6 +20,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
@@ -104,6 +107,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
@@ -193,6 +199,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check ID Fixing
             def sample1_error_report = path("$launchDir/results/locidex/merge/query/MLST_error_report_1.csv")
@@ -302,6 +311,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
@@ -386,6 +398,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
@@ -476,6 +491,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
@@ -563,6 +581,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check profile_dists QA steps ran
             assert path("$launchDir/results/distances/profile_dists.run.json").exists()
@@ -662,6 +683,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check profile_dists QA steps ran
             assert path("$launchDir/results/distances/profile_dists.run.json").exists()
             def profile_dist_settings = path("$launchDir/results/distances/profile_dists.run.json").json
@@ -758,6 +782,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check profile_dists QA steps ran
             assert path("$launchDir/results/distances/profile_dists.run.json").exists()
@@ -857,6 +884,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check profile_dists QA steps ran
             assert path("$launchDir/results/distances/profile_dists.run.json").exists()
             def profile_dist_settings = path("$launchDir/results/distances/profile_dists.run.json").json
@@ -950,6 +980,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
             assert appended.exists()
@@ -1025,6 +1058,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
@@ -1111,6 +1147,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             // Check that LOCIDEX_MERGE was called with the correct batch size
             // Profiles for reference samples
             def lines1 = path("$launchDir/results/locidex/merge/ref/profile_1.tsv").readLines()
@@ -1153,6 +1192,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check that the COPY_FILE process was called for the correct samples
             assert path("$launchDir/results/copy/sampleX_sample2_sample1.mlst.json").exists()
@@ -1197,6 +1239,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check that the COPY_FILE process was called for the correct samples
             assert path("$launchDir/results/copy/sampleX_sample2_sample1.mlst.json").exists()
@@ -1243,6 +1288,8 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check Processed Output
             def processed_output_tsv = path("$launchDir/results/process/fastmatch.tsv")
@@ -1281,6 +1328,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")
@@ -1368,6 +1418,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
 
             // Check Appended Results
             def appended = path("$launchDir/results/append/distances_and_metadata.tsv")

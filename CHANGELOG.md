@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- A fastmatchirida-specific JSON output schema that the nf-iridanext plugin will automatically validate its output against. Currently, this schema enforcement is only enabled during testing. [PR 58](https://github.com/phac-nml/fastmatchirida/pull/58)
+
 ## [0.5.3] - 2026/05/21
 
 ### Bug Fix
