@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/fastchmatchirida/main/output_schema.json",
+    "$id": "https://raw.githubusercontent.com/phac-nml/fastchmatchirida/main/assets/schema_output.json",
     "title": "FastMatchIrida Output Schema",
     "description": "The fastmatchirida-specific schema used for validating IRIDA Next JSON output data",
     "type": "object",
