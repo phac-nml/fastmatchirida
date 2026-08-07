@@ -13,7 +13,7 @@ The directories listed below will be created in the results directory after the 
 - **process**: Processed sample-sample distance pairings.
 - **write**: Headers for generating final files.
 
-The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json). The file will automatically be validated against the fastmatchirida-specific JSON output schema.
+The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json).
 
 ## Pipeline overview
 
