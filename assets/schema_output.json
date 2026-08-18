@@ -60,12 +60,23 @@
                                     }
                                 ]
                             }
-                        }
+                        },
+                        "additionalProperties": false
                     },
                     "uniqueItems": true
                 },
                 "samples": {
-                    "type": "object"
+                    "type": "object",
+                    "patternProperties": {
+                        "^.*$": {
+                            "type": "array",
+                            "items": {
+                                "properties": {},
+                                "additionalProperties": false
+                            },
+                            "uniqueItems": true
+                        }
+                    }
                 }
             }
         },
